@@ -1,0 +1,7 @@
+Flask
+requests
+PyPDF2
+python-docx
+Pillow
+imagehash
+gunicorn
