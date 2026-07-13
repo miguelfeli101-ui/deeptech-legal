@@ -39,7 +39,7 @@ HTML_TEMPLATE = """
         @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Oswald:wght@300;400;500;600&display=swap');
         @import url('https://fonts.cdnfonts.com/css/bukhari-script');
 
-        /* PALETA DE COLORES (RESTAURADA) */
+        /* PALETA DE COLORES APLICADA */
         :root {
             --bg-dark: #0D1B2A;
             --bg-card: #1B263B;
@@ -60,24 +60,26 @@ HTML_TEMPLATE = """
 
         h1, h2, h3 { font-family: 'Oswald', sans-serif; }
 
-        /* FONDO: ANIMACIÓN ESTILO AURORA / SEDA (VIDEO) */
+        /* FONDO: LIQUID MESH GRADIENT (RESTAURADO DEL CÓDIGO ANTIGUO) */
         .bg-organic {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background-color: var(--bg-dark); overflow: hidden; z-index: -2;
+            position: fixed;
+            top: -20%; left: -20%; right: -20%; bottom: -20%; 
+            z-index: -2; background-color: var(--bg-dark); filter: blur(100px); overflow: hidden;
+            transform: translate3d(0, 0, 0);
+            opacity: 0; animation: fadeInBg 1.5s ease-out forwards; 
         }
-        .fold {
-            position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
-            background: linear-gradient(to right, rgba(13, 27, 42, 0) 0%, rgba(65, 90, 119, 0.4) 50%, rgba(13, 27, 42, 0) 100%);
-            transform: rotate(45deg); filter: blur(60px);
-            animation: foldMove 15s infinite alternate cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .fold-1 { animation-duration: 18s; }
-        .fold-2 { background: linear-gradient(to right, rgba(27, 38, 59, 0), rgba(119, 141, 169, 0.25), rgba(27, 38, 59, 0)); top: -30%; left: -30%; transform: rotate(35deg); animation-duration: 22s; animation-delay: -5s; }
-        .fold-3 { background: linear-gradient(to right, rgba(13, 27, 42, 0), rgba(65, 90, 119, 0.35), rgba(13, 27, 42, 0)); top: -70%; left: -10%; transform: rotate(55deg); animation-duration: 20s; animation-delay: -10s; }
+
+        @keyframes fadeInBg { from { opacity: 0; } to { opacity: 1; } }
         
-        @keyframes foldMove {
-            0% { transform: rotate(45deg) translateY(-25%); }
-            100% { transform: rotate(45deg) translateY(25%); }
+        .liquid-shape { position: absolute; border-radius: 50%; opacity: 0.8; animation: liquidFlow 12s infinite alternate cubic-bezier(0.4, 0, 0.2, 1); }
+        .liquid-1 { width: 70vw; height: 70vh; top: 0; left: 0; background-color: var(--bg-card); animation-duration: 16s; }
+        .liquid-2 { width: 80vw; height: 80vh; bottom: 0; right: 0; background-color: var(--accent-blue); animation-duration: 14s; animation-delay: -3s; opacity: 0.6; }
+        .liquid-3 { width: 50vw; height: 50vh; top: 25%; right: 20%; background-color: var(--accent-light); opacity: 0.35; animation-duration: 18s; animation-delay: -6s; }
+
+        @keyframes liquidFlow {
+            0% { transform: translate(0, 0) scale(1) rotate(0deg); border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; }
+            50% { transform: translate(10%, 10%) scale(1.1) rotate(180deg); border-radius: 60% 40% 30% 70% / 50% 60% 40% 50%; }
+            100% { transform: translate(-10%, -5%) scale(0.9) rotate(360deg); border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; }
         }
 
         @keyframes fadeUpEntrance { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
@@ -105,9 +107,7 @@ HTML_TEMPLATE = """
 
         .hero-subtitle { opacity: 0; animation: fadeUpEntrance 1.5s cubic-bezier(0.4, 0, 0.2, 1) 0.8s forwards; font-family: 'Montserrat', sans-serif; font-size: 1.2em; color: var(--accent-light); font-weight: 400; margin-bottom: 60px; text-align: center; letter-spacing: 2px; }
 
-        /* =========================================
-           NUEVO: SWITCH MÁS GRANDE Y CON GLOW
-           ========================================= */
+        /* SWITCH MÁS GRANDE Y CON GLOW */
         .glass-switch-container {
             opacity: 0;
             animation: fadeUpEntrance 1.5s cubic-bezier(0.4, 0, 0.2, 1) 1.2s forwards;
@@ -159,14 +159,14 @@ HTML_TEMPLATE = """
 
 
         /* =========================================
-           MAQUETACIÓN MODERNA (CERO SCROLL / CENTRADO)
+           MAQUETACIÓN MODERNA (CERO SCROLL / CENTRADO PERFECTO)
            ========================================= */
         #main-wrapper { 
             width: 100vw; height: 100vh; position: relative; overflow: hidden;
             transition: opacity 0.5s ease-in-out; display: flex; flex-direction: column; z-index: 1000;
         }
 
-        /* MENÚ FLOTANTE TIPO BURBUJA (VIDEO) */
+        /* MENÚ FLOTANTE TIPO BURBUJA */
         .nav-wrapper {
             display: flex; justify-content: center; margin: 30px auto 10px auto; width: 100%; flex-shrink: 0;
         }
@@ -205,21 +205,28 @@ HTML_TEMPLATE = """
         
         .notif-badge { background-color: var(--alert); color: var(--bg-dark); font-size: 0.85em; font-family: 'Montserrat', sans-serif; font-weight: 600; padding: 2px 7px; border-radius: 12px; margin-left: 8px; box-shadow: 0px 2px 5px rgba(0,0,0,0.4); display: none; align-items: center; justify-content: center; }
 
-        /* CONTENEDORES CENTRADOS */
+        /* CONTENEDORES CENTRADOS MÁGICOS */
         .section-container { 
-            width: 100%; flex-grow: 1; box-sizing: border-box; transition: opacity 0.4s ease-in-out; 
-            overflow-y: auto; display: flex; flex-direction: column; justify-content: center; align-items: center; 
-            z-index: 1; padding-bottom: 20px;
+            width: 100%; flex: 1; box-sizing: border-box; transition: opacity 0.4s ease-in-out; 
+            overflow-y: auto; display: flex; flex-direction: column; align-items: center; 
+            justify-content: flex-start; /* SafeArea para el Scroll */
+            z-index: 1; padding: 10px 0 30px 0;
         }
         .section-container::-webkit-scrollbar { width: 6px; }
         .section-container::-webkit-scrollbar-thumb { background-color: rgba(119, 141, 169, 0.3); border-radius: 4px; }
         
         .sub-section-container { width: 100%; flex-grow: 1; box-sizing: border-box; transition: opacity 0.3s ease-in-out; display: flex; flex-direction: column; align-items: center; opacity: 0; display: none;}
         
-        .content-wrapper-inner { width: 100%; max-width: 900px; padding: 0 20px; box-sizing: border-box; display: flex; flex-direction: column; align-items: center; }
+        .app-centered-layout { display: flex; flex-direction: column; align-items: center; box-sizing: border-box; }
+        
+        .content-wrapper-inner { 
+            width: 100%; max-width: 900px; padding: 0 20px; box-sizing: border-box; 
+            display: flex; flex-direction: column; align-items: center; 
+            margin: auto; /* ESTO CENTRA TODO VERTICALMENTE SIN ROMPER EL SCROLL */
+        }
         
         .app-title { font-family: 'Oswald', sans-serif; font-size: 2.5em; color: var(--text-main); margin: 0 0 5px 0; text-align: center; font-weight: 500; text-shadow: 0 4px 15px rgba(0,0,0,0.4);}
-        .app-subtitle { font-family: 'Montserrat', sans-serif; font-size: 1em; color: rgba(224, 225, 221, 0.7); text-align: center; margin-bottom: 20px; font-weight: 300;}
+        .app-subtitle { font-family: 'Montserrat', sans-serif; font-size: 1em; color: rgba(224, 225, 221, 0.7); text-align: center; margin-bottom: 25px; font-weight: 300;}
         
         /* BOTONES DENTRO DE LA PLATAFORMA */
         .btn { 
@@ -236,7 +243,7 @@ HTML_TEMPLATE = """
         }
         .btn-secondary:hover:not(:disabled) { background: rgba(119, 141, 169, 0.3); transform: translateY(-2px); border-color: var(--accent-light);}
         
-        /* TARJETAS GLASS (COMO LA IMAGEN DE REFERENCIA) */
+        /* TARJETAS GLASS */
         .glass-card, .upload-area, .result-card-minimal, .metric-card, .card-proyecto, .notif-card {
             background: linear-gradient(145deg, rgba(27, 38, 59, 0.6), rgba(13, 27, 42, 0.7));
             backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
@@ -251,7 +258,7 @@ HTML_TEMPLATE = """
         .glass-grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-bottom: 25px; width: 100%;}
         .glass-grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; margin-bottom: 20px; width: 100%;}
         
-        .glass-card { padding: 20px 25px; text-align: center; } /* Padding reducido para evitar scroll */
+        .glass-card { padding: 20px 25px; text-align: center; } 
         .glass-card:hover { transform: translateY(-4px); border-color: rgba(119, 141, 169, 0.5); }
         .glass-card h3 { color: var(--accent-light); font-size: 1.4em; margin-bottom: 12px; font-family: 'Oswald', sans-serif; font-weight: 400; letter-spacing: 0.5px; display: flex; align-items: center; justify-content: center; gap: 8px;}
         .glass-card p { font-size: 0.9em; color: rgba(224, 225, 221, 0.8); line-height: 1.6; margin: 0; font-weight: 300; }
@@ -319,9 +326,9 @@ HTML_TEMPLATE = """
         .btn-danger:hover { transform: translateY(-2px); box-shadow: 0 4px 15px rgba(252, 165, 165, 0.4);}
 
         /* LISTAS Y PLANES AJUSTADO PARA EVITAR SCROLL */
-        .plan-price { font-family: 'Montserrat', sans-serif; font-size: 2.2em; margin: 10px 0 15px 0; color: var(--text-main); font-weight: 600;}
-        .plan-list { text-align: left; font-size: 0.8em; color: rgba(224, 225, 221, 0.7); padding-left: 0; line-height: 1.6; list-style: none; flex-grow: 1;}
-        .plan-list li { margin-bottom: 8px; display: flex; align-items: flex-start; gap: 8px; }
+        .plan-price { font-family: 'Montserrat', sans-serif; font-size: 2.2em; margin: 5px 0 12px 0; color: var(--text-main); font-weight: 600;}
+        .plan-list { text-align: left; font-size: 0.8em; color: rgba(224, 225, 221, 0.7); padding-left: 0; line-height: 1.5; list-style: none; flex-grow: 1;}
+        .plan-list li { margin-bottom: 6px; display: flex; align-items: flex-start; gap: 8px; }
         .plan-list li::before { content: '✔'; color: var(--accent-light); border-radius: 50%; width: 15px; height: 15px; display: flex; align-items: center; justify-content: center; font-size: 0.8em; flex-shrink: 0; margin-top: 1px;}
 
         /* MODALES */
@@ -341,9 +348,9 @@ HTML_TEMPLATE = """
 <body>
 
     <div class="bg-organic">
-        <div class="fold fold-1"></div>
-        <div class="fold fold-2"></div>
-        <div class="fold fold-3"></div>
+        <div class="liquid-shape liquid-1"></div>
+        <div class="liquid-shape liquid-2"></div>
+        <div class="liquid-shape liquid-3"></div>
     </div>
 
     <div id="landing-main" class="landing-screen" {% if skip_intro %} style="display: none; opacity: 0;" {% else %} style="display: flex; opacity: 1;" {% endif %}>
@@ -377,7 +384,7 @@ HTML_TEMPLATE = """
                 <button id="tab-como-funciona" class="tab-btn" onclick="cambiarPestana('como-funciona-section', this)">¿Cómo funciona?</button>
                 <button id="tab-quienes" class="tab-btn" onclick="cambiarPestana('quienes-section', this)">¿Quiénes Somos?</button>
                 <button id="tab-notificaciones" class="tab-btn" onclick="cambiarPestana('notificaciones-section', this)">
-                    Buzón 🗄️ <span id="notif-badge" class="notif-badge">0</span>
+                    Buzón 🗂️ <span id="notif-badge" class="notif-badge">0</span>
                 </button>
             </div>
         </div>
@@ -479,7 +486,7 @@ HTML_TEMPLATE = """
         </div>
 
         <div id="dashboard-section" class="section-container app-centered-layout" {% if mostrar_boveda %} style="display: flex; opacity: 1;" {% else %} style="display: none; opacity: 0;" {% endif %}>
-            <div class="content-wrapper-inner" style="max-width: 900px; width: 100%;">
+            <div class="content-wrapper-inner" style="max-width: 900px;">
                 
                 <div style="width: 100%; display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 20px;">
                     <div>
@@ -603,7 +610,7 @@ HTML_TEMPLATE = """
                             <li>Generación de firma Hash</li>
                             <li>Auditoría bajo demanda</li>
                         </ul>
-                        <button class="btn btn-secondary" style="width: 100%; margin-top: 20px;">Plan Actual</button>
+                        <button class="btn btn-secondary" style="width: 100%; margin-top: 15px;">Plan Actual</button>
                     </div>
                     <div class="glass-card" style="display: flex; flex-direction: column; background: linear-gradient(145deg, rgba(27, 38, 59, 0.8), rgba(13, 27, 42, 0.9)); border-color: rgba(119, 141, 169, 0.3);">
                         <h3>Pro Creador</h3>
@@ -614,7 +621,7 @@ HTML_TEMPLATE = """
                             <li>Archivos ilimitados</li>
                             <li>Radar OSINT 24/7 activo</li>
                         </ul>
-                        <button class="btn" style="width: 100%; margin-top: 20px;">Mejorar a Pro</button>
+                        <button class="btn" style="width: 100%; margin-top: 15px;">Mejorar a Pro</button>
                     </div>
                     <div class="glass-card" style="display: flex; flex-direction: column;">
                         <h3>Enterprise</h3>
@@ -625,7 +632,7 @@ HTML_TEMPLATE = """
                             <li>Protección masiva</li>
                             <li>Takedown automático</li>
                         </ul>
-                        <button class="btn btn-secondary" style="width: 100%; margin-top: 20px;">Contactar Ventas</button>
+                        <button class="btn btn-secondary" style="width: 100%; margin-top: 15px;">Contactar Ventas</button>
                     </div>
                 </div>
             </div>
@@ -634,7 +641,7 @@ HTML_TEMPLATE = """
         <div id="como-funciona-section" class="section-container app-centered-layout" style="display: none; opacity: 0;">
             <div class="content-wrapper-inner" style="max-width: 900px;">
                 <h2 class="app-title">Arquitectura del Sistema</h2>
-                <div class="glass-grid-3" style="margin-top: 30px;">
+                <div class="glass-grid-3" style="margin-top: 20px;">
                     <div class="glass-card">
                         <h3>1. Lectura Inteligente</h3>
                         <p>Evaluación matemática de texto e imágenes para crear una huella criptográfica única inviolable.</p>
@@ -654,7 +661,7 @@ HTML_TEMPLATE = """
         <div id="quienes-section" class="section-container app-centered-layout" style="display: none; opacity: 0;">
             <div class="content-wrapper-inner" style="max-width: 900px;">
                 <h2 class="app-title">Nuestra Visión</h2>
-                <div class="glass-grid-2" style="margin-top: 30px;">
+                <div class="glass-grid-2" style="margin-top: 20px;">
                     <div class="glass-card">
                         <h3>El Problema</h3>
                         <p>La protección legal es lenta y cara. El robo digital es rápido. Creadores y PyMEs quedan desprotegidos.</p>
@@ -672,7 +679,7 @@ HTML_TEMPLATE = """
                 <h2 class="app-title">Buzón de Notificaciones</h2>
                 <div id="lista-notificaciones" style="width: 100%; margin-top: 20px;">
                     <div id="notif-vacia" style="text-align: center; color: rgba(224, 225, 221, 0.5); padding: 40px;">
-                        <div style="font-size: 3em; margin-bottom: 10px; line-height: 1;">📂</div>
+                        <div style="font-size: 3em; margin-bottom: 10px; line-height: 1;">🗂️</div>
                         <p>Sin notificaciones nuevas.</p>
                     </div>
                 </div>
@@ -834,9 +841,6 @@ HTML_TEMPLATE = """
                     var form = document.getElementById('upload-form');
                     if(form) form.reset();
                 }
-                
-                var innerWrapper = document.getElementById('app-inner-wrapper');
-                if(innerWrapper) innerWrapper.classList.add('view-centered');
                 
                 var trustBadges = document.getElementById('upload-badges');
                 if(trustBadges) trustBadges.style.display = 'flex';
