@@ -39,37 +39,45 @@ HTML_TEMPLATE = """
         @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Oswald:wght@300;400;500;600&display=swap');
         @import url('https://fonts.cdnfonts.com/css/bukhari-script');
 
-        /* PALETA DE COLORES Y RESET */
+        /* PALETA DE COLORES (RESTAURADA) */
+        :root {
+            --bg-dark: #0D1B2A;
+            --bg-card: #1B263B;
+            --accent-blue: #415A77;
+            --accent-light: #778DA9;
+            --text-main: #E0E1DD;
+            --success: #5EEAD4;
+            --alert: #FCA5A5;
+        }
+
         body { 
             font-family: 'Montserrat', sans-serif;
-            margin: 0; padding: 0; color: #E0E1DD; display: flex;
+            margin: 0; padding: 0; color: var(--text-main); display: flex;
             justify-content: center; align-items: center; min-height: 100vh; 
-            box-sizing: border-box; background-color: #050A11; 
-            overflow-x: hidden; letter-spacing: 0.3px;
+            box-sizing: border-box; background-color: var(--bg-dark); 
+            overflow: hidden; letter-spacing: 0.3px;
         }
 
         h1, h2, h3 { font-family: 'Oswald', sans-serif; }
 
-        /* FONDO: LIQUID MESH GRADIENT */
+        /* FONDO: ANIMACIÓN ESTILO AURORA / SEDA (VIDEO) */
         .bg-organic {
-            position: fixed;
-            top: -20%; left: -20%; right: -20%; bottom: -20%; 
-            z-index: -2; background-color: #050A11; filter: blur(100px); overflow: hidden;
-            transform: translate3d(0, 0, 0);
-            opacity: 0; animation: fadeInBg 1.5s ease-out forwards; 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background-color: var(--bg-dark); overflow: hidden; z-index: -2;
         }
-
-        @keyframes fadeInBg { from { opacity: 0; } to { opacity: 1; } }
+        .fold {
+            position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+            background: linear-gradient(to right, rgba(13, 27, 42, 0) 0%, rgba(65, 90, 119, 0.4) 50%, rgba(13, 27, 42, 0) 100%);
+            transform: rotate(45deg); filter: blur(60px);
+            animation: foldMove 15s infinite alternate cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .fold-1 { animation-duration: 18s; }
+        .fold-2 { background: linear-gradient(to right, rgba(27, 38, 59, 0), rgba(119, 141, 169, 0.25), rgba(27, 38, 59, 0)); top: -30%; left: -30%; transform: rotate(35deg); animation-duration: 22s; animation-delay: -5s; }
+        .fold-3 { background: linear-gradient(to right, rgba(13, 27, 42, 0), rgba(65, 90, 119, 0.35), rgba(13, 27, 42, 0)); top: -70%; left: -10%; transform: rotate(55deg); animation-duration: 20s; animation-delay: -10s; }
         
-        .liquid-shape { position: absolute; border-radius: 50%; opacity: 0.8; animation: liquidFlow 12s infinite alternate cubic-bezier(0.4, 0, 0.2, 1); }
-        .liquid-1 { width: 70vw; height: 70vh; top: 0; left: 0; background-color: #0D1B2A; animation-duration: 16s; }
-        .liquid-2 { width: 80vw; height: 80vh; bottom: 0; right: 0; background-color: #1B263B; animation-duration: 14s; animation-delay: -3s; opacity: 0.7; }
-        .liquid-3 { width: 50vw; height: 50vh; top: 25%; right: 20%; background-color: #415A77; opacity: 0.4; animation-duration: 18s; animation-delay: -6s; }
-
-        @keyframes liquidFlow {
-            0% { transform: translate(0, 0) scale(1) rotate(0deg); border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; }
-            50% { transform: translate(10%, 10%) scale(1.1) rotate(180deg); border-radius: 60% 40% 30% 70% / 50% 60% 40% 50%; }
-            100% { transform: translate(-10%, -5%) scale(0.9) rotate(360deg); border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; }
+        @keyframes foldMove {
+            0% { transform: rotate(45deg) translateY(-25%); }
+            100% { transform: rotate(45deg) translateY(25%); }
         }
 
         @keyframes fadeUpEntrance { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
@@ -78,16 +86,16 @@ HTML_TEMPLATE = """
         .landing-screen { 
             position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 9999; 
             display: flex; flex-direction: column; align-items: center; justify-content: center; 
-            color: #E0E1DD; overflow-y: auto; background: transparent; 
-            transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out; 
+            color: var(--text-main); overflow-y: auto; background: transparent; 
+            transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out; transform: translateY(0); 
         }
 
         .hero-logo-wrapper { display: flex; flex-direction: column; align-items: center; margin-bottom: 25px; filter: drop-shadow(0px 8px 20px rgba(0, 0, 0, 0.6)); opacity: 0; animation: fadeUpEntrance 1.5s cubic-bezier(0.4, 0, 0.2, 1) 0.2s forwards; }
         .logo-top-line { display: flex; align-items: flex-start; line-height: 1; }
-        .logo-deeptech { font-family: 'Bukhari Script', cursive; font-size: clamp(5rem, 12vw, 8.5rem); color: #778DA9; font-weight: normal; text-shadow: 0px 4px 15px rgba(0,0,0, 0.5); padding-right: 5px; }
-        .logo-tm { font-family: 'Oswald', sans-serif; font-size: clamp(0.9rem, 2vw, 1.4rem); color: #778DA9; margin-top: clamp(15px, 3.5vw, 25px); font-weight: 500; }
+        .logo-deeptech { font-family: 'Bukhari Script', cursive; font-size: clamp(5rem, 12vw, 8.5rem); color: var(--accent-light); font-weight: normal; text-shadow: 0px 4px 15px rgba(0,0,0, 0.5); padding-right: 5px; }
+        .logo-tm { font-family: 'Oswald', sans-serif; font-size: clamp(0.9rem, 2vw, 1.4rem); color: var(--accent-light); margin-top: clamp(15px, 3.5vw, 25px); font-weight: 500; }
         .logo-bottom-line { display: flex; justify-content: center; width: 100%; margin-top: 35px; }
-        .logo-legal { font-family: 'Oswald', sans-serif; font-size: clamp(1.2rem, 3vw, 2.2rem); color: #E0E1DD; letter-spacing: 0.38em; font-weight: 400; text-transform: none; margin-left: 0.38em; text-shadow: 0px 4px 10px rgba(0,0,0,0.4); }
+        .logo-legal { font-family: 'Oswald', sans-serif; font-size: clamp(1.2rem, 3vw, 2.2rem); color: var(--text-main); letter-spacing: 0.38em; font-weight: 400; text-transform: none; margin-left: 0.38em; text-shadow: 0px 4px 10px rgba(0,0,0,0.4); }
 
         .hero-logo-wrapper.small-logo { margin-bottom: 15px; filter: drop-shadow(0px 4px 10px rgba(0,0,0, 0.4)); animation: none; opacity: 1; }
         .hero-logo-wrapper.small-logo .logo-deeptech { font-size: clamp(3rem, 6vw, 4.5rem); }
@@ -95,239 +103,237 @@ HTML_TEMPLATE = """
         .hero-logo-wrapper.small-logo .logo-bottom-line { margin-top: 10px; }
         .hero-logo-wrapper.small-logo .logo-legal { font-size: clamp(0.8rem, 1.5vw, 1.1rem); }
 
-        .hero-subtitle { opacity: 0; animation: fadeUpEntrance 1.5s cubic-bezier(0.4, 0, 0.2, 1) 0.8s forwards; font-family: 'Montserrat', sans-serif; font-size: 1.2em; color: #778DA9; font-weight: 400; margin-bottom: 50px; text-align: center; letter-spacing: 2px; }
+        .hero-subtitle { opacity: 0; animation: fadeUpEntrance 1.5s cubic-bezier(0.4, 0, 0.2, 1) 0.8s forwards; font-family: 'Montserrat', sans-serif; font-size: 1.2em; color: var(--accent-light); font-weight: 400; margin-bottom: 60px; text-align: center; letter-spacing: 2px; }
 
         /* =========================================
-           NUEVO: SWITCH LIQUID GLASS 
+           NUEVO: SWITCH MÁS GRANDE Y CON GLOW
            ========================================= */
         .glass-switch-container {
             opacity: 0;
             animation: fadeUpEntrance 1.5s cubic-bezier(0.4, 0, 0.2, 1) 1.2s forwards;
             position: relative;
-            width: 140px;
-            height: 60px;
+            width: 170px;
+            height: 70px;
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.02));
             border-radius: 40px;
-            box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.5), 0 10px 30px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.1);
+            box-shadow: 0 0 20px rgba(119, 141, 169, 0.4), inset 0 2px 10px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255,255,255,0.1);
             backdrop-filter: blur(15px);
             -webkit-backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            border: 1px solid var(--accent-light);
             cursor: pointer;
             display: flex;
             align-items: center;
-            padding: 5px;
+            padding: 6px;
             box-sizing: border-box;
-            transition: border-color 0.3s ease;
+            transition: all 0.3s ease;
         }
-        .glass-switch-container:hover { border-color: rgba(94, 234, 212, 0.4); }
+        .glass-switch-container:hover { 
+            box-shadow: 0 0 30px rgba(119, 141, 169, 0.7), inset 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
         
         .switch-thumb {
-            width: 50px;
-            height: 50px;
+            width: 56px;
+            height: 56px;
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.05));
             border-radius: 50%;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3), inset 0 2px 5px rgba(255, 255, 255, 0.2);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 1.2em;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4), inset 0 2px 5px rgba(255, 255, 255, 0.2);
+            display: flex; justify-content: center; align-items: center; font-size: 1.5em;
             transform: translateX(0);
-            transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55), background 0.3s ease;
+            transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55), background 0.3s ease, box-shadow 0.3s ease;
         }
         .switch-thumb.active {
-            transform: translateX(80px);
-            background: linear-gradient(135deg, rgba(94, 234, 212, 0.4), rgba(94, 234, 212, 0.1));
-            box-shadow: 0 5px 20px rgba(94, 234, 212, 0.3), inset 0 2px 5px rgba(255, 255, 255, 0.4);
+            transform: translateX(100px);
+            background: linear-gradient(135deg, var(--accent-light), var(--accent-blue));
+            box-shadow: 0 0 20px var(--accent-light), inset 0 2px 5px rgba(255, 255, 255, 0.5);
         }
         .switch-icon {
             transition: opacity 0.2s ease, transform 0.3s ease;
             position: absolute;
+            color: var(--bg-dark);
+            text-shadow: 0 2px 5px rgba(0,0,0,0.5);
         }
         .icon-lock { opacity: 1; transform: scale(1); }
         .icon-unlock { opacity: 0; transform: scale(0.5); }
         .switch-thumb.active .icon-lock { opacity: 0; transform: scale(0.5); }
-        .switch-thumb.active .icon-unlock { opacity: 1; transform: scale(1); }
+        .switch-thumb.active .icon-unlock { opacity: 1; transform: scale(1); text-shadow: none;}
+
 
         /* =========================================
-           MAQUETACIÓN MODERNA (GLASSMORPHISM)
+           MAQUETACIÓN MODERNA (CERO SCROLL / CENTRADO)
            ========================================= */
         #main-wrapper { 
-            width: 100%; height: 100vh; position: relative; overflow: hidden;
+            width: 100vw; height: 100vh; position: relative; overflow: hidden;
             transition: opacity 0.5s ease-in-out; display: flex; flex-direction: column; z-index: 1000;
         }
 
-        /* TEXTO GIGANTE DE FONDO */
-        .bg-huge-text {
-            position: absolute;
-            top: 40%; left: 50%;
-            transform: translate(-50%, -50%);
-            font-family: 'Oswald', sans-serif;
-            font-size: clamp(10rem, 20vw, 25rem);
-            color: rgba(255, 255, 255, 0.02);
-            z-index: 0;
-            pointer-events: none;
-            user-select: none;
-            white-space: nowrap;
-            letter-spacing: -2px;
-            transition: opacity 0.4s ease;
+        /* MENÚ FLOTANTE TIPO BURBUJA (VIDEO) */
+        .nav-wrapper {
+            display: flex; justify-content: center; margin: 30px auto 10px auto; width: 100%; flex-shrink: 0;
         }
-
-        /* MENÚ FLOTANTE TIPO PÍLDORA */
         .top-nav { 
-            background: linear-gradient(135deg, rgba(30, 40, 60, 0.4), rgba(15, 20, 30, 0.2));
+            position: relative;
+            background: rgba(27, 38, 59, 0.5);
             backdrop-filter: blur(25px);
             -webkit-backdrop-filter: blur(25px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(119, 141, 169, 0.2);
             border-radius: 50px;
-            display: flex; justify-content: center; align-items: center; gap: 5px; 
-            padding: 8px 10px; margin: 30px auto; 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            display: flex; align-items: center; gap: 5px; 
+            padding: 6px; box-shadow: 0 10px 30px rgba(0,0,0,0.4);
             z-index: 10; flex-wrap: nowrap; overflow-x: auto; max-width: 90%;
         }
         .top-nav::-webkit-scrollbar { display: none; }
         
+        .bubble-indicator {
+            position: absolute; top: 6px; bottom: 6px; left: 6px; width: 0px;
+            background: linear-gradient(135deg, var(--accent-light), var(--accent-blue));
+            border-radius: 40px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 0;
+            box-shadow: 0 4px 15px rgba(119, 141, 169, 0.4);
+        }
+
         .tab-btn { 
-            background: transparent; border: none; color: rgba(224, 225, 221, 0.6); 
-            padding: 10px 20px; border-radius: 30px; font-size: 0.9em;
+            position: relative; z-index: 1;
+            background: transparent !important; border: none; color: rgba(224, 225, 221, 0.7); 
+            padding: 10px 22px; border-radius: 30px; font-size: 0.9em;
             font-family: 'Montserrat', sans-serif; font-weight: 500; 
-            cursor: pointer; transition: all 0.3s ease; letter-spacing: 0.5px;
+            cursor: pointer; transition: color 0.3s ease; letter-spacing: 0.5px;
             white-space: nowrap; display: flex; align-items: center; justify-content: center;
         }
-        .tab-btn:hover { color: #E0E1DD; }
-        .tab-btn.active { 
-            background: rgba(255, 255, 255, 0.1); color: #E0E1DD; 
-            box-shadow: inset 0 1px 1px rgba(255,255,255,0.2);
-        }
-        .notif-badge { background-color: #DC2626; color: white; font-size: 0.85em; font-family: 'Montserrat', sans-serif; font-weight: 600; padding: 2px 6px; border-radius: 12px; margin-left: 6px; box-shadow: 0px 2px 4px rgba(0,0,0,0.3); display: none; align-items: center; justify-content: center; }
+        .tab-btn:hover { color: var(--text-main); }
+        .tab-btn.active { color: var(--bg-dark); font-weight: 600; text-shadow: 0 1px 2px rgba(255,255,255,0.3); }
+        
+        .notif-badge { background-color: var(--alert); color: var(--bg-dark); font-size: 0.85em; font-family: 'Montserrat', sans-serif; font-weight: 600; padding: 2px 7px; border-radius: 12px; margin-left: 8px; box-shadow: 0px 2px 5px rgba(0,0,0,0.4); display: none; align-items: center; justify-content: center; }
 
-        /* CONTENEDORES Y ALINEACIÓN */
-        .section-container { width: 100%; flex-grow: 1; box-sizing: border-box; transition: opacity 0.4s ease-in-out; overflow-y: auto; display: flex; flex-direction: column; z-index: 1; }
+        /* CONTENEDORES CENTRADOS */
+        .section-container { 
+            width: 100%; flex-grow: 1; box-sizing: border-box; transition: opacity 0.4s ease-in-out; 
+            overflow-y: auto; display: flex; flex-direction: column; justify-content: center; align-items: center; 
+            z-index: 1; padding-bottom: 20px;
+        }
         .section-container::-webkit-scrollbar { width: 6px; }
-        .section-container::-webkit-scrollbar-thumb { background-color: rgba(255, 255, 255, 0.1); border-radius: 4px; }
+        .section-container::-webkit-scrollbar-thumb { background-color: rgba(119, 141, 169, 0.3); border-radius: 4px; }
         
         .sub-section-container { width: 100%; flex-grow: 1; box-sizing: border-box; transition: opacity 0.3s ease-in-out; display: flex; flex-direction: column; align-items: center; opacity: 0; display: none;}
         
-        .app-centered-layout { display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding: 0px 40px 40px 40px; box-sizing: border-box; }
-        .view-centered { margin-top: 5vh; transition: margin-top 0.4s ease; }
-        .content-wrapper-inner { width: 100%; max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; padding-bottom: 20px; }
+        .content-wrapper-inner { width: 100%; max-width: 900px; padding: 0 20px; box-sizing: border-box; display: flex; flex-direction: column; align-items: center; }
         
-        .app-title { font-family: 'Oswald', sans-serif; font-size: 2.5em; color: #E0E1DD; margin: 0 0 10px 0; text-align: center; font-weight: 500; text-shadow: 0 4px 15px rgba(0,0,0,0.3);}
-        .app-subtitle { font-family: 'Montserrat', sans-serif; font-size: 1em; color: rgba(224, 225, 221, 0.7); text-align: center; margin-bottom: 40px; font-weight: 300;}
+        .app-title { font-family: 'Oswald', sans-serif; font-size: 2.5em; color: var(--text-main); margin: 0 0 5px 0; text-align: center; font-weight: 500; text-shadow: 0 4px 15px rgba(0,0,0,0.4);}
+        .app-subtitle { font-family: 'Montserrat', sans-serif; font-size: 1em; color: rgba(224, 225, 221, 0.7); text-align: center; margin-bottom: 20px; font-weight: 300;}
         
         /* BOTONES DENTRO DE LA PLATAFORMA */
         .btn { 
-            background: #E0E1DD; color: #050A11; padding: 12px 30px; font-size: 1em; 
+            background: var(--accent-blue); color: var(--bg-dark); padding: 12px 30px; font-size: 1em; 
             border: none; border-radius: 30px; cursor: pointer; font-weight: 600; font-family: 'Montserrat', sans-serif; 
             display: inline-block; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); letter-spacing: 0.5px;
         }
-        .btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(224, 225, 221, 0.2); }
+        .btn:hover { background: var(--accent-light); transform: translateY(-2px); box-shadow: 0 8px 20px rgba(119, 141, 169, 0.3); }
         .btn:active { transform: scale(0.96) translateY(0px); }
         
         .btn-secondary { 
-            background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); 
-            color: #E0E1DD; padding: 12px 30px; border-radius: 30px; font-size: 0.95em; transition: all 0.2s ease;
+            background: rgba(27, 38, 59, 0.5); border: 1px solid rgba(119, 141, 169, 0.4); 
+            color: var(--text-main); padding: 12px 30px; border-radius: 30px; font-size: 0.95em; transition: all 0.2s ease;
         }
-        .btn-secondary:hover:not(:disabled) { background: rgba(255, 255, 255, 0.1); transform: translateY(-2px); }
+        .btn-secondary:hover:not(:disabled) { background: rgba(119, 141, 169, 0.3); transform: translateY(-2px); border-color: var(--accent-light);}
         
         /* TARJETAS GLASS (COMO LA IMAGEN DE REFERENCIA) */
         .glass-card, .upload-area, .result-card-minimal, .metric-card, .card-proyecto, .notif-card {
-            background: linear-gradient(145deg, rgba(20, 25, 40, 0.5), rgba(10, 15, 25, 0.6));
+            background: linear-gradient(145deg, rgba(27, 38, 59, 0.6), rgba(13, 27, 42, 0.7));
             backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
             border: 1px solid rgba(255, 255, 255, 0.03);
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            border-left: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 24px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+            border-top: 1px solid rgba(119, 141, 169, 0.2);
+            border-left: 1px solid rgba(119, 141, 169, 0.08);
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
             transition: transform 0.3s ease, border-color 0.3s ease;
         }
         
-        .glass-grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; margin-bottom: 25px; width: 100%;}
-        .glass-grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 25px; margin-bottom: 40px; width: 100%;}
+        .glass-grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-bottom: 25px; width: 100%;}
+        .glass-grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; margin-bottom: 20px; width: 100%;}
         
-        .glass-card { padding: 30px; text-align: center; }
-        .glass-card:hover { transform: translateY(-5px); border-color: rgba(119, 141, 169, 0.5); }
-        .glass-card h3 { color: #E0E1DD; font-size: 1.5em; margin-bottom: 15px; font-family: 'Oswald', sans-serif; font-weight: 400;}
-        .glass-card p { font-size: 0.95em; color: rgba(224, 225, 221, 0.7); line-height: 1.7; margin: 0; font-weight: 300; }
+        .glass-card { padding: 20px 25px; text-align: center; } /* Padding reducido para evitar scroll */
+        .glass-card:hover { transform: translateY(-4px); border-color: rgba(119, 141, 169, 0.5); }
+        .glass-card h3 { color: var(--accent-light); font-size: 1.4em; margin-bottom: 12px; font-family: 'Oswald', sans-serif; font-weight: 400; letter-spacing: 0.5px; display: flex; align-items: center; justify-content: center; gap: 8px;}
+        .glass-card p { font-size: 0.9em; color: rgba(224, 225, 221, 0.8); line-height: 1.6; margin: 0; font-weight: 300; }
 
         /* ÁREA DE SUBIDA Y BARRA DE CARGA */
-        .upload-area { width: 100%; max-width: 550px; text-align: center; padding: 40px; margin: 0 auto; box-sizing: border-box;}
+        .upload-area { width: 100%; max-width: 550px; text-align: center; padding: 30px; margin: 0 auto; box-sizing: border-box;}
         
-        .loading-bar-container { width: 100%; max-width: 400px; height: 6px; background-color: rgba(0,0,0,0.3); border-radius: 10px; margin: 30px auto; overflow: hidden; box-shadow: inset 0 1px 3px rgba(0,0,0,0.5); }
-        .loading-bar-fill { height: 100%; width: 0%; border-radius: 10px; background: linear-gradient(90deg, #E0E1DD, #5EEAD4, #E0E1DD); background-size: 200% 100%; animation: shimmerGradient 2.5s linear infinite; transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1); }
+        .loading-bar-container { width: 100%; max-width: 400px; height: 6px; background-color: rgba(0,0,0,0.4); border-radius: 10px; margin: 30px auto; overflow: hidden; box-shadow: inset 0 1px 3px rgba(0,0,0,0.6); }
+        .loading-bar-fill { height: 100%; width: 0%; border-radius: 10px; background: linear-gradient(90deg, var(--accent-blue), var(--accent-light), var(--accent-blue)); background-size: 200% 100%; animation: shimmerGradient 2.5s linear infinite; transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1); }
         @keyframes shimmerGradient { 0% { background-position: 200% 0; } 100% { background-position: 0% 0; } }
 
         /* TARJETAS DE RESULTADO */
-        .result-card-minimal { width: 100%; max-width: 550px; margin: 20px auto; text-align: center; box-sizing: border-box; padding: 40px 30px; }
-        .result-card-minimal.success { border-top: 1px solid rgba(94, 234, 212, 0.5); }
-        .result-card-minimal.alert { border-top: 1px solid rgba(252, 165, 165, 0.5); }
+        .result-card-minimal { width: 100%; max-width: 550px; margin: 20px auto; text-align: center; box-sizing: border-box; padding: 30px; }
+        .result-card-minimal.success { border-top: 2px solid var(--success); }
+        .result-card-minimal.alert { border-top: 2px solid var(--alert); }
         
-        input[type="file"] { margin-top: 15px; margin-bottom: 30px; padding: 12px; border: 1px dashed rgba(255, 255, 255, 0.2); border-radius: 12px; width: 100%; box-sizing: border-box; background-color: rgba(0, 0, 0, 0.2); color: #E0E1DD; font-family: 'Montserrat', sans-serif; cursor: pointer; }
+        input[type="file"] { margin-top: 15px; margin-bottom: 25px; padding: 12px; border: 1px dashed rgba(119, 141, 169, 0.4); border-radius: 12px; width: 100%; box-sizing: border-box; background-color: rgba(0, 0, 0, 0.2); color: var(--text-main); font-family: 'Montserrat', sans-serif; cursor: pointer; }
         
-        .url-list { max-height: 150px; overflow-y: auto; background-color: rgba(0, 0, 0, 0.2); padding: 15px; border-radius: 12px; font-size: 0.9em; margin-top: 10px; font-family: 'Montserrat', sans-serif; font-weight: 300; border: 1px solid rgba(255,255,255,0.05);}
+        .url-list { max-height: 120px; overflow-y: auto; background-color: rgba(0, 0, 0, 0.2); padding: 15px; border-radius: 12px; font-size: 0.85em; margin-top: 10px; font-family: 'Montserrat', sans-serif; font-weight: 300; border: 1px solid rgba(119, 141, 169, 0.15);}
         .url-list li { margin-bottom: 10px; color: rgba(224, 225, 221, 0.7); }
-        .url-list a { color: #E0E1DD; text-decoration: none; font-weight: 500; }
+        .url-list a { color: var(--accent-light); text-decoration: none; font-weight: 500; }
         
-        .social-badge { display: inline-block; padding: 2px 8px; border-radius: 6px; font-size: 0.75em; font-weight: 500; color: white; margin-right: 8px; font-family: 'Montserrat', sans-serif;}
+        .social-badge { display: inline-block; padding: 3px 10px; border-radius: 6px; font-size: 0.75em; font-weight: 500; color: white; margin-right: 8px; font-family: 'Montserrat', sans-serif;}
         .badge-instagram { background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); }
         .badge-facebook { background-color: #1877F2; }
         .badge-x { background-color: #000000; border: 1px solid rgba(255,255,255,0.2); }
         
         /* DASHBOARD METRICS Y BÓVEDA */
-        .metrics-wrapper { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; width: 100%; margin-bottom: 30px; }
-        .metric-card { padding: 20px; text-align: center; border-radius: 16px; }
-        .metric-value { font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 2.2em; color: #E0E1DD; margin: 0; line-height: 1.2; }
-        .metric-label { font-size: 0.8em; color: rgba(224, 225, 221, 0.6); font-weight: 400; text-transform: uppercase; letter-spacing: 1px; margin-top: 8px; }
+        .metrics-wrapper { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; width: 100%; margin-bottom: 20px; }
+        .metric-card { padding: 15px; text-align: center; border-radius: 16px; }
+        .metric-value { font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 2em; color: var(--text-main); margin: 0; line-height: 1.2; }
+        .metric-label { font-size: 0.8em; color: rgba(224, 225, 221, 0.6); font-weight: 400; text-transform: uppercase; letter-spacing: 1px; margin-top: 5px; }
         
-        .sub-nav { display: flex; justify-content: center; gap: 10px; width: 100%; margin-bottom: 30px; flex-wrap: wrap; }
-        .sub-tab-btn { background: transparent; border: 1px solid rgba(255,255,255,0.1); color: rgba(224, 225, 221, 0.6); padding: 8px 20px; border-radius: 20px; font-size: 0.85em; font-family: 'Montserrat', sans-serif; font-weight: 500; cursor: pointer; transition: all 0.2s ease; display: flex; align-items: center;}
-        .sub-tab-btn:hover { background-color: rgba(255,255,255,0.05); color: #E0E1DD; }
-        .sub-tab-btn.active { background-color: #E0E1DD; color: #050A11; }
+        .sub-nav { display: flex; justify-content: center; gap: 10px; width: 100%; margin-bottom: 20px; flex-wrap: wrap; }
+        .sub-tab-btn { background: transparent; border: 1px solid rgba(119, 141, 169, 0.3); color: rgba(224, 225, 221, 0.6); padding: 8px 20px; border-radius: 20px; font-size: 0.85em; font-family: 'Montserrat', sans-serif; font-weight: 500; cursor: pointer; transition: all 0.2s ease; display: flex; align-items: center;}
+        .sub-tab-btn:hover { background-color: rgba(119, 141, 169, 0.15); color: var(--text-main); }
+        .sub-tab-btn.active { background-color: var(--accent-light); color: var(--bg-dark); border-color: var(--accent-light);}
         
         /* TARJETAS DE PROYECTOS Y SELECCIÓN */
-        .grid-proyectos { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; width: 100%; justify-items: center;}
-        .card-proyecto { padding: 20px; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; cursor: default; width: 100%; box-sizing: border-box; }
-        .card-proyecto .img-mock { height: 70px; width: 100%; background-color: rgba(0, 0, 0, 0.2); border-radius: 12px; margin-bottom: 15px; display: flex; align-items: center; justify-content: center; font-size: 2em; border: 1px solid rgba(255,255,255,0.03); }
-        .badge-status { display: inline-block; padding: 6px 14px; border-radius: 20px; font-size: 0.75em; margin-top: 15px; font-weight: 500; font-family: 'Montserrat', sans-serif; text-align: center; }
-        .badge-clean { background-color: rgba(255, 255, 255, 0.05); color: #E0E1DD; border: 1px solid rgba(255,255,255,0.1);} 
-        .badge-alert { background-color: rgba(252, 165, 165, 0.1); color: #FCA5A5; border: 1px solid rgba(252, 165, 165, 0.3);} 
+        .grid-proyectos { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px; width: 100%; justify-items: center;}
+        .card-proyecto { padding: 15px; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; cursor: default; width: 100%; box-sizing: border-box; }
+        .card-proyecto .img-mock { height: 60px; width: 100%; background-color: rgba(0, 0, 0, 0.2); border-radius: 10px; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; font-size: 2em; border: 1px solid rgba(119, 141, 169, 0.1); }
+        .badge-status { display: inline-block; padding: 5px 12px; border-radius: 20px; font-size: 0.7em; margin-top: 10px; font-weight: 500; font-family: 'Montserrat', sans-serif; text-align: center; }
+        .badge-clean { background-color: rgba(94, 234, 212, 0.1); color: var(--success); border: 1px solid rgba(94, 234, 212, 0.3);} 
+        .badge-alert { background-color: rgba(252, 165, 165, 0.15); color: var(--alert); border: 1px solid rgba(252, 165, 165, 0.4);} 
         
-        .card-header-flex { width: 100%; display: flex; justify-content: space-between; margin-bottom: 10px; align-items: center; }
+        .card-header-flex { width: 100%; display: flex; justify-content: space-between; margin-bottom: 5px; align-items: center; }
         .dropdown { position: relative; display: inline-block; }
         .dots-btn { background: none; border: none; color: rgba(224,225,221,0.5); font-size: 1.5em; cursor: pointer; padding: 0; line-height: 1; transition: color 0.2s; }
-        .dots-btn:hover { color: #E0E1DD; }
-        .dropdown-content { display: none; position: absolute; right: 0; top: 100%; background: rgba(15, 20, 30, 0.95); backdrop-filter: blur(10px); min-width: 170px; box-shadow: 0px 8px 25px rgba(0,0,0,0.5); z-index: 100; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); overflow: hidden; margin-top: 8px; }
-        .dropdown-content a { color: #E0E1DD; padding: 12px 16px; text-decoration: none; display: block; font-size: 0.85em; text-align: left; transition: background 0.2s; font-weight: 400;}
-        .dropdown-content a:hover { background-color: rgba(255,255,255,0.1); }
+        .dots-btn:hover { color: var(--text-main); }
+        .dropdown-content { display: none; position: absolute; right: 0; top: 100%; background: rgba(13, 27, 42, 0.95); backdrop-filter: blur(10px); min-width: 170px; box-shadow: 0px 8px 25px rgba(0,0,0,0.6); z-index: 100; border-radius: 12px; border: 1px solid rgba(119, 141, 169, 0.2); overflow: hidden; margin-top: 8px; }
+        .dropdown-content a { color: var(--text-main); padding: 12px 16px; text-decoration: none; display: block; font-size: 0.85em; text-align: left; transition: background 0.2s; font-weight: 400;}
+        .dropdown-content a:hover { background-color: rgba(119, 141, 169, 0.2); }
         .show { display: block; }
 
         /* LÓGICA DE SELECCIÓN EN LOTE */
         #lista-boveda.selection-mode .card-proyecto { cursor: pointer; }
-        .select-indicator { position: absolute; top: 15px; left: 15px; width: 22px; height: 22px; border-radius: 50%; border: 2px solid rgba(224, 225, 221, 0.4); display: none; align-items: center; justify-content: center; font-size: 14px; color: transparent; transition: all 0.2s; z-index: 5; background: rgba(0, 0, 0, 0.3); }
+        .select-indicator { position: absolute; top: 12px; left: 12px; width: 20px; height: 20px; border-radius: 50%; border: 2px solid rgba(224, 225, 221, 0.4); display: none; align-items: center; justify-content: center; font-size: 12px; color: transparent; transition: all 0.2s; z-index: 5; background: rgba(0, 0, 0, 0.4); }
         .selection-mode .select-indicator { display: flex; }
-        .card-proyecto.selected { border-color: rgba(255,255,255,0.4); background: rgba(255, 255, 255, 0.05); transform: scale(0.98); }
-        .card-proyecto.selected .select-indicator { background-color: #E0E1DD; border-color: #E0E1DD; color: #050A11; }
+        .card-proyecto.selected { border-color: var(--accent-light); background: rgba(119, 141, 169, 0.15); transform: scale(0.98); }
+        .card-proyecto.selected .select-indicator { background-color: var(--accent-light); border-color: var(--accent-light); color: var(--bg-dark); }
         
-        .bulk-action-bar { display: none; position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: rgba(15, 20, 30, 0.95); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); padding: 15px 25px; border-radius: 50px; z-index: 9999; align-items: center; gap: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.6); opacity: 0; transition: opacity 0.3s ease; }
-        .btn-danger { background-color: rgba(185, 28, 28, 0.8); color: white; border: 1px solid #DC2626; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-size: 1em; font-weight: 500; transition: all 0.2s; font-family: 'Montserrat', sans-serif;}
-        .btn-danger:hover { background-color: #DC2626; transform: translateY(-2px); box-shadow: 0 4px 15px rgba(220, 38, 38, 0.4);}
+        .bulk-action-bar { display: none; position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: rgba(27, 38, 59, 0.95); backdrop-filter: blur(10px); border: 1px solid rgba(119, 141, 169, 0.3); padding: 12px 25px; border-radius: 50px; z-index: 9999; align-items: center; gap: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.6); opacity: 0; transition: opacity 0.3s ease; }
+        .btn-danger { background-color: var(--alert); color: var(--bg-dark); border: none; padding: 8px 18px; border-radius: 8px; cursor: pointer; font-size: 0.9em; font-weight: 600; transition: all 0.2s; font-family: 'Montserrat', sans-serif;}
+        .btn-danger:hover { transform: translateY(-2px); box-shadow: 0 4px 15px rgba(252, 165, 165, 0.4);}
 
-        /* LISTAS Y PLANES (Estilo Imagen) */
-        .plan-price { font-family: 'Montserrat', sans-serif; font-size: 2.8em; margin: 15px 0 25px 0; color: #E0E1DD; font-weight: 600;}
-        .plan-list { text-align: left; font-size: 0.85em; color: rgba(224, 225, 221, 0.6); padding-left: 0; line-height: 2; list-style: none; flex-grow: 1;}
-        .plan-list li { margin-bottom: 10px; display: flex; align-items: flex-start; gap: 10px; }
-        .plan-list li::before { content: '✓'; color: #5EEAD4; background: rgba(255,255,255,0.1); border-radius: 50%; width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; font-size: 0.7em; flex-shrink: 0; margin-top: 3px;}
+        /* LISTAS Y PLANES AJUSTADO PARA EVITAR SCROLL */
+        .plan-price { font-family: 'Montserrat', sans-serif; font-size: 2.2em; margin: 10px 0 15px 0; color: var(--text-main); font-weight: 600;}
+        .plan-list { text-align: left; font-size: 0.8em; color: rgba(224, 225, 221, 0.7); padding-left: 0; line-height: 1.6; list-style: none; flex-grow: 1;}
+        .plan-list li { margin-bottom: 8px; display: flex; align-items: flex-start; gap: 8px; }
+        .plan-list li::before { content: '✔'; color: var(--accent-light); border-radius: 50%; width: 15px; height: 15px; display: flex; align-items: center; justify-content: center; font-size: 0.8em; flex-shrink: 0; margin-top: 1px;}
 
         /* MODALES */
-        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0, 0.7); z-index: 20000; align-items: center; justify-content: center; backdrop-filter: blur(10px); opacity: 0; transition: opacity 0.3s ease; }
-        .modal-close-btn { position: absolute; top: 15px; right: 15px; background: rgba(255, 255, 255, 0.1); border: none; color: #E0E1DD; width: 32px; height: 32px; border-radius: 50%; font-size: 1.2em; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 50; transition: all 0.2s ease; }
-        .modal-close-btn:hover { background: #E0E1DD; color: #050A11; }
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0, 0.8); z-index: 20000; align-items: center; justify-content: center; backdrop-filter: blur(10px); opacity: 0; transition: opacity 0.3s ease; }
+        .modal-close-btn { position: absolute; top: 12px; right: 12px; background: rgba(119, 141, 169, 0.2); border: 1px solid rgba(119, 141, 169, 0.3); color: var(--text-main); width: 30px; height: 30px; border-radius: 50%; font-size: 1.2em; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 50; transition: all 0.2s ease; }
+        .modal-close-btn:hover { background: var(--alert); color: var(--bg-dark); border-color: var(--alert);}
 
         /* CERTIFICADO */
-        .certificate-box { border: 1px solid rgba(255, 255, 255, 0.1); padding: 30px; position: relative; background: rgba(0,0,0, 0.3); border-radius: 16px; margin-top: 15px; }
-        .cert-logo { font-family: 'Bukhari Script', cursive; font-size: 2.5em; color: #E0E1DD; margin: 0; line-height: 1; opacity: 0.8;}
-        .cert-title { font-family: 'Montserrat', sans-serif; font-size: 1.2em; color: #E0E1DD; letter-spacing: 2px; margin: 10px 0 20px 0; border-bottom: 1px solid rgba(255,255,255, 0.1); padding-bottom: 15px; font-weight: 500;}
-        .cert-text { font-size: 0.85em; font-weight: 300; line-height: 1.6; color: rgba(224, 225, 221, 0.7); text-align: justify; margin-bottom: 20px; }
+        .certificate-box { border: 1px solid rgba(119, 141, 169, 0.3); padding: 25px; position: relative; background: rgba(0,0,0, 0.3); border-radius: 16px; margin-top: 10px; }
+        .cert-logo { font-family: 'Bukhari Script', cursive; font-size: 2em; color: var(--accent-light); margin: 0; line-height: 1; opacity: 0.9;}
+        .cert-title { font-family: 'Montserrat', sans-serif; font-size: 1.1em; color: var(--text-main); letter-spacing: 2px; margin: 10px 0 15px 0; border-bottom: 1px solid rgba(119, 141, 169, 0.2); padding-bottom: 10px; font-weight: 500;}
+        .cert-text { font-size: 0.8em; font-weight: 300; line-height: 1.5; color: rgba(224, 225, 221, 0.8); text-align: justify; margin-bottom: 15px; }
         
         .fade-in-element { animation: fadeUpEntrance 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
     </style>
@@ -335,9 +341,9 @@ HTML_TEMPLATE = """
 <body>
 
     <div class="bg-organic">
-        <div class="liquid-shape liquid-1"></div>
-        <div class="liquid-shape liquid-2"></div>
-        <div class="liquid-shape liquid-3"></div>
+        <div class="fold fold-1"></div>
+        <div class="fold fold-2"></div>
+        <div class="fold fold-3"></div>
     </div>
 
     <div id="landing-main" class="landing-screen" {% if skip_intro %} style="display: none; opacity: 0;" {% else %} style="display: flex; opacity: 1;" {% endif %}>
@@ -359,25 +365,27 @@ HTML_TEMPLATE = """
         </div>
     </div>
 
-    <div id="bg-title" class="bg-huge-text" {% if not skip_intro %} style="opacity:0;" {% endif %}>AUDITAR</div>
-
     <div id="main-wrapper" {% if skip_intro %} style="display: flex; opacity: 1;" {% else %} style="display: none; opacity: 0;" {% endif %}>
         
-        <div class="top-nav">
-            <button id="tab-auditar" class="tab-btn {% if not mostrar_boveda %}active{% endif %}" onclick="cambiarPestana('app-section', 'AUDITAR')">Auditar Archivo</button>
-            <button id="tab-boveda" class="tab-btn {% if mostrar_boveda %}active{% endif %}" onclick="cambiarPestana('dashboard-section', 'BÓVEDA')">Mis Proyectos</button>
-            <button id="tab-planes" class="tab-btn" onclick="cambiarPestana('planes-section', 'PRICING')">Planes</button>
-            <button id="tab-como-funciona" class="tab-btn" onclick="cambiarPestana('como-funciona-section', 'SISTEMA')">¿Cómo funciona?</button>
-            <button id="tab-quienes" class="tab-btn" onclick="cambiarPestana('quienes-section', 'NOSOTROS')">¿Quiénes Somos?</button>
-            <button id="tab-notificaciones" class="tab-btn" onclick="cambiarPestana('notificaciones-section', 'BUZÓN')">
-                Buzón 📬 <span id="notif-badge" class="notif-badge">0</span>
-            </button>
+        <div class="nav-wrapper">
+            <div class="top-nav" id="main-nav">
+                <div class="bubble-indicator" id="nav-bubble"></div>
+                
+                <button id="tab-auditar" class="tab-btn {% if not mostrar_boveda %}active{% endif %}" onclick="cambiarPestana('app-section', this)">Auditar Archivo</button>
+                <button id="tab-boveda" class="tab-btn {% if mostrar_boveda %}active{% endif %}" onclick="cambiarPestana('dashboard-section', this)">Mis Proyectos</button>
+                <button id="tab-planes" class="tab-btn" onclick="cambiarPestana('planes-section', this)">Planes</button>
+                <button id="tab-como-funciona" class="tab-btn" onclick="cambiarPestana('como-funciona-section', this)">¿Cómo funciona?</button>
+                <button id="tab-quienes" class="tab-btn" onclick="cambiarPestana('quienes-section', this)">¿Quiénes Somos?</button>
+                <button id="tab-notificaciones" class="tab-btn" onclick="cambiarPestana('notificaciones-section', this)">
+                    Buzón 🗄️ <span id="notif-badge" class="notif-badge">0</span>
+                </button>
+            </div>
         </div>
 
-        <div id="loading-section" class="section-container app-centered-layout" style="display: none; opacity: 0; justify-content: center;">
+        <div id="loading-section" class="section-container app-centered-layout" style="display: none; opacity: 0;">
             <div class="content-wrapper-inner">
-                <h2 class="app-title" style="margin-top: 20px;">Cifrando y Analizando...</h2>
-                <p id="texto-carga" class="app-subtitle" style="font-weight: 300; transition: color 0.3s ease;">Asegurando el archivo en la Bóveda Local.</p>
+                <h2 class="app-title">Cifrando y Analizando...</h2>
+                <p id="texto-carga" class="app-subtitle">Asegurando el archivo en la Bóveda Local.</p>
                 <div class="loading-bar-container">
                     <div class="loading-bar-fill" id="main-loading-fill"></div>
                 </div>
@@ -385,7 +393,7 @@ HTML_TEMPLATE = """
         </div>
 
         <div id="app-section" class="section-container app-centered-layout" {% if mostrar_boveda %} style="display: none; opacity: 0;" {% else %} style="display: flex; opacity: 1;" {% endif %}>
-            <div id="app-inner-wrapper" class="content-wrapper-inner {% if not mostrando_resultado %}view-centered{% endif %}">
+            <div id="app-inner-wrapper" class="content-wrapper-inner">
                 <div id="upload-titles" style="width: 100%; display: flex; flex-direction: column; align-items: center; {% if mostrando_resultado %}display: none;{% endif %}">
                     <div class="hero-logo-wrapper small-logo">
                         <div class="logo-top-line">
@@ -400,35 +408,35 @@ HTML_TEMPLATE = """
                 
                 <div class="upload-area" id="upload-area-box" {% if mostrando_resultado %} style="display: none;" {% endif %}>
                     <form id="upload-form" action="/" method="POST" enctype="multipart/form-data" onsubmit="ejecutarCarga()" style="display: flex; flex-direction: column; align-items: center;">
-                        <label style="font-weight: 500; color: #E0E1DD; text-align: center; font-size: 1.1em; font-family: 'Montserrat', sans-serif;">Selecciona el archivo para certificar:</label>
+                        <label style="font-weight: 500; color: var(--text-main); text-align: center; font-size: 1.1em; font-family: 'Montserrat', sans-serif;">Selecciona el archivo para certificar:</label>
                         <input type="file" name="archivo" accept="image/*,.pdf,.doc,.docx" required id="input-archivo">
                         <button type="submit" class="btn" style="width: 100%;">Analizar y Proteger en Bóveda</button>
                     </form>
                 </div>
 
                 <div id="upload-badges" style="display: {% if mostrando_resultado %}none{% else %}flex{% endif %}; justify-content: center; gap: 20px; margin-top: 30px; opacity: 0.8;">
-                    <div style="display: flex; align-items: center; gap: 5px; font-size: 0.8em; color: rgba(224, 225, 221, 0.6);"><span style="color: #5EEAD4;">🔒</span> Privacidad Absoluta</div>
-                    <div style="display: flex; align-items: center; gap: 5px; font-size: 0.8em; color: rgba(224, 225, 221, 0.6);"><span style="color: #5EEAD4;">⚖️</span> Validez Legal DMCA</div>
+                    <div style="display: flex; align-items: center; gap: 5px; font-size: 0.85em; color: rgba(224, 225, 221, 0.7);"><span style="color: var(--accent-light);">🛡️</span> Privacidad Absoluta</div>
+                    <div style="display: flex; align-items: center; gap: 5px; font-size: 0.85em; color: rgba(224, 225, 221, 0.7);"><span style="color: var(--accent-light);">⚖️</span> Validez Legal DMCA</div>
                 </div>
                 
                 {% if mostrando_resultado %}
                 <div id="resultado-area" class="fade-in-element" style="width: 100%; display: flex; flex-direction: column; align-items: center;">
                     {% if error_api %}
                         <div class="result-card-minimal alert">
-                            <h2 style="color: #FCA5A5; margin-top: 0; font-family: 'Montserrat', sans-serif; font-weight: 500;">Error de Conexión</h2>
-                            <p style="color: rgba(224,225,221,0.7); font-weight: 300; margin-bottom: 0;">{{ error_api }}</p>
+                            <h2 style="color: var(--alert); margin-top: 0; font-family: 'Montserrat', sans-serif; font-weight: 500;">Error de Conexión</h2>
+                            <p style="color: rgba(224,225,221,0.8); font-weight: 300; margin-bottom: 0;">{{ error_api }}</p>
                         </div>
                         <div style="display: flex; justify-content: center; margin-top: 20px;">
                             <button class="btn btn-secondary" onclick="transicionAuditarNuevo()">Auditar nuevo archivo</button>
                         </div>
                     {% elif paginas_encontradas %}
                         <div class="result-card-minimal alert">
-                            <h2 style="color: #FCA5A5; margin-top: 0; font-family: 'Montserrat', sans-serif; font-size: 2em; font-weight: 500;">⚠️ Alerta de Plagio</h2>
-                            <p style="color: rgba(224,225,221,0.8); font-weight: 300; font-size: 1.05em; margin-bottom: 25px;">Se detectaron coincidencias web del archivo <span style="color: #E0E1DD; font-weight: 500;">{{ nombre_archivo }}</span>.</p>
-                            <button class="btn btn-secondary" style="color: #FCA5A5; border-color: rgba(252, 165, 165, 0.3);" onclick="document.getElementById('detalles-plagio').style.display='block'; this.style.display='none';">Ver Informe Completo</button>
+                            <h2 style="color: var(--alert); margin-top: 0; font-family: 'Montserrat', sans-serif; font-size: 2em; font-weight: 500;">⛔ Alerta de Plagio</h2>
+                            <p style="color: rgba(224,225,221,0.8); font-weight: 300; font-size: 1.05em; margin-bottom: 25px;">Se detectaron coincidencias web del archivo <span style="color: var(--text-main); font-weight: 500;">{{ nombre_archivo }}</span>.</p>
+                            <button class="btn btn-secondary" style="color: var(--alert); border-color: rgba(252, 165, 165, 0.4);" onclick="document.getElementById('detalles-plagio').style.display='block'; this.style.display='none';">Ver Informe Completo</button>
                             <div id="detalles-plagio" style="display: none; text-align: left; margin-top: 25px; border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 20px; animation: fadeUpEntrance 0.5s ease forwards;">
-                                <p style="color: #FCA5A5; font-size: 0.9em; border: 1px solid rgba(220,38,38,0.2); padding: 12px; border-radius: 8px; background: rgba(220,38,38,0.05); font-weight: 300;">Aviso de Sistema: Para evitar infracciones de derechos de autor, este archivo no ha sido guardado en la bóveda.</p>
-                                <p style="color: rgba(224,225,221,0.7); font-weight: 300; font-size: 0.9em; margin-top: 15px;">Radar Ejecutado: <span style="color: #FCA5A5;">{{ tipo_motor }}</span></p>
+                                <p style="color: var(--alert); font-size: 0.9em; border: 1px solid rgba(252, 165, 165, 0.2); padding: 12px; border-radius: 8px; background: rgba(252, 165, 165, 0.05); font-weight: 300;">Aviso de Sistema: Para evitar infracciones de derechos de autor, este archivo no ha sido guardado en la bóveda.</p>
+                                <p style="color: rgba(224,225,221,0.7); font-weight: 300; font-size: 0.9em; margin-top: 15px;">Radar Ejecutado: <span style="color: var(--alert);">{{ tipo_motor }}</span></p>
                                 <p style="color: rgba(224, 225, 221, 0.85); font-weight: 300; font-size: 0.9em; margin-top: 15px;">Enlaces confirmados con el contenido original:</p>
                                 <div class="url-list">
                                     <ol style="margin: 0; padding-left: 20px;">
@@ -442,7 +450,7 @@ HTML_TEMPLATE = """
                                     {% endfor %}
                                     </ol>
                                 </div>
-                                <p style="margin-top: 15px; color: rgba(224,225,221,0.7); font-weight: 300; font-size: 0.85em;">Firma Hash Auditada: <br><span style="font-family: monospace; color: #E0E1DD;">{{ hash_resultado }}</span></p>
+                                <p style="margin-top: 15px; color: rgba(224,225,221,0.7); font-weight: 300; font-size: 0.85em;">Firma Hash Auditada: <br><span style="font-family: monospace; color: var(--text-main);">{{ hash_resultado }}</span></p>
                             </div>
                         </div>
                         <div style="display: flex; justify-content: center; gap: 15px; margin-top: 20px; flex-wrap: wrap;">
@@ -451,13 +459,13 @@ HTML_TEMPLATE = """
                         </div>
                     {% else %}
                         <div class="result-card-minimal success">
-                            <h2 style="color: #5EEAD4; margin-top: 0; font-family: 'Montserrat', sans-serif; font-size: 2em; font-weight: 500;">✓ Activo Original</h2>
-                            <p style="color: rgba(224,225,221,0.8); font-weight: 300; font-size: 1.05em; margin-bottom: 25px;">El archivo <span style="color: #E0E1DD; font-weight: 500;">{{ nombre_archivo }}</span> es único y seguro.</p>
-                            <button class="btn btn-secondary" style="color: #5EEAD4; border-color: rgba(94, 234, 212, 0.3);" onclick="document.getElementById('detalles-original').style.display='block'; this.style.display='none';">Ver Informe Completo</button>
+                            <h2 style="color: var(--success); margin-top: 0; font-family: 'Montserrat', sans-serif; font-size: 2em; font-weight: 500;">✅ Activo Original</h2>
+                            <p style="color: rgba(224,225,221,0.8); font-weight: 300; font-size: 1.05em; margin-bottom: 25px;">El archivo <span style="color: var(--text-main); font-weight: 500;">{{ nombre_archivo }}</span> es único y seguro.</p>
+                            <button class="btn btn-secondary" style="color: var(--success); border-color: rgba(94, 234, 212, 0.4);" onclick="document.getElementById('detalles-original').style.display='block'; this.style.display='none';">Ver Informe Completo</button>
                             <div id="detalles-original" style="display: none; text-align: left; margin-top: 25px; border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 20px; animation: fadeUpEntrance 0.5s ease forwards;">
-                                <p style="color: rgba(224, 225, 221, 0.7); font-weight: 300; font-size: 0.9em;">El análisis profundo no detectó copias en la red. El archivo se ha guardado exitosamente en tu bóveda criptográfica.</p>
-                                <p style="color: rgba(224, 225, 221, 0.7); font-weight: 300; font-size: 0.9em; margin-top: 15px;">Radar Ejecutado: <span style="color: #5EEAD4;">{{ tipo_motor }}</span></p>
-                                <p style="color: rgba(224, 225, 221, 0.7); font-weight: 300; font-size: 0.9em; margin-top: 15px;">Firma Hash Blockchain: <br> <span style="font-family: monospace; color: #E0E1DD; word-break: break-all;">{{ hash_resultado }}</span></p>
+                                <p style="color: rgba(224, 225, 221, 0.8); font-weight: 300; font-size: 0.9em;">El análisis profundo no detectó copias en la red. El archivo se ha guardado exitosamente en tu bóveda criptográfica.</p>
+                                <p style="color: rgba(224, 225, 221, 0.7); font-weight: 300; font-size: 0.9em; margin-top: 15px;">Radar Ejecutado: <span style="color: var(--success);">{{ tipo_motor }}</span></p>
+                                <p style="color: rgba(224, 225, 221, 0.7); font-weight: 300; font-size: 0.9em; margin-top: 15px;">Firma Hash Blockchain: <br> <span style="font-family: monospace; color: var(--text-main); word-break: break-all;">{{ hash_resultado }}</span></p>
                                 <p style="color: rgba(224, 225, 221, 0.5); margin-bottom: 0; font-weight: 300; font-size: 0.85em;">Sello de tiempo: {{ timestamp }}</p>
                             </div>
                         </div>
@@ -478,20 +486,20 @@ HTML_TEMPLATE = """
                         <h2 class="app-title" style="text-align: left; margin: 0; font-size: 2em;">Bóveda Criptográfica</h2>
                         <p class="app-subtitle" style="text-align: left; margin: 5px 0 0 0;">Archivos encriptados y monitoreados en tiempo real.</p>
                     </div>
-                    <button id="btn-revisar-integridad" class="btn btn-secondary" style="font-size: 0.85em; padding: 10px 20px;" onclick="revisarIntegridad()">🔍 Analizar Integridad</button>
+                    <button id="btn-revisar-integridad" class="btn btn-secondary" style="font-size: 0.85em; padding: 10px 20px;" onclick="revisarIntegridad()">🔎 Analizar Integridad</button>
                 </div>
                 
                 <div class="metrics-wrapper">
-                    <div class="metric-card glass-card" style="padding: 15px;">
+                    <div class="metric-card glass-card">
                         <p class="metric-value">{{ proyectos|selectattr('plagio', 'equalto', False)|list|length }}</p>
                         <p class="metric-label">Activos Protegidos</p>
                     </div>
-                    <div class="metric-card glass-card" style="padding: 15px;">
-                        <p class="metric-value" style="color: #FCA5A5;">34</p>
+                    <div class="metric-card glass-card">
+                        <p class="metric-value" style="color: var(--alert);">34</p>
                         <p class="metric-label">Plagios Bloqueados</p>
                     </div>
-                    <div class="metric-card glass-card" style="padding: 15px;">
-                        <p class="metric-value" style="font-size: 1.5em; margin-top: 8px;">🟢</p>
+                    <div class="metric-card glass-card">
+                        <p class="metric-value" style="font-size: 1.5em; margin-top: 8px;">📡</p>
                         <p class="metric-label">Radar OSINT 24/7</p>
                     </div>
                 </div>
@@ -499,13 +507,13 @@ HTML_TEMPLATE = """
                 <div class="sub-nav">
                     <button class="sub-tab-btn active" onclick="cambiarSubPestana('boveda-personal-tab', this)">Mi Bóveda Personal</button>
                     <button class="sub-tab-btn" onclick="cambiarSubPestana('boveda-instagram-tab', this)">
-                        <span class="social-badge badge-instagram">IG</span> Instagram <span style="color: #5EEAD4; font-size: 0.7em; margin-left: 5px;">PRO</span>
+                        <span class="social-badge badge-instagram">IG</span> Instagram <span style="color: var(--accent-light); font-size: 0.7em; margin-left: 5px;">PRO</span>
                     </button>
                     <button class="sub-tab-btn" onclick="cambiarSubPestana('boveda-facebook-tab', this)">
-                        <span class="social-badge badge-facebook">FB</span> Facebook <span style="color: #5EEAD4; font-size: 0.7em; margin-left: 5px;">PRO</span>
+                        <span class="social-badge badge-facebook">FB</span> Facebook <span style="color: var(--accent-light); font-size: 0.7em; margin-left: 5px;">PRO</span>
                     </button>
                     <button class="sub-tab-btn" onclick="cambiarSubPestana('boveda-x-tab', this)">
-                        <span class="social-badge badge-x">𝕏</span> X (Twitter) <span style="color: #5EEAD4; font-size: 0.7em; margin-left: 5px;">PRO</span>
+                        <span class="social-badge badge-x">𝕏</span> X (Twitter) <span style="color: var(--accent-light); font-size: 0.7em; margin-left: 5px;">PRO</span>
                     </button>
                 </div>
                 
@@ -521,7 +529,7 @@ HTML_TEMPLATE = """
                                         <button onclick="toggleDropdown('drop-{{ loop.index }}')" class="dots-btn">⋮</button>
                                         <div id="drop-{{ loop.index }}" class="dropdown-content">
                                             <a href="#" onclick="verInforme('{{ p.nombre }}', '{{ p.hash_full }}', '{{ p.plagio }}')">Ver informe general</a>
-                                            <a href="#" style="color: #5EEAD4; font-size: 0.82em; white-space: normal; line-height: 1.3;" onclick="verCertificado('{{ p.nombre }}', '{{ p.hash_full }}', '{{ p.timestamp|default('Fecha no disponible') }}')">Ver Certificado Legal</a>
+                                            <a href="#" style="color: var(--accent-light); font-size: 0.82em; white-space: normal; line-height: 1.3;" onclick="verCertificado('{{ p.nombre }}', '{{ p.hash_full }}', '{{ p.timestamp|default('Fecha no disponible') }}')">Ver Certificado Legal</a>
                                             <a href="#" onclick="activarModoSeleccion('{{ p.hash_full }}')">Seleccionar</a>
                                             <a href="#" onclick="renombrarArchivo('{{ p.hash_full }}', '{{ p.nombre }}', this)">Cambiar nombre</a>
                                             <a href="#" onclick="eliminarConAnimacion('{{ p.hash_full }}', this)">Eliminar</a>
@@ -529,17 +537,17 @@ HTML_TEMPLATE = """
                                     </div>
                                 </div>
                                 <div class="img-mock">
-                                    {% if p.nombre.endswith('.pdf') %}📄{% elif p.nombre.endswith('.docx') or p.nombre.endswith('.doc') %}📝{% else %}📷{% endif %}
+                                    {% if p.nombre.endswith('.pdf') %}📑{% elif p.nombre.endswith('.docx') or p.nombre.endswith('.doc') %}📑{% else %}🖼️{% endif %}
                                 </div>
-                                <p style="margin: 0; font-weight: 500; font-size: 0.95em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: #E0E1DD; width: 100%;" title="{{ p.nombre }}">{{ p.nombre }}</p>
-                                <small style="color: rgba(224,225,221,0.5); font-size: 0.7em; margin-top: 5px; font-family: monospace;">ID: {{ p.hash }}</small>
-                                {% if p.plagio %}<span class="badge-status badge-alert">🔴 Alerta en Web</span>{% else %}<span class="badge-status badge-clean">🟢 Monitor Activo</span>{% endif %}
+                                <p style="margin: 0; font-weight: 500; font-size: 0.95em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--text-main); width: 100%;" title="{{ p.nombre }}">{{ p.nombre }}</p>
+                                <small style="color: rgba(224, 225, 221, 0.5); font-size: 0.7em; margin-top: 5px; font-family: monospace;">ID: {{ p.hash }}</small>
+                                {% if p.plagio %}<span class="badge-status badge-alert">⛔ Alerta en Web</span>{% else %}<span class="badge-status badge-clean">✅ Monitor Activo</span>{% endif %}
                             </div>
                             {% endfor %}
                         {% else %}
-                            <div style="grid-column: 1 / -1; text-align: center; color: rgba(224,225,221,0.5); padding: 40px;">
+                            <div style="grid-column: 1 / -1; text-align: center; color: rgba(224, 225, 221, 0.5); padding: 40px;">
                                 <p style="font-weight: 300; margin-bottom: 20px;">Tu bóveda está vacía.<br>Sube tu primer archivo para protegerlo.</p>
-                                <button class="btn btn-secondary" onclick="cambiarPestana('app-section', 'AUDITAR')">Subir Archivo</button>
+                                <button class="btn btn-secondary" onclick="cambiarPestana('app-section', document.getElementById('tab-auditar'))">Subir Archivo</button>
                             </div>
                         {% endif %}
                     </div>
@@ -548,7 +556,7 @@ HTML_TEMPLATE = """
                 <div id="boveda-instagram-tab" class="sub-section-container">
                     <div id="ig-connect-area" style="display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; transition: opacity 0.3s ease;">
                         <div class="glass-card" style="max-width: 500px; width: 100%;">
-                            <div style="font-size: 3em; margin-bottom: 10px;">📸</div>
+                            <div style="font-size: 3em; margin-bottom: 10px;">📱</div>
                             <h3 style="margin-top:0;">Protección Automatizada</h3>
                             <p style="margin-bottom: 25px;">Vincula tu Instagram para proteger cada nueva publicación automáticamente en la Blockchain.</p>
                             <button class="btn" style="background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); border: none; font-size: 0.95em; padding: 12px 30px; color:white;" onclick="simularConexion('Instagram', 'ig-connect-area')">Vincular cuenta de Instagram</button>
@@ -559,7 +567,7 @@ HTML_TEMPLATE = """
                 <div id="boveda-facebook-tab" class="sub-section-container">
                     <div id="fb-connect-area" style="display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; transition: opacity 0.3s ease;">
                         <div class="glass-card" style="max-width: 500px; width: 100%;">
-                            <div style="font-size: 3em; margin-bottom: 10px;">💼</div>
+                            <div style="font-size: 3em; margin-bottom: 10px;">🏢</div>
                             <h3 style="margin-top:0;">Blindaje Corporativo</h3>
                             <p style="margin-bottom: 25px;">Conecta la Fanpage de tu empresa para un registro OSINT de catálogos y banners.</p>
                             <button class="btn" style="background-color: #1877F2; border: none; font-size: 0.95em; padding: 12px 30px; color:white;" onclick="simularConexion('Facebook', 'fb-connect-area')">Vincular página de Facebook</button>
@@ -570,7 +578,7 @@ HTML_TEMPLATE = """
                 <div id="boveda-x-tab" class="sub-section-container">
                     <div id="x-connect-area" style="display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; transition: opacity 0.3s ease;">
                         <div class="glass-card" style="max-width: 500px; width: 100%;">
-                            <div style="font-size: 3em; margin-bottom: 10px;">🐦</div>
+                            <div style="font-size: 3em; margin-bottom: 10px;">💬</div>
                             <h3 style="margin-top:0;">Certificación en Tiempo Real</h3>
                             <p style="margin-bottom: 25px;">Protege tus hilos virales, investigaciones y material audiovisual en el momento exacto.</p>
                             <button class="btn" style="background-color: #0F1419; border: 1px solid rgba(255,255,255,0.2); font-size: 0.95em; padding: 12px 30px; color:white;" onclick="simularConexion('X', 'x-connect-area')">Vincular cuenta de X</button>
@@ -597,9 +605,9 @@ HTML_TEMPLATE = """
                         </ul>
                         <button class="btn btn-secondary" style="width: 100%; margin-top: 20px;">Plan Actual</button>
                     </div>
-                    <div class="glass-card" style="display: flex; flex-direction: column; background: linear-gradient(145deg, rgba(30, 40, 60, 0.7), rgba(15, 20, 30, 0.8)); border-color: rgba(255,255,255,0.2);">
+                    <div class="glass-card" style="display: flex; flex-direction: column; background: linear-gradient(145deg, rgba(27, 38, 59, 0.8), rgba(13, 27, 42, 0.9)); border-color: rgba(119, 141, 169, 0.3);">
                         <h3>Pro Creador</h3>
-                        <div class="plan-price">$9.99<span style="font-size: 0.4em; color: rgba(224,225,221,0.5);">/m</span></div>
+                        <div class="plan-price">$9.99<span style="font-size: 0.4em; color: rgba(224, 225, 221, 0.5);">/m</span></div>
                         <ul class="plan-list">
                             <li>Todo lo del plan Básico</li>
                             <li>Sincronización IG y X</li>
@@ -610,7 +618,7 @@ HTML_TEMPLATE = """
                     </div>
                     <div class="glass-card" style="display: flex; flex-direction: column;">
                         <h3>Enterprise</h3>
-                        <div class="plan-price">$49.99<span style="font-size: 0.4em; color: rgba(224,225,221,0.5);">/m</span></div>
+                        <div class="plan-price">$49.99<span style="font-size: 0.4em; color: rgba(224, 225, 221, 0.5);">/m</span></div>
                         <ul class="plan-list">
                             <li>Todo lo del plan Pro</li>
                             <li>Conexión de Fanpages</li>
@@ -663,8 +671,8 @@ HTML_TEMPLATE = """
             <div class="content-wrapper-inner" style="max-width: 650px;">
                 <h2 class="app-title">Buzón de Notificaciones</h2>
                 <div id="lista-notificaciones" style="width: 100%; margin-top: 20px;">
-                    <div id="notif-vacia" style="text-align: center; color: rgba(224,225,221,0.5); padding: 40px;">
-                        <div style="font-size: 3em; margin-bottom: 10px; line-height: 1;">📭</div>
+                    <div id="notif-vacia" style="text-align: center; color: rgba(224, 225, 221, 0.5); padding: 40px;">
+                        <div style="font-size: 3em; margin-bottom: 10px; line-height: 1;">📂</div>
                         <p>Sin notificaciones nuevas.</p>
                     </div>
                 </div>
@@ -684,12 +692,12 @@ HTML_TEMPLATE = """
             <button class="modal-close-btn" onclick="cerrarInforme()">&times;</button>
             <h3 style="margin-top: 0;">📄 Informe OSINT</h3>
             <div style="margin-top: 20px; text-align: left;">
-                <p style="font-weight: 300;">Activo: <span id="inf-nombre" style="color: #E0E1DD; font-weight:500;"></span></p>
-                <p style="font-weight: 300; margin-top:10px;">Hash ID: <br><span id="inf-hash" style="font-family: monospace; color: rgba(224,225,221,0.6); font-size: 0.85em; word-break: break-all;"></span></p>
+                <p style="font-weight: 300;">Activo: <span id="inf-nombre" style="color: var(--text-main); font-weight:500;"></span></p>
+                <p style="font-weight: 300; margin-top:10px;">Hash ID: <br><span id="inf-hash" style="font-family: monospace; color: rgba(224, 225, 221, 0.6); font-size: 0.85em; word-break: break-all;"></span></p>
                 <p style="font-weight: 300; margin-top:10px;">Estado: <br><span id="inf-estado"></span></p>
                 
-                <div style="margin-top: 15px; border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 15px;">
-                    <p style="font-weight: 500; text-align: left; margin-bottom: 10px; font-size: 0.9em; color: #E0E1DD;">Bitácora de Rastreo OSINT 24/7:</p>
+                <div style="margin-top: 15px; border-top: 1px solid rgba(119, 141, 169, 0.2); padding-top: 15px;">
+                    <p style="font-weight: 500; text-align: left; margin-bottom: 10px; font-size: 0.9em; color: var(--text-main);">Bitácora de Rastreo OSINT 24/7:</p>
                     <div id="inf-bitacora" class="url-list" style="max-height: 120px; margin-top: 0; text-align: left;"></div>
                 </div>
             </div>
@@ -706,16 +714,16 @@ HTML_TEMPLATE = """
                     <h3 class="cert-title">CERTIFICADO DE AUTORÍA</h3>
                 </div>
                 <p class="cert-text">Por la presente, certificamos que el activo digital ha sido registrado en la Blockchain, estableciendo prueba inmutable de anterioridad.</p>
-                <div style="background: rgba(0,0,0,0.2); padding: 15px; border-radius: 12px; margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.05);">
-                    <p style="margin: 0 0 5px 0; font-size: 0.8em; color: rgba(224,225,221,0.6);">Archivo:</p>
-                    <p id="cert-nombre" style="margin: 0 0 15px 0; color: #E0E1DD; font-weight: 500;"></p>
-                    <p style="margin: 0 0 5px 0; font-size: 0.8em; color: rgba(224,225,221,0.6);">Firma SHA-256:</p>
-                    <p id="cert-hash" style="margin: 0; color: #5EEAD4; font-family: monospace; font-size: 0.85em; word-break: break-all;"></p>
+                <div style="background: rgba(0,0,0,0.3); padding: 15px; border-radius: 12px; margin-bottom: 20px; border: 1px solid rgba(119, 141, 169, 0.1);">
+                    <p style="margin: 0 0 5px 0; font-size: 0.8em; color: rgba(224, 225, 221, 0.6);">Archivo:</p>
+                    <p id="cert-nombre" style="margin: 0 0 15px 0; color: var(--text-main); font-weight: 500;"></p>
+                    <p style="margin: 0 0 5px 0; font-size: 0.8em; color: rgba(224, 225, 221, 0.6);">Firma SHA-256:</p>
+                    <p id="cert-hash" style="margin: 0; color: var(--accent-light); font-family: monospace; font-size: 0.85em; word-break: break-all;"></p>
                 </div>
                 <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.85em;">
                     <div style="text-align: left;">
-                        <span style="color: rgba(224,225,221,0.6); display:block; margin-bottom: 5px;">Timestamp:</span>
-                        <strong id="cert-fecha" style="color: #E0E1DD;"></strong>
+                        <span style="color: rgba(224, 225, 221, 0.6); display:block; margin-bottom: 5px;">Timestamp:</span>
+                        <strong id="cert-fecha" style="color: var(--text-main);"></strong>
                     </div>
                 </div>
             </div>
@@ -728,9 +736,9 @@ HTML_TEMPLATE = """
             <button class="modal-close-btn" onclick="cerrarAuditoria()">&times;</button>
             <h3 style="margin-top: 0;">⚖️ Solicitud de Auditoría</h3>
             <div style="margin-top: 20px;">
-                <p style="font-weight: 300; text-align: left;">Archivo a revisar: <br><span style="color: #E0E1DD;">{% if mostrando_resultado %}{{ nombre_archivo }}{% else %}Archivo Auditado{% endif %}</span></p>
-                <p style="font-weight: 300; text-align: left; margin-top:10px;">Motivo: <br><span style="font-family: monospace; color: rgba(224,225,221,0.7); font-size: 0.9em;">Revisión manual por posible falso positivo.</span></p>
-                <p style="font-weight: 300; text-align: left; margin-top:10px;">Estado de la solicitud: <br><span id="auditoria-estado" style="color: #FCA5A5; font-weight: 500;">Pendiente de envío</span></p>
+                <p style="font-weight: 300; text-align: left;">Archivo a revisar: <br><span style="color: var(--text-main);">{% if mostrando_resultado %}{{ nombre_archivo }}{% else %}Archivo Auditado{% endif %}</span></p>
+                <p style="font-weight: 300; text-align: left; margin-top:10px;">Motivo: <br><span style="font-family: monospace; color: rgba(224, 225, 221, 0.7); font-size: 0.9em;">Revisión manual por posible falso positivo.</span></p>
+                <p style="font-weight: 300; text-align: left; margin-top:10px;">Estado de la solicitud: <br><span id="auditoria-estado" style="color: var(--alert); font-weight: 500;">Pendiente de envío</span></p>
             </div>
             <button id="btn-enviar-auditoria" class="btn" style="width: 100%; margin-top: 25px;" onclick="enviarAuditoria()">Enviar Solicitud Oficial</button>
         </div>
@@ -744,7 +752,7 @@ HTML_TEMPLATE = """
     <script>
         let unreadCount = 0;
 
-        // Lógica del Switch Glass
+        // --- LÓGICA DEL SWITCH ---
         function activarToggle(element) {
             let thumb = document.getElementById('switch-thumb-btn');
             if(thumb.classList.contains('active')) return;
@@ -772,7 +780,6 @@ HTML_TEMPLATE = """
         function ingresarApp() {
             var main = document.getElementById('landing-main');
             var wrapper = document.getElementById('main-wrapper');
-            var bgTitle = document.getElementById('bg-title');
             main.style.opacity = '0';
             main.style.transform = 'translateY(-30px)';
             setTimeout(function() {
@@ -780,9 +787,27 @@ HTML_TEMPLATE = """
                 wrapper.style.display = 'flex';
                 void wrapper.offsetWidth; 
                 wrapper.style.opacity = '1';
-                if(bgTitle) bgTitle.style.opacity = '1';
+                
+                // Inicializar burbuja en la pestaña activa
+                var activeBtn = document.querySelector('.tab-btn.active');
+                if(activeBtn) moverBurbuja(activeBtn);
             }, 500);
         }
+
+        // --- LÓGICA DEL BUBBLE MENU ---
+        function moverBurbuja(btnElement) {
+            var bubble = document.getElementById('nav-bubble');
+            if(bubble && btnElement) {
+                bubble.style.width = btnElement.offsetWidth + 'px';
+                bubble.style.left = btnElement.offsetLeft + 'px';
+            }
+        }
+
+        // Reposicionar burbuja al cambiar el tamaño de ventana
+        window.addEventListener('resize', function() {
+            var activeTab = document.querySelector('.top-nav .tab-btn.active');
+            if(activeTab) moverBurbuja(activeTab);
+        });
 
         function transicionAuditarNuevo() {
             var appSec = document.getElementById('app-section');
@@ -793,7 +818,7 @@ HTML_TEMPLATE = """
             var textoCarga = document.getElementById('texto-carga');
             if(textoCarga) {
                 textoCarga.style.fontFamily = "'Montserrat', sans-serif";
-                textoCarga.style.color = "rgba(224,225,221,0.7)";
+                textoCarga.style.color = "rgba(224, 225, 221, 0.7)";
             }
 
             setTimeout(function() {
@@ -822,17 +847,8 @@ HTML_TEMPLATE = """
             }, 400);
         }
 
-        function cambiarPestana(idMostrar, tituloFondo) {
+        function cambiarPestana(idMostrar, btnElement) {
             cancelarSeleccion();
-
-            var bgTitle = document.getElementById('bg-title');
-            if(bgTitle && tituloFondo) {
-                bgTitle.style.opacity = '0';
-                setTimeout(() => {
-                    bgTitle.innerText = tituloFondo;
-                    bgTitle.style.opacity = '1';
-                }, 300);
-            }
 
             var appSec = document.getElementById('app-section');
             var dashSec = document.getElementById('dashboard-section');
@@ -841,27 +857,15 @@ HTML_TEMPLATE = """
             var notifSec = document.getElementById('notificaciones-section');
             var planesSec = document.getElementById('planes-section');
             
-            var tabAuditar = document.getElementById('tab-auditar');
-            var tabBoveda = document.getElementById('tab-boveda');
-            var tabInfo = document.getElementById('tab-como-funciona');
-            var tabQs = document.getElementById('tab-quienes');
-            var tabNotif = document.getElementById('tab-notificaciones');
-            var tabPlanes = document.getElementById('tab-planes');
-
-            if(tabAuditar) tabAuditar.classList.remove('active');
-            if(tabBoveda) tabBoveda.classList.remove('active');
-            if(tabInfo) tabInfo.classList.remove('active');
-            if(tabQs) tabQs.classList.remove('active');
-            if(tabNotif) tabNotif.classList.remove('active');
-            if(tabPlanes) tabPlanes.classList.remove('active');
+            var tabs = document.querySelectorAll('.top-nav .tab-btn');
+            tabs.forEach(t => t.classList.remove('active'));
             
-            if(idMostrar === 'app-section') { if(tabAuditar) tabAuditar.classList.add('active'); }
-            else if(idMostrar === 'dashboard-section') { if(tabBoveda) tabBoveda.classList.add('active'); }
-            else if(idMostrar === 'como-funciona-section') { if(tabInfo) tabInfo.classList.add('active'); }
-            else if(idMostrar === 'quienes-section') { if(tabQs) tabQs.classList.add('active'); }
-            else if(idMostrar === 'planes-section') { if(tabPlanes) tabPlanes.classList.add('active'); }
-            else if(idMostrar === 'notificaciones-section') { 
-                if(tabNotif) tabNotif.classList.add('active');
+            if(btnElement) {
+                btnElement.classList.add('active');
+                moverBurbuja(btnElement);
+            }
+            
+            if(idMostrar === 'notificaciones-section') { 
                 unreadCount = 0;
                 var badge = document.getElementById('notif-badge');
                 if(badge) badge.style.display = 'none';
@@ -917,7 +921,7 @@ HTML_TEMPLATE = """
                         <div class="loading-bar-container" style="max-width: 300px; height: 8px;">
                             <div class="loading-bar-fill" id="sim-loading-fill"></div>
                         </div>
-                        <p style="color: #E0E1DD; font-weight: 300; font-size: 1.1em; margin-top: 20px; text-align: center;">Estableciendo conexión segura con ${redSocial}...</p>
+                        <p style="color: var(--text-main); font-weight: 300; font-size: 1.1em; margin-top: 20px; text-align: center;">Estableciendo conexión segura con ${redSocial}...</p>
                     </div>
                 `;
                 container.style.opacity = 1;
@@ -930,7 +934,7 @@ HTML_TEMPLATE = """
                 }
 
                 setTimeout(() => {
-                    let icon = redSocial === 'X' ? '📝' : '📷';
+                    let icon = redSocial === 'X' ? '📑' : '🖼️';
                     let mockCards = '';
                     
                     for(let i=1; i<=3; i++) {
@@ -941,9 +945,9 @@ HTML_TEMPLATE = """
                                     <span class="social-badge badge-${redSocial.toLowerCase()}" style="margin:0;">${redSocial}</span>
                                 </div>
                                 <div class="img-mock" style="margin-top: 10px;">${icon}</div>
-                                <p style="margin: 0; font-weight: 500; font-size: 0.95em; color: #E0E1DD; width: 100%;">Pub_${redSocial}_00${i}</p>
-                                <small style="color: rgba(224,225,221,0.5); font-size: 0.7em; margin-top: 5px; font-family: monospace;">ID: ${shortId}...</small>
-                                <span class="badge-status badge-clean">🟢 Monitor 24/7 Activo</span>
+                                <p style="margin: 0; font-weight: 500; font-size: 0.95em; color: var(--text-main); width: 100%;">Pub_${redSocial}_00${i}</p>
+                                <small style="color: rgba(224, 225, 221, 0.5); font-size: 0.7em; margin-top: 5px; font-family: monospace;">ID: ${shortId}...</small>
+                                <span class="badge-status badge-clean">✅ Monitor Activo</span>
                             </div>
                         `;
                     }
@@ -951,8 +955,8 @@ HTML_TEMPLATE = """
                     container.style.opacity = 0;
                     setTimeout(() => {
                         container.innerHTML = `
-                            <div style="width: 100%; display: flex; flex-direction: column; align-items: center; margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 15px;">
-                                <h3 style="color: #5EEAD4; margin:0 0 5px 0; font-family: 'Oswald', sans-serif; font-size: 1.5em; text-align: center;">✓ Cuenta vinculada exitosamente</h3>
+                            <div style="width: 100%; display: flex; flex-direction: column; align-items: center; margin-bottom: 20px; border-bottom: 1px solid rgba(119, 141, 169, 0.2); padding-bottom: 15px;">
+                                <h3 style="color: var(--accent-light); margin:0 0 5px 0; font-family: 'Oswald', sans-serif; font-size: 1.5em; text-align: center;">✅ Cuenta vinculada exitosamente</h3>
                                 <p style="color: rgba(224, 225, 221, 0.85); margin:0; font-weight: 300; font-size: 1em; text-align: center;">Se han importado y protegido tus últimas publicaciones.</p>
                             </div>
                             <div class="grid-proyectos" style="justify-content: center;">
@@ -995,7 +999,7 @@ HTML_TEMPLATE = """
                         fill.style.width = '45%'; 
                         textoCarga.innerText = "Desplegando arañas OSINT en red global...";
                         textoCarga.style.fontFamily = "monospace";
-                        textoCarga.style.color = "#5EEAD4";
+                        textoCarga.style.color = "var(--accent-light)";
                     }, 1000);
                     
                     setTimeout(() => { 
@@ -1067,7 +1071,7 @@ HTML_TEMPLATE = """
                 var lista = document.getElementById('lista-boveda');
                 lista.style.opacity = '0';
                 setTimeout(function() {
-                    lista.innerHTML = '<div style="grid-column: 1 / -1; text-align: center; color: rgba(224,225,221,0.5); padding: 40px; width: 100%; display: flex; flex-direction: column; align-items: center;"><p style="font-weight: 300; margin-bottom: 20px;">Tu bóveda está vacía.<br>Sube tu primer archivo para protegerlo.</p><button class="btn btn-secondary" onclick="cambiarPestana(\\'app-section\\', \\'AUDITAR\\')">Subir Archivo</button></div>';
+                    lista.innerHTML = '<div style="grid-column: 1 / -1; text-align: center; color: rgba(224, 225, 221, 0.5); padding: 40px; width: 100%; display: flex; flex-direction: column; align-items: center;"><p style="font-weight: 300; margin-bottom: 20px;">Tu bóveda está vacía.<br>Sube tu primer archivo para protegerlo.</p><button class="btn btn-secondary" onclick="cambiarPestana(\\'app-section\\', document.getElementById(\\'tab-auditar\\'))">Subir Archivo</button></div>';
                     lista.style.transition = 'opacity 0.4s';
                     lista.style.opacity = '1';
                 }, 200);
@@ -1182,9 +1186,9 @@ HTML_TEMPLATE = """
             document.getElementById('inf-hash').innerText = hash;
             
             if(plagio === 'True') {
-                document.getElementById('inf-estado').innerHTML = '<span style="color: #FCA5A5; font-weight: 500;">🔴 Alerta de Plagio: Se encontraron copias idénticas.</span>';
+                document.getElementById('inf-estado').innerHTML = '<span style="color: var(--alert); font-weight: 500;">⛔ Alerta de Plagio: Se encontraron copias idénticas.</span>';
             } else {
-                document.getElementById('inf-estado').innerHTML = '<span style="color: #5EEAD4; font-weight: 500;">🟢 100% Original - Activo monitoreado y seguro.</span>';
+                document.getElementById('inf-estado').innerHTML = '<span style="color: var(--success); font-weight: 500;">✅ 100% Original - Activo monitoreado y seguro.</span>';
             }
             
             let bitacora = document.getElementById('inf-bitacora');
@@ -1196,14 +1200,14 @@ HTML_TEMPLATE = """
                 
                 if(plagio === 'True') {
                     bitacora.innerHTML = `
-                        <div style="font-size: 0.85em; margin-bottom: 8px;"><span style="color:#FCA5A5;">🔴 Hoy, ${hHoy}</span> - Se detectaron copias idénticas en la red.</div>
-                        <div style="font-size: 0.85em; margin-bottom: 8px;"><span style="color:#FCA5A5;">🔴 Ayer, ${hAyer}</span> - Alerta de posibles similitudes detectadas.</div>
+                        <div style="font-size: 0.85em; margin-bottom: 8px;"><span style="color:var(--alert);">⛔ Hoy, ${hHoy}</span> - Se detectaron copias idénticas en la red.</div>
+                        <div style="font-size: 0.85em; margin-bottom: 8px;"><span style="color:var(--alert);">⛔ Ayer, ${hAyer}</span> - Alerta de posibles similitudes detectadas.</div>
                     `;
                 } else {
                     bitacora.innerHTML = `
-                        <div style="font-size: 0.85em; margin-bottom: 8px;"><span style="color:#5EEAD4;">🟢 Hoy, ${hHoy}</span> - Escaneo completado. 0 coincidencias.</div>
-                        <div style="font-size: 0.85em; margin-bottom: 8px;"><span style="color:#5EEAD4;">🟢 Ayer, ${hAyer}</span> - Escaneo OSINT completado. 0 coincidencias.</div>
-                        <div style="font-size: 0.85em; margin-bottom: 8px;"><span style="color:rgba(224,225,221,0.6);">⚪ Registro Inicial</span> - Sello de tiempo creado en Blockchain.</div>
+                        <div style="font-size: 0.85em; margin-bottom: 8px;"><span style="color:var(--success);">✅ Hoy, ${hHoy}</span> - Escaneo completado. 0 coincidencias.</div>
+                        <div style="font-size: 0.85em; margin-bottom: 8px;"><span style="color:var(--success);">✅ Ayer, ${hAyer}</span> - Escaneo OSINT completado. 0 coincidencias.</div>
+                        <div style="font-size: 0.85em; margin-bottom: 8px;"><span style="color:rgba(224, 225, 221, 0.6);">🔗 Registro Inicial</span> - Sello de tiempo creado en Blockchain.</div>
                     `;
                 }
             }
@@ -1256,13 +1260,13 @@ HTML_TEMPLATE = """
                 var estado = document.getElementById('auditoria-estado');
                 if(btn) {
                     btn.innerHTML = "Enviar Solicitud Oficial";
-                    btn.style.backgroundColor = "#E0E1DD";
-                    btn.style.color = "#050A11";
+                    btn.style.backgroundColor = "var(--accent-blue)";
+                    btn.style.color = "var(--bg-dark)";
                     btn.disabled = false;
                 }
                 if(estado) {
                     estado.innerHTML = "Pendiente de envío";
-                    estado.style.color = "#FCA5A5";
+                    estado.style.color = "var(--alert)";
                 }
             }, 300);
         }
@@ -1274,13 +1278,13 @@ HTML_TEMPLATE = """
             btn.innerHTML = "⏳ Procesando...";
             btn.disabled = true;
             setTimeout(() => {
-                btn.innerHTML = "✓ Solicitud Enviada";
-                btn.style.backgroundColor = "#5EEAD4";
-                btn.style.color = "#050A11";
+                btn.innerHTML = "✅ Solicitud Enviada";
+                btn.style.backgroundColor = "var(--success)";
+                btn.style.color = "var(--bg-dark)";
                 
                 if(estado) {
-                    estado.innerHTML = "🟢 En revisión por especialista legal";
-                    estado.style.color = "#5EEAD4";
+                    estado.innerHTML = "✅ En revisión por especialista legal";
+                    estado.style.color = "var(--success)";
                 }
                 
                 agregarNotificacion();
@@ -1307,8 +1311,8 @@ HTML_TEMPLATE = """
             let notifHTML = `
                 <div class="notif-card fade-in-element" style="width: 100%; box-sizing: border-box;">
                     <h4>⚖️ Auditoría Humana Solicitada</h4>
-                    <p>Se ha levantado un ticket de revisión manual para el archivo: <span style="color:#E0E1DD; font-weight:500;">${fileName}</span>. Un especialista evaluará tu caso en las próximas 24 horas.</p>
-                    <span class="notif-time" style="color: rgba(224,225,221,0.5);">${dateString} - ${timeString}</span>
+                    <p>Se ha levantado un ticket de revisión manual para el archivo: <span style="color:var(--text-main); font-weight:500;">${fileName}</span>. Un especialista evaluará tu caso en las próximas 24 horas.</p>
+                    <span class="notif-time" style="color: rgba(224, 225, 221, 0.5);">${dateString} - ${timeString}</span>
                 </div>
             `;
             container.innerHTML = notifHTML + container.innerHTML;
@@ -1339,7 +1343,7 @@ HTML_TEMPLATE = """
                 let tituloEl = card.querySelector('p[title]');
                 let nombre = tituloEl ? tituloEl.innerText : "Archivo";
                 
-                btn.innerText = `🔍 Revisando (${i + 1}/${cards.length})...`;
+                btn.innerText = `🔎 Revisando (${i + 1}/${cards.length})...`;
                 
                 try {
                     let response = await fetch('/revisar_integridad_hash/' + hash, { method: 'POST' });
@@ -1356,7 +1360,7 @@ HTML_TEMPLATE = """
                     if (data.plagio) {
                         if (badge) {
                             badge.className = 'badge-status badge-alert';
-                            badge.innerHTML = '🔴 Alerta en Web';
+                            badge.innerHTML = '⛔ Alerta en Web';
                         }
                         if (verInformeBtn) {
                             verInformeBtn.setAttribute('onclick', `verInforme('${nombre}', '${hash}', 'True')`);
@@ -1364,7 +1368,7 @@ HTML_TEMPLATE = """
                     } else {
                         if (badge) {
                             badge.className = 'badge-status badge-clean';
-                            badge.innerHTML = '🟢 Monitor Activo';
+                            badge.innerHTML = '✅ Monitor Activo';
                         }
                         if (verInformeBtn) {
                             verInformeBtn.setAttribute('onclick', `verInforme('${nombre}', '${hash}', 'False')`);
@@ -1375,10 +1379,16 @@ HTML_TEMPLATE = """
                 }
             }
 
-            btn.innerText = "🔍 Analizar Integridad";
+            btn.innerText = "🔎 Analizar Integridad";
             btn.disabled = false;
             btn.style.opacity = '1';
             btn.style.cursor = 'pointer';
+        }
+        
+        // Setup inicial del Bubble Menu si la página recarga y hay pestaña activa
+        window.onload = function() {
+            var activeTab = document.querySelector('.top-nav .tab-btn.active');
+            if(activeTab) moverBurbuja(activeTab);
         }
     </script>
 </body>
