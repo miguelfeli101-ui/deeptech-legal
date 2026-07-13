@@ -39,20 +39,13 @@ HTML_TEMPLATE = """
         @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Oswald:wght@300;400;500;600&display=swap');
         @import url('https://fonts.cdnfonts.com/css/bukhari-script');
 
-        /* PALETA DE COLORES APLICADA */
+        /* PALETA DE COLORES Y RESET */
         body { 
             font-family: 'Montserrat', sans-serif;
-            margin: 0; 
-            padding: 0; 
-            color: #E0E1DD; 
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh; 
-            box-sizing: border-box;
-            background-color: #0D1B2A; 
-            overflow-x: hidden;
-            letter-spacing: 0.3px;
+            margin: 0; padding: 0; color: #E0E1DD; display: flex;
+            justify-content: center; align-items: center; min-height: 100vh; 
+            box-sizing: border-box; background-color: #050A11; 
+            overflow-x: hidden; letter-spacing: 0.3px;
         }
 
         h1, h2, h3 { font-family: 'Oswald', sans-serif; }
@@ -61,18 +54,17 @@ HTML_TEMPLATE = """
         .bg-organic {
             position: fixed;
             top: -20%; left: -20%; right: -20%; bottom: -20%; 
-            z-index: -2; background-color: #0D1B2A; filter: blur(120px); overflow: hidden;
+            z-index: -2; background-color: #050A11; filter: blur(100px); overflow: hidden;
             transform: translate3d(0, 0, 0);
             opacity: 0; animation: fadeInBg 1.5s ease-out forwards; 
         }
 
         @keyframes fadeInBg { from { opacity: 0; } to { opacity: 1; } }
-        @keyframes fadeInTab { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
+        
         .liquid-shape { position: absolute; border-radius: 50%; opacity: 0.8; animation: liquidFlow 12s infinite alternate cubic-bezier(0.4, 0, 0.2, 1); }
-        .liquid-1 { width: 70vw; height: 70vh; top: 0; left: 0; background-color: #1B263B; animation-duration: 16s; }
-        .liquid-2 { width: 80vw; height: 80vh; bottom: 0; right: 0; background-color: #415A77; animation-duration: 14s; animation-delay: -3s; opacity: 0.6; }
-        .liquid-3 { width: 50vw; height: 50vh; top: 25%; right: 20%; background-color: #778DA9; opacity: 0.35; animation-duration: 18s; animation-delay: -6s; }
+        .liquid-1 { width: 70vw; height: 70vh; top: 0; left: 0; background-color: #0D1B2A; animation-duration: 16s; }
+        .liquid-2 { width: 80vw; height: 80vh; bottom: 0; right: 0; background-color: #1B263B; animation-duration: 14s; animation-delay: -3s; opacity: 0.7; }
+        .liquid-3 { width: 50vw; height: 50vh; top: 25%; right: 20%; background-color: #415A77; opacity: 0.4; animation-duration: 18s; animation-delay: -6s; }
 
         @keyframes liquidFlow {
             0% { transform: translate(0, 0) scale(1) rotate(0deg); border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; }
@@ -80,222 +72,264 @@ HTML_TEMPLATE = """
             100% { transform: translate(-10%, -5%) scale(0.9) rotate(360deg); border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; }
         }
 
-        /* ANIMACIÓN DE ENTRADA */
         @keyframes fadeUpEntrance { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
 
         /* PANTALLAS DE PRESENTACIÓN */
-        .landing-screen { position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #E0E1DD; overflow-y: auto; background: transparent; transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out; transform: translateY(0); }
-        #landing-main { justify-content: center; } 
-        .landing-screen::-webkit-scrollbar { width: 8px; }
-        .landing-screen::-webkit-scrollbar-thumb { background-color: rgba(224, 225, 221, 0.2); border-radius: 4px; }
+        .landing-screen { 
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 9999; 
+            display: flex; flex-direction: column; align-items: center; justify-content: center; 
+            color: #E0E1DD; overflow-y: auto; background: transparent; 
+            transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out; 
+        }
 
-        /* LOGO */
-        .hero-logo-wrapper { display: flex; flex-direction: column; align-items: center; margin-bottom: 25px; filter: drop-shadow(0px 8px 20px rgba(13, 27, 42, 0.6)); }
-        #landing-main .hero-logo-wrapper { opacity: 0; animation: fadeUpEntrance 1.5s cubic-bezier(0.4, 0, 0.2, 1) 0.2s forwards; }
-        #landing-main .hero-subtitle { opacity: 0; animation: fadeUpEntrance 1.5s cubic-bezier(0.4, 0, 0.2, 1) 0.8s forwards; }
-        #landing-main .btn-ingreso { opacity: 0; animation: fadeUpEntrance 1.5s cubic-bezier(0.4, 0, 0.2, 1) 1.4s forwards; }
-
+        .hero-logo-wrapper { display: flex; flex-direction: column; align-items: center; margin-bottom: 25px; filter: drop-shadow(0px 8px 20px rgba(0, 0, 0, 0.6)); opacity: 0; animation: fadeUpEntrance 1.5s cubic-bezier(0.4, 0, 0.2, 1) 0.2s forwards; }
         .logo-top-line { display: flex; align-items: flex-start; line-height: 1; }
-        .logo-deeptech { font-family: 'Bukhari Script', cursive; font-size: clamp(5rem, 12vw, 8.5rem); color: #778DA9; font-weight: normal; text-shadow: 0px 4px 15px rgba(13, 27, 42, 0.5); padding-right: 5px; }
+        .logo-deeptech { font-family: 'Bukhari Script', cursive; font-size: clamp(5rem, 12vw, 8.5rem); color: #778DA9; font-weight: normal; text-shadow: 0px 4px 15px rgba(0,0,0, 0.5); padding-right: 5px; }
         .logo-tm { font-family: 'Oswald', sans-serif; font-size: clamp(0.9rem, 2vw, 1.4rem); color: #778DA9; margin-top: clamp(15px, 3.5vw, 25px); font-weight: 500; }
         .logo-bottom-line { display: flex; justify-content: center; width: 100%; margin-top: 35px; }
         .logo-legal { font-family: 'Oswald', sans-serif; font-size: clamp(1.2rem, 3vw, 2.2rem); color: #E0E1DD; letter-spacing: 0.38em; font-weight: 400; text-transform: none; margin-left: 0.38em; text-shadow: 0px 4px 10px rgba(0,0,0,0.4); }
 
-        .hero-logo-wrapper.small-logo { margin-bottom: 15px; filter: drop-shadow(0px 4px 10px rgba(13, 27, 42, 0.4)); }
+        .hero-logo-wrapper.small-logo { margin-bottom: 15px; filter: drop-shadow(0px 4px 10px rgba(0,0,0, 0.4)); animation: none; opacity: 1; }
         .hero-logo-wrapper.small-logo .logo-deeptech { font-size: clamp(3rem, 6vw, 4.5rem); }
         .hero-logo-wrapper.small-logo .logo-tm { font-size: 0.8rem; margin-top: 10px; }
         .hero-logo-wrapper.small-logo .logo-bottom-line { margin-top: 10px; }
         .hero-logo-wrapper.small-logo .logo-legal { font-size: clamp(0.8rem, 1.5vw, 1.1rem); }
 
-        .hero-subtitle { font-family: 'Montserrat', sans-serif; font-size: 1.2em; color: #778DA9 !important; font-weight: 400; margin-bottom: 40px; text-align: center; letter-spacing: 2px; }
+        .hero-subtitle { opacity: 0; animation: fadeUpEntrance 1.5s cubic-bezier(0.4, 0, 0.2, 1) 0.8s forwards; font-family: 'Montserrat', sans-serif; font-size: 1.2em; color: #778DA9; font-weight: 400; margin-bottom: 50px; text-align: center; letter-spacing: 2px; }
 
-        /* NUEVAS INSIGNIAS DE CONFIANZA */
-        .trust-badges { display: flex; justify-content: center; gap: 25px; margin-top: 40px; flex-wrap: wrap; opacity: 0; animation: fadeUpEntrance 1.5s cubic-bezier(0.4, 0, 0.2, 1) 1.8s forwards; }
-        .trust-badge-item { display: flex; align-items: center; gap: 8px; font-size: 0.85em; color: rgba(224, 225, 221, 0.6); font-family: 'Montserrat', sans-serif; font-weight: 400; }
-        
-        .info-content-wrapper { max-width: 900px; margin: auto; padding: 20px; width: 100%; box-sizing: border-box; }
-        .glass-grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-bottom: 20px; }
-        .glass-grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-bottom: 40px; }
-        
-        .glass-card {
-            background: rgba(27, 38, 59, 0.5); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(119, 141, 169, 0.2); border-radius: 16px; padding: 25px; text-align: center; transition: transform 0.3s ease, border-color 0.3s ease; box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        /* =========================================
+           NUEVO: SWITCH LIQUID GLASS 
+           ========================================= */
+        .glass-switch-container {
+            opacity: 0;
+            animation: fadeUpEntrance 1.5s cubic-bezier(0.4, 0, 0.2, 1) 1.2s forwards;
+            position: relative;
+            width: 140px;
+            height: 60px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.02));
+            border-radius: 40px;
+            box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.5), 0 10px 30px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.1);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            padding: 5px;
+            box-sizing: border-box;
+            transition: border-color 0.3s ease;
         }
-        .glass-card:hover { transform: translateY(-5px); border-color: #778DA9; }
-        .glass-card h3 { color: #CCFBF1; font-size: 1.5em; margin-bottom: 15px; display: flex; justify-content: center; align-items: center; gap: 10px; font-family: 'Oswald', sans-serif;}
-        .glass-card p { font-size: 0.95em; color: rgba(224, 225, 221, 0.9); line-height: 1.7; margin: 0; font-weight: 300; }
+        .glass-switch-container:hover { border-color: rgba(94, 234, 212, 0.4); }
+        
+        .switch-thumb {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.05));
+            border-radius: 50%;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3), inset 0 2px 5px rgba(255, 255, 255, 0.2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.2em;
+            transform: translateX(0);
+            transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55), background 0.3s ease;
+        }
+        .switch-thumb.active {
+            transform: translateX(80px);
+            background: linear-gradient(135deg, rgba(94, 234, 212, 0.4), rgba(94, 234, 212, 0.1));
+            box-shadow: 0 5px 20px rgba(94, 234, 212, 0.3), inset 0 2px 5px rgba(255, 255, 255, 0.4);
+        }
+        .switch-icon {
+            transition: opacity 0.2s ease, transform 0.3s ease;
+            position: absolute;
+        }
+        .icon-lock { opacity: 1; transform: scale(1); }
+        .icon-unlock { opacity: 0; transform: scale(0.5); }
+        .switch-thumb.active .icon-lock { opacity: 0; transform: scale(0.5); }
+        .switch-thumb.active .icon-unlock { opacity: 1; transform: scale(1); }
 
-        /* LA PLATAFORMA SAAS */
+        /* =========================================
+           MAQUETACIÓN MODERNA (GLASSMORPHISM)
+           ========================================= */
         #main-wrapper { 
-            background: rgba(13, 27, 42, 0.65); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(119, 141, 169, 0.2); border-radius: 16px; box-shadow: 0px 25px 60px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.1); 
-            width: 95%; max-width: 850px; position: relative; overflow: hidden; height: 600px;
+            width: 100%; height: 100vh; position: relative; overflow: hidden;
             transition: opacity 0.5s ease-in-out; display: flex; flex-direction: column; z-index: 1000;
         }
-        
-        /* MENU SUPERIOR FIJO Y ESTABLE */
+
+        /* TEXTO GIGANTE DE FONDO */
+        .bg-huge-text {
+            position: absolute;
+            top: 40%; left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: 'Oswald', sans-serif;
+            font-size: clamp(10rem, 20vw, 25rem);
+            color: rgba(255, 255, 255, 0.02);
+            z-index: 0;
+            pointer-events: none;
+            user-select: none;
+            white-space: nowrap;
+            letter-spacing: -2px;
+            transition: opacity 0.4s ease;
+        }
+
+        /* MENÚ FLOTANTE TIPO PÍLDORA */
         .top-nav { 
-            display: flex; justify-content: center; align-items: center; gap: 8px; width: 100%; 
-            border-bottom: 1px solid rgba(119, 141, 169, 0.2); padding: 0 10px; margin: 0; box-sizing: border-box; z-index: 10; flex-wrap: nowrap; overflow-x: auto;
-            flex-shrink: 0; height: 75px; min-height: 75px;
+            background: linear-gradient(135deg, rgba(30, 40, 60, 0.4), rgba(15, 20, 30, 0.2));
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50px;
+            display: flex; justify-content: center; align-items: center; gap: 5px; 
+            padding: 8px 10px; margin: 30px auto; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            z-index: 10; flex-wrap: nowrap; overflow-x: auto; max-width: 90%;
         }
         .top-nav::-webkit-scrollbar { display: none; }
         
         .tab-btn { 
-            background: rgba(27, 38, 59, 0.4); border: 1px solid rgba(119, 141, 169, 0.2); color: rgba(224, 225, 221, 0.7); 
-            padding: 8px 14px; border-radius: 20px; font-size: 0.85em; font-family: 'Montserrat', sans-serif; font-weight: 500; 
-            cursor: pointer; transition: all 0.2s ease; letter-spacing: 0.5px; text-align: center; 
+            background: transparent; border: none; color: rgba(224, 225, 221, 0.6); 
+            padding: 10px 20px; border-radius: 30px; font-size: 0.9em;
+            font-family: 'Montserrat', sans-serif; font-weight: 500; 
+            cursor: pointer; transition: all 0.3s ease; letter-spacing: 0.5px;
             white-space: nowrap; display: flex; align-items: center; justify-content: center;
         }
-        .tab-btn:hover { background-color: rgba(65, 90, 119, 0.5); color: #E0E1DD; }
-        .tab-btn.active { background-color: #415A77; color: #E0E1DD; border-color: #778DA9;}
-
-        /* GLOBITO DE NOTIFICACIÓN INCORPORADO AL BOTÓN */
-        .notif-badge {
-            background-color: #DC2626; color: white; font-size: 0.85em; font-family: 'Montserrat', sans-serif; 
-            font-weight: 600; padding: 2px 6px; border-radius: 12px; margin-left: 6px; box-shadow: 0px 2px 4px rgba(0,0,0,0.3); display: none; align-items: center; justify-content: center;
+        .tab-btn:hover { color: #E0E1DD; }
+        .tab-btn.active { 
+            background: rgba(255, 255, 255, 0.1); color: #E0E1DD; 
+            box-shadow: inset 0 1px 1px rgba(255,255,255,0.2);
         }
+        .notif-badge { background-color: #DC2626; color: white; font-size: 0.85em; font-family: 'Montserrat', sans-serif; font-weight: 600; padding: 2px 6px; border-radius: 12px; margin-left: 6px; box-shadow: 0px 2px 4px rgba(0,0,0,0.3); display: none; align-items: center; justify-content: center; }
 
-        /* MENÚ INFERIOR (SUB-NAV PARA BÓVEDA) */
-        .sub-nav { 
-            display: flex; justify-content: flex-start; gap: 10px; width: 100%; 
-            border-bottom: 1px solid rgba(119, 141, 169, 0.2); padding-bottom: 15px; margin-bottom: 20px; 
-            overflow-x: auto; box-sizing: border-box; flex-shrink: 0;
-        }
-        .sub-nav::-webkit-scrollbar { height: 4px; }
-        .sub-nav::-webkit-scrollbar-thumb { background-color: rgba(119, 141, 169, 0.3); border-radius: 4px; }
-        
-        .sub-tab-btn { background: transparent; border: 1px solid transparent; color: rgba(224, 225, 221, 0.6); padding: 8px 16px; border-radius: 20px; font-size: 0.9em; font-family: 'Montserrat', sans-serif; font-weight: 500; cursor: pointer; transition: all 0.2s ease; letter-spacing: 0.5px; white-space: nowrap; display: flex; align-items: center;}
-        .sub-tab-btn:hover { background-color: rgba(27, 38, 59, 0.6); color: #E0E1DD; border-color: rgba(119, 141, 169, 0.2); }
-        .sub-tab-btn.active { background-color: rgba(27, 38, 59, 0.8); color: #E0E1DD; border-color: #778DA9;}
-
-        /* CLASES DE CONTENEDORES Y ALINEACIÓN ESTABLE */
-        .section-container { 
-            width: 100%; flex-grow: 1; box-sizing: border-box; transition: opacity 0.4s ease-in-out; 
-            background-color: transparent; overflow-y: auto; display: flex; flex-direction: column; 
-            min-height: 0;
-        }
+        /* CONTENEDORES Y ALINEACIÓN */
+        .section-container { width: 100%; flex-grow: 1; box-sizing: border-box; transition: opacity 0.4s ease-in-out; overflow-y: auto; display: flex; flex-direction: column; z-index: 1; }
         .section-container::-webkit-scrollbar { width: 6px; }
-        .section-container::-webkit-scrollbar-thumb { background-color: rgba(119, 141, 169, 0.3); border-radius: 4px; }
+        .section-container::-webkit-scrollbar-thumb { background-color: rgba(255, 255, 255, 0.1); border-radius: 4px; }
         
-        .sub-section-container { width: 100%; flex-grow: 1; box-sizing: border-box; transition: opacity 0.3s ease-in-out; background-color: transparent; display: flex; flex-direction: column; align-items: center; opacity: 0; display: none;}
+        .sub-section-container { width: 100%; flex-grow: 1; box-sizing: border-box; transition: opacity 0.3s ease-in-out; display: flex; flex-direction: column; align-items: center; opacity: 0; display: none;}
         
-        .app-centered-layout { display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding: 20px 40px 40px 40px; box-sizing: border-box; }
+        .app-centered-layout { display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding: 0px 40px 40px 40px; box-sizing: border-box; }
+        .view-centered { margin-top: 5vh; transition: margin-top 0.4s ease; }
+        .content-wrapper-inner { width: 100%; max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; padding-bottom: 20px; }
         
-        /* CORRECCIÓN SCROLL SUBIDA: Margen seguro que no genera overflow */
-        .view-centered { margin-top: 8vh; transition: margin-top 0.4s ease; }
-
-        .content-wrapper-inner { width: 100%; max-width: 750px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; padding-bottom: 20px; }
+        .app-title { font-family: 'Oswald', sans-serif; font-size: 2.5em; color: #E0E1DD; margin: 0 0 10px 0; text-align: center; font-weight: 500; text-shadow: 0 4px 15px rgba(0,0,0,0.3);}
+        .app-subtitle { font-family: 'Montserrat', sans-serif; font-size: 1em; color: rgba(224, 225, 221, 0.7); text-align: center; margin-bottom: 40px; font-weight: 300;}
         
-        .app-title { font-family: 'Oswald', sans-serif; font-size: 2.2em; color: #E0E1DD; margin: 0 0 15px 0; text-align: center; font-weight: 400;}
-        .app-subtitle { font-family: 'Montserrat', sans-serif; font-size: 1.05em; color: #778DA9; text-align: center; margin-bottom: 30px; font-weight: 300;}
-        
-        .btn { background-color: #415A77; color: #E0E1DD; padding: 15px 35px; font-size: 1.1em; border: none; border-radius: 8px; cursor: pointer; font-weight: 500; font-family: 'Montserrat', sans-serif; display: inline-block; transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.2s ease, opacity 0.3s ease; letter-spacing: 0.5px; }
-        .btn:hover { background-color: #778DA9; transform: translateY(-2px); box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
+        /* BOTONES DENTRO DE LA PLATAFORMA */
+        .btn { 
+            background: #E0E1DD; color: #050A11; padding: 12px 30px; font-size: 1em; 
+            border: none; border-radius: 30px; cursor: pointer; font-weight: 600; font-family: 'Montserrat', sans-serif; 
+            display: inline-block; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); letter-spacing: 0.5px;
+        }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(224, 225, 221, 0.2); }
         .btn:active { transform: scale(0.96) translateY(0px); }
-        .btn-secondary { background-color: rgba(65, 90, 119, 0.3); border: 1px solid rgba(119, 141, 169, 0.4); color: #E0E1DD; padding: 12px 25px; font-size: 1em; transition: all 0.2s ease;}
-        .btn-secondary:hover:not(:disabled) { background-color: rgba(119, 141, 169, 0.5); transform: translateY(-2px); }
-        .btn-secondary:active:not(:disabled) { transform: scale(0.96); }
         
-        .upload-area { width: 100%; max-width: 550px; text-align: center; background-color: rgba(27, 38, 59, 0.3); padding: 30px; border-radius: 12px; border: 2px dashed rgba(119, 141, 169, 0.4); transition: border-color 0.3s, background-color 0.3s; margin: 0 auto; box-sizing: border-box;}
-        .upload-area:hover { border-color: #778DA9; background-color: rgba(65, 90, 119, 0.3); }
-        
-        @keyframes fadeInSlide { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
-        .fade-in-element { animation: fadeInSlide 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
-        
-        /* BARRA DE CARGA REALISTA SIN PARPADEO */
-        .loading-bar-container { width: 100%; max-width: 400px; height: 10px; background-color: rgba(13, 27, 42, 0.8); border-radius: 10px; margin: 30px auto; overflow: hidden; border: 1px solid rgba(119, 141, 169, 0.3); box-shadow: inset 0 2px 5px rgba(0,0,0,0.5); }
-        .loading-bar-fill { 
-            height: 100%; width: 0%; border-radius: 10px; 
-            background: linear-gradient(90deg, #415A77, #5EEAD4, #778DA9, #415A77); 
-            background-size: 200% 100%; 
-            animation: shimmerGradient 2.5s linear infinite;
-            transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1); 
+        .btn-secondary { 
+            background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); 
+            color: #E0E1DD; padding: 12px 30px; border-radius: 30px; font-size: 0.95em; transition: all 0.2s ease;
         }
-        @keyframes shimmerGradient { 
-            0% { background-position: 200% 0; } 
-            100% { background-position: 0% 0; } 
+        .btn-secondary:hover:not(:disabled) { background: rgba(255, 255, 255, 0.1); transform: translateY(-2px); }
+        
+        /* TARJETAS GLASS (COMO LA IMAGEN DE REFERENCIA) */
+        .glass-card, .upload-area, .result-card-minimal, .metric-card, .card-proyecto, .notif-card {
+            background: linear-gradient(145deg, rgba(20, 25, 40, 0.5), rgba(10, 15, 25, 0.6));
+            backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            border-left: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 24px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+            transition: transform 0.3s ease, border-color 0.3s ease;
         }
+        
+        .glass-grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; margin-bottom: 25px; width: 100%;}
+        .glass-grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 25px; margin-bottom: 40px; width: 100%;}
+        
+        .glass-card { padding: 30px; text-align: center; }
+        .glass-card:hover { transform: translateY(-5px); border-color: rgba(119, 141, 169, 0.5); }
+        .glass-card h3 { color: #E0E1DD; font-size: 1.5em; margin-bottom: 15px; font-family: 'Oswald', sans-serif; font-weight: 400;}
+        .glass-card p { font-size: 0.95em; color: rgba(224, 225, 221, 0.7); line-height: 1.7; margin: 0; font-weight: 300; }
 
-        /* TARJETAS DE RESULTADO MINIMALISTAS */
-        .result-card-minimal { width: 100%; max-width: 550px; margin: 20px auto; text-align: center; box-sizing: border-box; background: rgba(27, 38, 59, 0.5); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-radius: 16px; padding: 40px 30px; border: 1px solid rgba(119, 141, 169, 0.2); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 10px 30px rgba(0,0,0,0.3); }
-        .result-card-minimal.success { border-top: 4px solid rgba(94, 234, 212, 0.6); }
-        .result-card-minimal.alert { border-top: 4px solid rgba(252, 165, 165, 0.6); }
+        /* ÁREA DE SUBIDA Y BARRA DE CARGA */
+        .upload-area { width: 100%; max-width: 550px; text-align: center; padding: 40px; margin: 0 auto; box-sizing: border-box;}
         
-        input[type="file"] { margin-top: 15px; margin-bottom: 25px; padding: 10px; border: 1px solid rgba(119, 141, 169, 0.3); border-radius: 5px; width: 100%; box-sizing: border-box; background-color: rgba(13, 27, 42, 0.5); color: #E0E1DD; font-family: 'Montserrat', sans-serif;}
+        .loading-bar-container { width: 100%; max-width: 400px; height: 6px; background-color: rgba(0,0,0,0.3); border-radius: 10px; margin: 30px auto; overflow: hidden; box-shadow: inset 0 1px 3px rgba(0,0,0,0.5); }
+        .loading-bar-fill { height: 100%; width: 0%; border-radius: 10px; background: linear-gradient(90deg, #E0E1DD, #5EEAD4, #E0E1DD); background-size: 200% 100%; animation: shimmerGradient 2.5s linear infinite; transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1); }
+        @keyframes shimmerGradient { 0% { background-position: 200% 0; } 100% { background-position: 0% 0; } }
+
+        /* TARJETAS DE RESULTADO */
+        .result-card-minimal { width: 100%; max-width: 550px; margin: 20px auto; text-align: center; box-sizing: border-box; padding: 40px 30px; }
+        .result-card-minimal.success { border-top: 1px solid rgba(94, 234, 212, 0.5); }
+        .result-card-minimal.alert { border-top: 1px solid rgba(252, 165, 165, 0.5); }
         
-        .url-list { max-height: 150px; overflow-y: auto; background-color: rgba(13, 27, 42, 0.5); padding: 15px; border: 1px solid rgba(119, 141, 169, 0.2); font-size: 0.9em; margin-top: 10px; border-radius: 8px; font-family: 'Montserrat', sans-serif; font-weight: 300;}
-        .url-list li { margin-bottom: 10px; color: rgba(224, 225, 221, 0.85); }
-        .url-list a { color: #778DA9; text-decoration: none; font-weight: 500; font-family: 'Oswald', sans-serif;}
+        input[type="file"] { margin-top: 15px; margin-bottom: 30px; padding: 12px; border: 1px dashed rgba(255, 255, 255, 0.2); border-radius: 12px; width: 100%; box-sizing: border-box; background-color: rgba(0, 0, 0, 0.2); color: #E0E1DD; font-family: 'Montserrat', sans-serif; cursor: pointer; }
         
-        .social-badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.75em; font-weight: 400; color: white; margin-right: 8px; vertical-align: middle; font-family: 'Oswald', sans-serif;}
+        .url-list { max-height: 150px; overflow-y: auto; background-color: rgba(0, 0, 0, 0.2); padding: 15px; border-radius: 12px; font-size: 0.9em; margin-top: 10px; font-family: 'Montserrat', sans-serif; font-weight: 300; border: 1px solid rgba(255,255,255,0.05);}
+        .url-list li { margin-bottom: 10px; color: rgba(224, 225, 221, 0.7); }
+        .url-list a { color: #E0E1DD; text-decoration: none; font-weight: 500; }
+        
+        .social-badge { display: inline-block; padding: 2px 8px; border-radius: 6px; font-size: 0.75em; font-weight: 500; color: white; margin-right: 8px; font-family: 'Montserrat', sans-serif;}
         .badge-instagram { background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); }
         .badge-facebook { background-color: #1877F2; }
         .badge-x { background-color: #000000; border: 1px solid rgba(255,255,255,0.2); }
         
-        /* DASHBOARD METRICS */
-        .metrics-wrapper { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; width: 100%; margin-bottom: 25px; }
-        .metric-card { background: rgba(27, 38, 59, 0.4); border: 1px solid rgba(119, 141, 169, 0.2); border-radius: 12px; padding: 15px; text-align: center; box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05); }
-        .metric-value { font-family: 'Oswald', sans-serif; font-size: 2em; color: #5EEAD4; margin: 0; line-height: 1.2; }
-        .metric-label { font-size: 0.8em; color: #778DA9; font-weight: 300; text-transform: uppercase; letter-spacing: 1px; margin-top: 5px; }
+        /* DASHBOARD METRICS Y BÓVEDA */
+        .metrics-wrapper { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; width: 100%; margin-bottom: 30px; }
+        .metric-card { padding: 20px; text-align: center; border-radius: 16px; }
+        .metric-value { font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 2.2em; color: #E0E1DD; margin: 0; line-height: 1.2; }
+        .metric-label { font-size: 0.8em; color: rgba(224, 225, 221, 0.6); font-weight: 400; text-transform: uppercase; letter-spacing: 1px; margin-top: 8px; }
         
-        /* BÓVEDA DINÁMICA */
-        .grid-proyectos { display: flex; flex-wrap: wrap; gap: 20px; width: 100%; justify-content: center; }
-        .card-proyecto { background: rgba(27, 38, 59, 0.4); border: 1px solid rgba(119, 141, 169, 0.2); border-radius: 12px; padding: 20px 15px; text-align: center; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; cursor: default; flex: 1 1 200px; max-width: 240px; box-sizing: border-box; overflow: visible; box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1); }
-        .card-proyecto:hover { transform: translateY(-4px); border-color: #778DA9; background: rgba(65, 90, 119, 0.3);}
-        .card-proyecto .img-mock { height: 70px; width: 100%; background-color: rgba(13, 27, 42, 0.4); border-radius: 8px; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; font-size: 2em; border: 1px solid rgba(119, 141, 169, 0.1); }
-        .badge-status { display: inline-block; padding: 5px 12px; border-radius: 20px; font-size: 0.85em; margin-top: 10px; font-weight: 400; font-family: 'Oswald', sans-serif; text-align: center; letter-spacing: 0.5px;}
-        .badge-clean { background-color: rgba(65, 90, 119, 0.3); color: #E0E1DD; border: 1px solid rgba(119, 141, 169, 0.6);} 
-        .badge-alert { background-color: rgba(220, 38, 38, 0.2); color: #FCA5A5; border: 1px solid rgba(220, 38, 38, 0.5);} 
+        .sub-nav { display: flex; justify-content: center; gap: 10px; width: 100%; margin-bottom: 30px; flex-wrap: wrap; }
+        .sub-tab-btn { background: transparent; border: 1px solid rgba(255,255,255,0.1); color: rgba(224, 225, 221, 0.6); padding: 8px 20px; border-radius: 20px; font-size: 0.85em; font-family: 'Montserrat', sans-serif; font-weight: 500; cursor: pointer; transition: all 0.2s ease; display: flex; align-items: center;}
+        .sub-tab-btn:hover { background-color: rgba(255,255,255,0.05); color: #E0E1DD; }
+        .sub-tab-btn.active { background-color: #E0E1DD; color: #050A11; }
         
-        .card-header-flex { width: 100%; display: flex; justify-content: space-between; margin-bottom: 5px; align-items: center; }
+        /* TARJETAS DE PROYECTOS Y SELECCIÓN */
+        .grid-proyectos { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; width: 100%; justify-items: center;}
+        .card-proyecto { padding: 20px; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; cursor: default; width: 100%; box-sizing: border-box; }
+        .card-proyecto .img-mock { height: 70px; width: 100%; background-color: rgba(0, 0, 0, 0.2); border-radius: 12px; margin-bottom: 15px; display: flex; align-items: center; justify-content: center; font-size: 2em; border: 1px solid rgba(255,255,255,0.03); }
+        .badge-status { display: inline-block; padding: 6px 14px; border-radius: 20px; font-size: 0.75em; margin-top: 15px; font-weight: 500; font-family: 'Montserrat', sans-serif; text-align: center; }
+        .badge-clean { background-color: rgba(255, 255, 255, 0.05); color: #E0E1DD; border: 1px solid rgba(255,255,255,0.1);} 
+        .badge-alert { background-color: rgba(252, 165, 165, 0.1); color: #FCA5A5; border: 1px solid rgba(252, 165, 165, 0.3);} 
+        
+        .card-header-flex { width: 100%; display: flex; justify-content: space-between; margin-bottom: 10px; align-items: center; }
         .dropdown { position: relative; display: inline-block; }
-        .dots-btn { background: none; border: none; color: #778DA9; font-size: 1.5em; cursor: pointer; padding: 0 5px; line-height: 1; transition: color 0.2s; }
+        .dots-btn { background: none; border: none; color: rgba(224,225,221,0.5); font-size: 1.5em; cursor: pointer; padding: 0; line-height: 1; transition: color 0.2s; }
         .dots-btn:hover { color: #E0E1DD; }
-        .dropdown-content { display: none; position: absolute; right: 0; top: 100%; background-color: #1B263B; min-width: 170px; box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.5); z-index: 100; border-radius: 8px; border: 1px solid rgba(119, 141, 169, 0.2); overflow: hidden; margin-top: 5px; }
-        .dropdown-content a { color: #E0E1DD; padding: 10px 16px; text-decoration: none; display: block; font-size: 0.9em; font-family: 'Oswald', sans-serif; text-align: left; transition: background-color 0.2s; font-weight: 300;}
-        .dropdown-content a:hover { background-color: #415A77; color: white; }
+        .dropdown-content { display: none; position: absolute; right: 0; top: 100%; background: rgba(15, 20, 30, 0.95); backdrop-filter: blur(10px); min-width: 170px; box-shadow: 0px 8px 25px rgba(0,0,0,0.5); z-index: 100; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); overflow: hidden; margin-top: 8px; }
+        .dropdown-content a { color: #E0E1DD; padding: 12px 16px; text-decoration: none; display: block; font-size: 0.85em; text-align: left; transition: background 0.2s; font-weight: 400;}
+        .dropdown-content a:hover { background-color: rgba(255,255,255,0.1); }
         .show { display: block; }
 
+        /* LÓGICA DE SELECCIÓN EN LOTE */
         #lista-boveda.selection-mode .card-proyecto { cursor: pointer; }
-        .select-indicator { position: absolute; top: 15px; left: 15px; width: 22px; height: 22px; border-radius: 50%; border: 2px solid rgba(224, 225, 221, 0.4); display: none; align-items: center; justify-content: center; font-size: 14px; color: transparent; transition: all 0.2s; z-index: 5; background: rgba(13, 27, 42, 0.6); }
+        .select-indicator { position: absolute; top: 15px; left: 15px; width: 22px; height: 22px; border-radius: 50%; border: 2px solid rgba(224, 225, 221, 0.4); display: none; align-items: center; justify-content: center; font-size: 14px; color: transparent; transition: all 0.2s; z-index: 5; background: rgba(0, 0, 0, 0.3); }
         .selection-mode .select-indicator { display: flex; }
-        .card-proyecto.selected { border-color: #778DA9; background: rgba(65, 90, 119, 0.2); transform: scale(0.98); }
-        .card-proyecto.selected .select-indicator { background-color: #778DA9; border-color: #778DA9; color: #0D1B2A; }
+        .card-proyecto.selected { border-color: rgba(255,255,255,0.4); background: rgba(255, 255, 255, 0.05); transform: scale(0.98); }
+        .card-proyecto.selected .select-indicator { background-color: #E0E1DD; border-color: #E0E1DD; color: #050A11; }
         
-        .bulk-action-bar { display: none; position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: rgba(13, 27, 42, 0.95); backdrop-filter: blur(10px); border: 1px solid rgba(119, 141, 169, 0.3); padding: 15px 25px; border-radius: 50px; z-index: 9999; align-items: center; gap: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.6); opacity: 0; transition: opacity 0.3s ease; }
+        .bulk-action-bar { display: none; position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: rgba(15, 20, 30, 0.95); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); padding: 15px 25px; border-radius: 50px; z-index: 9999; align-items: center; gap: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.6); opacity: 0; transition: opacity 0.3s ease; }
         .btn-danger { background-color: rgba(185, 28, 28, 0.8); color: white; border: 1px solid #DC2626; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-size: 1em; font-weight: 500; transition: all 0.2s; font-family: 'Montserrat', sans-serif;}
         .btn-danger:hover { background-color: #DC2626; transform: translateY(-2px); box-shadow: 0 4px 15px rgba(220, 38, 38, 0.4);}
-        
-        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(13, 27, 42, 0.8); z-index: 20000; align-items: center; justify-content: center; backdrop-filter: blur(5px); opacity: 0; transition: opacity 0.3s ease; }
-        
-        /* ESTILOS PARA TARJETAS DE NOTIFICACIÓN EN EL BUZÓN */
-        .notif-card {
-            background: rgba(27, 38, 59, 0.5); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(119, 141, 169, 0.2); border-left: 4px solid #5EEAD4; border-radius: 12px; padding: 20px; text-align: left; margin-bottom: 15px; box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1); transition: transform 0.3s ease;
-        }
-        .notif-card:hover { transform: translateY(-3px); }
-        .notif-card h4 { margin: 0 0 10px 0; color: #E0E1DD; font-family: 'Oswald', sans-serif; font-size: 1.2em;}
-        .notif-card p { margin: 0; color: rgba(224, 225, 221, 0.85); font-size: 0.9em; font-weight: 300; line-height: 1.5; text-align: justify; }
-        .notif-time { font-size: 0.8em; color: #778DA9; margin-top: 10px; display: block; font-family: monospace;}
 
-        /* ESTILOS PARA CERTIFICADO DE AUTORÍA */
-        .certificate-box { border: 2px solid rgba(119, 141, 169, 0.5); padding: 30px; position: relative; background: rgba(13, 27, 42, 0.8); border-radius: 8px; margin-top: 15px; }
-        .certificate-box::before { content: ''; position: absolute; top: 5px; left: 5px; right: 5px; bottom: 5px; border: 1px dashed rgba(119, 141, 169, 0.3); pointer-events: none; border-radius: 4px; }
-        .cert-logo { font-family: 'Bukhari Script', cursive; font-size: 2.5em; color: #778DA9; margin: 0; line-height: 1; }
-        .cert-title { font-family: 'Oswald', sans-serif; font-size: 1.5em; color: #E0E1DD; letter-spacing: 2px; margin: 10px 0 20px 0; border-bottom: 1px solid rgba(119, 141, 169, 0.3); padding-bottom: 10px; }
-        .cert-text { font-size: 0.85em; font-weight: 300; line-height: 1.6; color: rgba(224, 225, 221, 0.9); text-align: justify; margin-bottom: 20px; }
-        .cert-data-row { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(119, 141, 169, 0.2); padding-top: 10px; margin-top: 10px; font-size: 0.8em; }
-        .qr-placeholder { font-size: 3em; line-height: 1; opacity: 0.8;}
-        .cert-seal { width: 60px; height: 60px; border: 2px dashed #5EEAD4; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 0.6em; color: #5EEAD4; font-weight: bold; text-align: center; font-family: 'Oswald', sans-serif; transform: rotate(-15deg); }
+        /* LISTAS Y PLANES (Estilo Imagen) */
+        .plan-price { font-family: 'Montserrat', sans-serif; font-size: 2.8em; margin: 15px 0 25px 0; color: #E0E1DD; font-weight: 600;}
+        .plan-list { text-align: left; font-size: 0.85em; color: rgba(224, 225, 221, 0.6); padding-left: 0; line-height: 2; list-style: none; flex-grow: 1;}
+        .plan-list li { margin-bottom: 10px; display: flex; align-items: flex-start; gap: 10px; }
+        .plan-list li::before { content: '✓'; color: #5EEAD4; background: rgba(255,255,255,0.1); border-radius: 50%; width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; font-size: 0.7em; flex-shrink: 0; margin-top: 3px;}
 
-        /* NUEVO BOTÓN DE CERRAR MODAL ELEGANTE */
-        .modal-close-btn {
-            position: absolute; top: 12px; right: 12px; background: rgba(13, 27, 42, 0.6); 
-            border: 1px solid rgba(119, 141, 169, 0.3); color: #E0E1DD; width: 32px; height: 32px; border-radius: 50%; font-size: 1.2em; 
-            display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 50; transition: all 0.2s ease;
-        }
-        .modal-close-btn:hover { background: #DC2626; color: white; border-color: #DC2626; }
+        /* MODALES */
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0, 0.7); z-index: 20000; align-items: center; justify-content: center; backdrop-filter: blur(10px); opacity: 0; transition: opacity 0.3s ease; }
+        .modal-close-btn { position: absolute; top: 15px; right: 15px; background: rgba(255, 255, 255, 0.1); border: none; color: #E0E1DD; width: 32px; height: 32px; border-radius: 50%; font-size: 1.2em; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 50; transition: all 0.2s ease; }
+        .modal-close-btn:hover { background: #E0E1DD; color: #050A11; }
+
+        /* CERTIFICADO */
+        .certificate-box { border: 1px solid rgba(255, 255, 255, 0.1); padding: 30px; position: relative; background: rgba(0,0,0, 0.3); border-radius: 16px; margin-top: 15px; }
+        .cert-logo { font-family: 'Bukhari Script', cursive; font-size: 2.5em; color: #E0E1DD; margin: 0; line-height: 1; opacity: 0.8;}
+        .cert-title { font-family: 'Montserrat', sans-serif; font-size: 1.2em; color: #E0E1DD; letter-spacing: 2px; margin: 10px 0 20px 0; border-bottom: 1px solid rgba(255,255,255, 0.1); padding-bottom: 15px; font-weight: 500;}
+        .cert-text { font-size: 0.85em; font-weight: 300; line-height: 1.6; color: rgba(224, 225, 221, 0.7); text-align: justify; margin-bottom: 20px; }
+        
+        .fade-in-element { animation: fadeUpEntrance 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
     </style>
 </head>
 <body>
@@ -316,31 +350,32 @@ HTML_TEMPLATE = """
             </div>
         </div>
         <p class="hero-subtitle">POTENCIADO POR INTELIGENCIA ARTIFICIAL & BLOCKCHAIN</p>
-        <button class="btn btn-ingreso" style="padding: 18px 45px; font-size: 1.2em;" onclick="ingresarApp()">Ingresar a la Plataforma</button>
         
-        <div class="trust-badges">
-            <div class="trust-badge-item"><span style="color: #5EEAD4; font-size: 1.2em;">🔒</span> Cifrado Militar</div>
-            <div class="trust-badge-item"><span style="color: #5EEAD4; font-size: 1.2em;">⛓️</span> Blockchain Inmutable</div>
-            <div class="trust-badge-item"><span style="color: #5EEAD4; font-size: 1.2em;">🌐</span> Radar OSINT 24/7</div>
+        <div class="glass-switch-container" onclick="activarToggle(this)">
+            <div class="switch-thumb" id="switch-thumb-btn">
+                <span class="switch-icon icon-lock" id="icon-lock">🔒</span>
+                <span class="switch-icon icon-unlock" id="icon-unlock">🔓</span>
+            </div>
         </div>
     </div>
+
+    <div id="bg-title" class="bg-huge-text" {% if not skip_intro %} style="opacity:0;" {% endif %}>AUDITAR</div>
 
     <div id="main-wrapper" {% if skip_intro %} style="display: flex; opacity: 1;" {% else %} style="display: none; opacity: 0;" {% endif %}>
         
         <div class="top-nav">
-            <button id="tab-auditar" class="tab-btn {% if not mostrar_boveda %}active{% endif %}" onclick="cambiarPestana('app-section')">Auditar Archivo</button>
-            <button id="tab-boveda" class="tab-btn {% if mostrar_boveda %}active{% endif %}" onclick="cambiarPestana('dashboard-section')">Mis Proyectos</button>
-            <button id="tab-planes" class="tab-btn" onclick="cambiarPestana('planes-section')">Planes</button>
-            <button id="tab-como-funciona" class="tab-btn" onclick="cambiarPestana('como-funciona-section')">¿Cómo funciona?</button>
-            <button id="tab-quienes" class="tab-btn" onclick="cambiarPestana('quienes-section')">¿Quiénes Somos?</button>
-            
-            <button id="tab-notificaciones" class="tab-btn" onclick="cambiarPestana('notificaciones-section')">
+            <button id="tab-auditar" class="tab-btn {% if not mostrar_boveda %}active{% endif %}" onclick="cambiarPestana('app-section', 'AUDITAR')">Auditar Archivo</button>
+            <button id="tab-boveda" class="tab-btn {% if mostrar_boveda %}active{% endif %}" onclick="cambiarPestana('dashboard-section', 'BÓVEDA')">Mis Proyectos</button>
+            <button id="tab-planes" class="tab-btn" onclick="cambiarPestana('planes-section', 'PRICING')">Planes</button>
+            <button id="tab-como-funciona" class="tab-btn" onclick="cambiarPestana('como-funciona-section', 'SISTEMA')">¿Cómo funciona?</button>
+            <button id="tab-quienes" class="tab-btn" onclick="cambiarPestana('quienes-section', 'NOSOTROS')">¿Quiénes Somos?</button>
+            <button id="tab-notificaciones" class="tab-btn" onclick="cambiarPestana('notificaciones-section', 'BUZÓN')">
                 Buzón 📬 <span id="notif-badge" class="notif-badge">0</span>
             </button>
         </div>
 
-        <div id="loading-section" class="section-container app-centered-layout" style="display: none; opacity: 0;">
-            <div class="content-wrapper-inner view-centered">
+        <div id="loading-section" class="section-container app-centered-layout" style="display: none; opacity: 0; justify-content: center;">
+            <div class="content-wrapper-inner">
                 <h2 class="app-title" style="margin-top: 20px;">Cifrando y Analizando...</h2>
                 <p id="texto-carga" class="app-subtitle" style="font-weight: 300; transition: color 0.3s ease;">Asegurando el archivo en la Bóveda Local.</p>
                 <div class="loading-bar-container">
@@ -360,12 +395,12 @@ HTML_TEMPLATE = """
                             <span class="logo-legal">Legal Solutions</span>
                         </div>
                     </div>
-                    <p class="app-subtitle" style="margin-top: 0; font-weight: 300;">Sube tu activo digital (Imagen o Documento) para certificar su originalidad y protegerlo.</p>
+                    <p class="app-subtitle" style="margin-top: 0; max-width: 600px;">Sube tu activo digital (Imagen o Documento) para certificar su originalidad y protegerlo.</p>
                 </div>
                 
                 <div class="upload-area" id="upload-area-box" {% if mostrando_resultado %} style="display: none;" {% endif %}>
                     <form id="upload-form" action="/" method="POST" enctype="multipart/form-data" onsubmit="ejecutarCarga()" style="display: flex; flex-direction: column; align-items: center;">
-                        <label style="font-weight: 400; color: #E0E1DD; text-align: center; font-size: 1.1em; letter-spacing: 0.5px; font-family: 'Oswald', sans-serif;">Selecciona el archivo para certificar:</label>
+                        <label style="font-weight: 500; color: #E0E1DD; text-align: center; font-size: 1.1em; font-family: 'Montserrat', sans-serif;">Selecciona el archivo para certificar:</label>
                         <input type="file" name="archivo" accept="image/*,.pdf,.doc,.docx" required id="input-archivo">
                         <button type="submit" class="btn" style="width: 100%;">Analizar y Proteger en Bóveda</button>
                     </form>
@@ -380,20 +415,20 @@ HTML_TEMPLATE = """
                 <div id="resultado-area" class="fade-in-element" style="width: 100%; display: flex; flex-direction: column; align-items: center;">
                     {% if error_api %}
                         <div class="result-card-minimal alert">
-                            <h2 style="color: #FCA5A5; margin-top: 0; font-family: 'Oswald', sans-serif;">Error de Conexión</h2>
-                            <p style="color: #E0E1DD; font-weight: 300; margin-bottom: 0;">{{ error_api }}</p>
+                            <h2 style="color: #FCA5A5; margin-top: 0; font-family: 'Montserrat', sans-serif; font-weight: 500;">Error de Conexión</h2>
+                            <p style="color: rgba(224,225,221,0.7); font-weight: 300; margin-bottom: 0;">{{ error_api }}</p>
                         </div>
                         <div style="display: flex; justify-content: center; margin-top: 20px;">
                             <button class="btn btn-secondary" onclick="transicionAuditarNuevo()">Auditar nuevo archivo</button>
                         </div>
                     {% elif paginas_encontradas %}
                         <div class="result-card-minimal alert">
-                            <h2 style="color: #FCA5A5; margin-top: 0; font-family: 'Oswald', sans-serif; font-size: 2.2em;">⚠️ Alerta de Plagio</h2>
-                            <p style="color: #E0E1DD; font-weight: 300; font-size: 1.1em; margin-bottom: 25px;">Se detectaron coincidencias web del archivo <span style="color: #778DA9; font-weight: 500;">{{ nombre_archivo }}</span>.</p>
+                            <h2 style="color: #FCA5A5; margin-top: 0; font-family: 'Montserrat', sans-serif; font-size: 2em; font-weight: 500;">⚠️ Alerta de Plagio</h2>
+                            <p style="color: rgba(224,225,221,0.8); font-weight: 300; font-size: 1.05em; margin-bottom: 25px;">Se detectaron coincidencias web del archivo <span style="color: #E0E1DD; font-weight: 500;">{{ nombre_archivo }}</span>.</p>
                             <button class="btn btn-secondary" style="color: #FCA5A5; border-color: rgba(252, 165, 165, 0.3);" onclick="document.getElementById('detalles-plagio').style.display='block'; this.style.display='none';">Ver Informe Completo</button>
-                            <div id="detalles-plagio" style="display: none; text-align: left; margin-top: 25px; border-top: 1px solid rgba(119, 141, 169, 0.2); padding-top: 20px; animation: fadeUpEntrance 0.5s ease forwards;">
-                                <p style="color: #FCA5A5; font-size: 0.95em; border: 1px solid rgba(220,38,38,0.3); padding: 10px; border-radius: 5px; background: rgba(220,38,38,0.1); font-weight: 300;">Aviso de Sistema: Para evitar infracciones de derechos de autor, este archivo no ha sido guardado en la bóveda.</p>
-                                <p style="color: #E0E1DD; font-weight: 300; font-size: 0.9em; margin-top: 15px;">Radar Ejecutado: <span style="color: #FCA5A5;">{{ tipo_motor }}</span></p>
+                            <div id="detalles-plagio" style="display: none; text-align: left; margin-top: 25px; border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 20px; animation: fadeUpEntrance 0.5s ease forwards;">
+                                <p style="color: #FCA5A5; font-size: 0.9em; border: 1px solid rgba(220,38,38,0.2); padding: 12px; border-radius: 8px; background: rgba(220,38,38,0.05); font-weight: 300;">Aviso de Sistema: Para evitar infracciones de derechos de autor, este archivo no ha sido guardado en la bóveda.</p>
+                                <p style="color: rgba(224,225,221,0.7); font-weight: 300; font-size: 0.9em; margin-top: 15px;">Radar Ejecutado: <span style="color: #FCA5A5;">{{ tipo_motor }}</span></p>
                                 <p style="color: rgba(224, 225, 221, 0.85); font-weight: 300; font-size: 0.9em; margin-top: 15px;">Enlaces confirmados con el contenido original:</p>
                                 <div class="url-list">
                                     <ol style="margin: 0; padding-left: 20px;">
@@ -402,30 +437,28 @@ HTML_TEMPLATE = """
                                             <a href="{{ sitio.link }}" target="_blank" style="font-size: 0.95em;">{{ sitio.titulo }}</a>
                                             {% if sitio.es_instagram %}<span class="social-badge badge-instagram">Instagram</span>
                                             {% elif sitio.es_facebook %}<span class="social-badge badge-facebook">Facebook</span>{% endif %}
-                                            <br><small style="color: #778DA9; word-break: break-all; font-family: 'Montserrat', sans-serif;">{{ sitio.link }}</small>
+                                            <br><small style="color: rgba(224,225,221,0.5); word-break: break-all;">{{ sitio.link }}</small>
                                         </li>
                                     {% endfor %}
                                     </ol>
                                 </div>
-                                <p style="margin-top: 15px; color: #E0E1DD; font-weight: 300; font-size: 0.9em;">Firma Hash Auditada: <br><span style="font-family: monospace; color: #778DA9; font-size: 0.9em; word-break: break-all;">{{ hash_resultado }}</span></p>
+                                <p style="margin-top: 15px; color: rgba(224,225,221,0.7); font-weight: 300; font-size: 0.85em;">Firma Hash Auditada: <br><span style="font-family: monospace; color: #E0E1DD;">{{ hash_resultado }}</span></p>
                             </div>
                         </div>
-                        
                         <div style="display: flex; justify-content: center; gap: 15px; margin-top: 20px; flex-wrap: wrap;">
                             <button class="btn btn-secondary" onclick="transicionAuditarNuevo()">Auditar nuevo archivo</button>
-                            <button class="btn btn-secondary" style="color: #E0E1DD; border-color: rgba(119, 141, 169, 0.4);" onclick="abrirAuditoria()">¿Tu archivo es original?</button>
+                            <button class="btn btn-secondary" onclick="abrirAuditoria()">¿Tu archivo es original?</button>
                         </div>
-
                     {% else %}
                         <div class="result-card-minimal success">
-                            <h2 style="color: #5EEAD4; margin-top: 0; font-family: 'Oswald', sans-serif; font-size: 2.2em;">✓ Activo Original</h2>
-                            <p style="color: #E0E1DD; font-weight: 300; font-size: 1.1em; margin-bottom: 25px;">El archivo <span style="color: #778DA9; font-weight: 500;">{{ nombre_archivo }}</span> es único y seguro.</p>
+                            <h2 style="color: #5EEAD4; margin-top: 0; font-family: 'Montserrat', sans-serif; font-size: 2em; font-weight: 500;">✓ Activo Original</h2>
+                            <p style="color: rgba(224,225,221,0.8); font-weight: 300; font-size: 1.05em; margin-bottom: 25px;">El archivo <span style="color: #E0E1DD; font-weight: 500;">{{ nombre_archivo }}</span> es único y seguro.</p>
                             <button class="btn btn-secondary" style="color: #5EEAD4; border-color: rgba(94, 234, 212, 0.3);" onclick="document.getElementById('detalles-original').style.display='block'; this.style.display='none';">Ver Informe Completo</button>
-                            <div id="detalles-original" style="display: none; text-align: left; margin-top: 25px; border-top: 1px solid rgba(119, 141, 169, 0.2); padding-top: 20px; animation: fadeUpEntrance 0.5s ease forwards;">
-                                <p style="color: rgba(224, 225, 221, 0.85); font-weight: 300; font-size: 0.95em;">El análisis profundo no detectó copias en la red. El archivo se ha guardado exitosamente en tu bóveda criptográfica.</p>
-                                <p style="color: #E0E1DD; font-weight: 300; font-size: 0.9em; margin-top: 15px;">Radar Ejecutado: <span style="color: #5EEAD4;">{{ tipo_motor }}</span></p>
-                                <p style="color: #E0E1DD; font-weight: 300; font-size: 0.9em;">Firma Hash Blockchain: <br> <span style="font-family: monospace; color: #778DA9; font-size: 0.9em; word-break: break-all;">{{ hash_resultado }}</span></p>
-                                <p style="color: #778DA9; margin-bottom: 0; font-weight: 300; font-size: 0.85em;">Sello de tiempo: {{ timestamp }}</p>
+                            <div id="detalles-original" style="display: none; text-align: left; margin-top: 25px; border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 20px; animation: fadeUpEntrance 0.5s ease forwards;">
+                                <p style="color: rgba(224, 225, 221, 0.7); font-weight: 300; font-size: 0.9em;">El análisis profundo no detectó copias en la red. El archivo se ha guardado exitosamente en tu bóveda criptográfica.</p>
+                                <p style="color: rgba(224, 225, 221, 0.7); font-weight: 300; font-size: 0.9em; margin-top: 15px;">Radar Ejecutado: <span style="color: #5EEAD4;">{{ tipo_motor }}</span></p>
+                                <p style="color: rgba(224, 225, 221, 0.7); font-weight: 300; font-size: 0.9em; margin-top: 15px;">Firma Hash Blockchain: <br> <span style="font-family: monospace; color: #E0E1DD; word-break: break-all;">{{ hash_resultado }}</span></p>
+                                <p style="color: rgba(224, 225, 221, 0.5); margin-bottom: 0; font-weight: 300; font-size: 0.85em;">Sello de tiempo: {{ timestamp }}</p>
                             </div>
                         </div>
                         <div style="display: flex; justify-content: center; margin-top: 20px;">
@@ -438,27 +471,27 @@ HTML_TEMPLATE = """
         </div>
 
         <div id="dashboard-section" class="section-container app-centered-layout" {% if mostrar_boveda %} style="display: flex; opacity: 1;" {% else %} style="display: none; opacity: 0;" {% endif %}>
-            <div class="content-wrapper-inner" style="max-width: 800px; width: 100%;">
+            <div class="content-wrapper-inner" style="max-width: 900px; width: 100%;">
                 
-                <div style="width: 100%; display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 15px;">
+                <div style="width: 100%; display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 20px;">
                     <div>
-                        <h2 class="app-title" style="text-align: left; margin: 0;">Bóveda Criptográfica</h2>
-                        <p class="app-subtitle" style="text-align: left; margin: 5px 0 0 0; font-weight: 300;">Archivos encriptados y monitoreados en tiempo real.</p>
+                        <h2 class="app-title" style="text-align: left; margin: 0; font-size: 2em;">Bóveda Criptográfica</h2>
+                        <p class="app-subtitle" style="text-align: left; margin: 5px 0 0 0;">Archivos encriptados y monitoreados en tiempo real.</p>
                     </div>
-                    <button id="btn-revisar-integridad" class="btn btn-secondary" style="font-size: 0.9em; padding: 10px 15px; border-color: rgba(119, 141, 169, 0.5);" onclick="revisarIntegridad()">🔍 Revisar Integridad</button>
+                    <button id="btn-revisar-integridad" class="btn btn-secondary" style="font-size: 0.85em; padding: 10px 20px;" onclick="revisarIntegridad()">🔍 Analizar Integridad</button>
                 </div>
                 
                 <div class="metrics-wrapper">
-                    <div class="metric-card">
+                    <div class="metric-card glass-card" style="padding: 15px;">
                         <p class="metric-value">{{ proyectos|selectattr('plagio', 'equalto', False)|list|length }}</p>
                         <p class="metric-label">Activos Protegidos</p>
                     </div>
-                    <div class="metric-card">
+                    <div class="metric-card glass-card" style="padding: 15px;">
                         <p class="metric-value" style="color: #FCA5A5;">34</p>
                         <p class="metric-label">Plagios Bloqueados</p>
                     </div>
-                    <div class="metric-card">
-                        <p class="metric-value" style="font-size: 1.5em; margin-top: 8px;">🟢 Activo</p>
+                    <div class="metric-card glass-card" style="padding: 15px;">
+                        <p class="metric-value" style="font-size: 1.5em; margin-top: 8px;">🟢</p>
                         <p class="metric-label">Radar OSINT 24/7</p>
                     </div>
                 </div>
@@ -466,13 +499,13 @@ HTML_TEMPLATE = """
                 <div class="sub-nav">
                     <button class="sub-tab-btn active" onclick="cambiarSubPestana('boveda-personal-tab', this)">Mi Bóveda Personal</button>
                     <button class="sub-tab-btn" onclick="cambiarSubPestana('boveda-instagram-tab', this)">
-                        <span class="social-badge badge-instagram">IG</span> Instagram <span style="color: #5EEAD4; font-size: 0.7em; margin-left: 5px; font-family: 'Oswald';">PRO</span>
+                        <span class="social-badge badge-instagram">IG</span> Instagram <span style="color: #5EEAD4; font-size: 0.7em; margin-left: 5px;">PRO</span>
                     </button>
                     <button class="sub-tab-btn" onclick="cambiarSubPestana('boveda-facebook-tab', this)">
-                        <span class="social-badge badge-facebook">FB</span> Facebook <span style="color: #5EEAD4; font-size: 0.7em; margin-left: 5px; font-family: 'Oswald';">PRO</span>
+                        <span class="social-badge badge-facebook">FB</span> Facebook <span style="color: #5EEAD4; font-size: 0.7em; margin-left: 5px;">PRO</span>
                     </button>
                     <button class="sub-tab-btn" onclick="cambiarSubPestana('boveda-x-tab', this)">
-                        <span class="social-badge badge-x">𝕏</span> X (Twitter) <span style="color: #5EEAD4; font-size: 0.7em; margin-left: 5px; font-family: 'Oswald';">PRO</span>
+                        <span class="social-badge badge-x">𝕏</span> X (Twitter) <span style="color: #5EEAD4; font-size: 0.7em; margin-left: 5px;">PRO</span>
                     </button>
                 </div>
                 
@@ -480,7 +513,7 @@ HTML_TEMPLATE = """
                     <div class="grid-proyectos" id="lista-boveda">
                         {% if proyectos %}
                             {% for p in proyectos %}
-                            <div class="card-proyecto" data-hash="{{ p.hash_full }}" onclick="clickEnTarjeta(event, this)">
+                            <div class="card-proyecto glass-card" data-hash="{{ p.hash_full }}" onclick="clickEnTarjeta(event, this)">
                                 <div class="select-indicator"></div>
                                 <div class="card-header-flex">
                                     <span></span>
@@ -498,15 +531,15 @@ HTML_TEMPLATE = """
                                 <div class="img-mock">
                                     {% if p.nombre.endswith('.pdf') %}📄{% elif p.nombre.endswith('.docx') or p.nombre.endswith('.doc') %}📝{% else %}📷{% endif %}
                                 </div>
-                                <p style="margin: 0; font-weight: 400; font-size: 0.95em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: #E0E1DD; width: 100%;" title="{{ p.nombre }}">{{ p.nombre }}</p>
-                                <small style="color: #778DA9; font-size: 0.7em; margin-top: 5px; font-family: monospace;">ID: {{ p.hash }}</small>
-                                {% if p.plagio %}<span class="badge-status badge-alert">🔴 Alerta de Plagio en Web</span>{% else %}<span class="badge-status badge-clean">🟢 Monitor 24/7 Activo</span>{% endif %}
+                                <p style="margin: 0; font-weight: 500; font-size: 0.95em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: #E0E1DD; width: 100%;" title="{{ p.nombre }}">{{ p.nombre }}</p>
+                                <small style="color: rgba(224,225,221,0.5); font-size: 0.7em; margin-top: 5px; font-family: monospace;">ID: {{ p.hash }}</small>
+                                {% if p.plagio %}<span class="badge-status badge-alert">🔴 Alerta en Web</span>{% else %}<span class="badge-status badge-clean">🟢 Monitor Activo</span>{% endif %}
                             </div>
                             {% endfor %}
                         {% else %}
-                            <div style="grid-column: 1 / -1; text-align: center; color: #778DA9; padding: 40px; width: 100%; display: flex; flex-direction: column; align-items: center;">
+                            <div style="grid-column: 1 / -1; text-align: center; color: rgba(224,225,221,0.5); padding: 40px;">
                                 <p style="font-weight: 300; margin-bottom: 20px;">Tu bóveda está vacía.<br>Sube tu primer archivo para protegerlo.</p>
-                                <button class="btn btn-secondary" onclick="cambiarPestana('app-section')">Subir Archivo</button>
+                                <button class="btn btn-secondary" onclick="cambiarPestana('app-section', 'AUDITAR')">Subir Archivo</button>
                             </div>
                         {% endif %}
                     </div>
@@ -514,28 +547,34 @@ HTML_TEMPLATE = """
 
                 <div id="boveda-instagram-tab" class="sub-section-container">
                     <div id="ig-connect-area" style="display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; transition: opacity 0.3s ease;">
-                        <div style="font-size: 3em; margin-bottom: 5px; line-height: 1;">📸</div>
-                        <h3 style="color: #E0E1DD; font-family: 'Oswald', sans-serif; font-size: 1.5em; margin: 0 0 5px 0; text-align: center;">Protección Automatizada para Creadores</h3>
-                        <p style="color: rgba(224, 225, 221, 0.85); font-weight: 300; font-size: 0.95em; margin: 0 auto 20px auto; max-width: 500px; line-height: 1.5; text-align: center;">Vincula tu cuenta de Instagram. La plataforma leerá tu feed, extraerá cada nueva publicación fotográfica o diseño y lo protegerá en la Blockchain de forma automática.</p>
-                        <button class="btn" style="background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); border: none; font-size: 0.95em; padding: 12px 30px;" onclick="simularConexion('Instagram', 'ig-connect-area')">Vincular cuenta de Instagram</button>
+                        <div class="glass-card" style="max-width: 500px; width: 100%;">
+                            <div style="font-size: 3em; margin-bottom: 10px;">📸</div>
+                            <h3 style="margin-top:0;">Protección Automatizada</h3>
+                            <p style="margin-bottom: 25px;">Vincula tu Instagram para proteger cada nueva publicación automáticamente en la Blockchain.</p>
+                            <button class="btn" style="background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); border: none; font-size: 0.95em; padding: 12px 30px; color:white;" onclick="simularConexion('Instagram', 'ig-connect-area')">Vincular cuenta de Instagram</button>
+                        </div>
                     </div>
                 </div>
 
                 <div id="boveda-facebook-tab" class="sub-section-container">
                     <div id="fb-connect-area" style="display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; transition: opacity 0.3s ease;">
-                        <div style="font-size: 3em; margin-bottom: 5px; line-height: 1;">💼</div>
-                        <h3 style="color: #E0E1DD; font-family: 'Oswald', sans-serif; font-size: 1.5em; margin: 0 0 5px 0; text-align: center;">Blindaje de Propiedad Intelectual Corporativa</h3>
-                        <p style="color: rgba(224, 225, 221, 0.85); font-weight: 300; font-size: 0.95em; margin: 0 auto 20px auto; max-width: 500px; line-height: 1.5; text-align: center;">Conecta la Fanpage de tu empresa. El radar OSINT registrará todos los catálogos y banners subidos, generando certificados de anterioridad irrefutables.</p>
-                        <button class="btn" style="background-color: #1877F2; border: none; font-size: 0.95em; padding: 12px 30px;" onclick="simularConexion('Facebook', 'fb-connect-area')">Vincular página de Facebook</button>
+                        <div class="glass-card" style="max-width: 500px; width: 100%;">
+                            <div style="font-size: 3em; margin-bottom: 10px;">💼</div>
+                            <h3 style="margin-top:0;">Blindaje Corporativo</h3>
+                            <p style="margin-bottom: 25px;">Conecta la Fanpage de tu empresa para un registro OSINT de catálogos y banners.</p>
+                            <button class="btn" style="background-color: #1877F2; border: none; font-size: 0.95em; padding: 12px 30px; color:white;" onclick="simularConexion('Facebook', 'fb-connect-area')">Vincular página de Facebook</button>
+                        </div>
                     </div>
                 </div>
 
                 <div id="boveda-x-tab" class="sub-section-container">
                     <div id="x-connect-area" style="display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; transition: opacity 0.3s ease;">
-                        <div style="font-size: 3em; margin-bottom: 5px; line-height: 1;">🐦</div>
-                        <h3 style="color: #E0E1DD; font-family: 'Oswald', sans-serif; font-size: 1.5em; margin: 0 0 5px 0; text-align: center;">Certificación de Contenido en Tiempo Real</h3>
-                        <p style="color: rgba(224, 225, 221, 0.85); font-weight: 300; font-size: 0.95em; margin: 0 auto 20px auto; max-width: 500px; line-height: 1.5; text-align: center;">Protege tus hilos virales, investigaciones escritas y material audiovisual en el momento exacto en que los publicas.</p>
-                        <button class="btn" style="background-color: #0F1419; border: 1px solid rgba(255,255,255,0.2); font-size: 0.95em; padding: 12px 30px;" onclick="simularConexion('X', 'x-connect-area')">Vincular cuenta de X</button>
+                        <div class="glass-card" style="max-width: 500px; width: 100%;">
+                            <div style="font-size: 3em; margin-bottom: 10px;">🐦</div>
+                            <h3 style="margin-top:0;">Certificación en Tiempo Real</h3>
+                            <p style="margin-bottom: 25px;">Protege tus hilos virales, investigaciones y material audiovisual en el momento exacto.</p>
+                            <button class="btn" style="background-color: #0F1419; border: 1px solid rgba(255,255,255,0.2); font-size: 0.95em; padding: 12px 30px; color:white;" onclick="simularConexion('X', 'x-connect-area')">Vincular cuenta de X</button>
+                        </div>
                     </div>
                 </div>
 
@@ -543,42 +582,42 @@ HTML_TEMPLATE = """
         </div>
 
         <div id="planes-section" class="section-container app-centered-layout" style="display: none; opacity: 0;">
-            <div class="content-wrapper-inner" style="max-width: 900px;">
-                <h2 class="app-title" style="text-align: center; margin: 0 0 10px 0;">Planes y Precios</h2>
-                <p class="app-subtitle" style="text-align: center; margin: 0 0 40px 0; font-weight: 300;">Escala la protección de tus activos según tus necesidades.</p>
+            <div class="content-wrapper-inner" style="max-width: 1000px;">
+                <h2 class="app-title">Planes y Precios</h2>
+                <p class="app-subtitle">Escala la protección de tus activos según tus necesidades.</p>
                 <div class="glass-grid-3">
                     <div class="glass-card" style="display: flex; flex-direction: column;">
-                        <h3 style="color: #E0E1DD;">Básico</h3>
-                        <h2 style="color: #5EEAD4; font-size: 2.5em; margin: 10px 0;">Gratis</h2>
-                        <ul style="text-align: left; font-size: 0.9em; color: rgba(224, 225, 221, 0.85); padding-left: 20px; line-height: 1.8; flex-grow: 1;">
-                            <li>Protección manual de activos.</li>
-                            <li>Límite de 5 archivos en bóveda.</li>
-                            <li>Generación de firma Hash.</li>
-                            <li>Auditoría bajo demanda.</li>
+                        <h3>Básico</h3>
+                        <div class="plan-price">Gratis</div>
+                        <ul class="plan-list">
+                            <li>Protección manual de activos</li>
+                            <li>Límite de 5 archivos</li>
+                            <li>Generación de firma Hash</li>
+                            <li>Auditoría bajo demanda</li>
                         </ul>
-                        <button class="btn btn-secondary" style="margin-top: 20px; width: 100%;">Plan Actual</button>
+                        <button class="btn btn-secondary" style="width: 100%; margin-top: 20px;">Plan Actual</button>
                     </div>
-                    <div class="glass-card" style="display: flex; flex-direction: column; border-color: #5EEAD4; box-shadow: 0 0 15px rgba(94, 234, 212, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.1);">
-                        <h3 style="color: #E0E1DD;">Pro Creador</h3>
-                        <h2 style="color: #5EEAD4; font-size: 2.5em; margin: 10px 0;">$9.99<span style="font-size: 0.4em; color: #778DA9;">/mes</span></h2>
-                        <ul style="text-align: left; font-size: 0.9em; color: rgba(224, 225, 221, 0.85); padding-left: 20px; line-height: 1.8; flex-grow: 1;">
-                            <li>Todo lo del plan Básico.</li>
-                            <li>Sincronización automática de Instagram y X.</li>
-                            <li>Radar OSINT 24/7 activo.</li>
-                            <li>Archivos ilimitados.</li>
+                    <div class="glass-card" style="display: flex; flex-direction: column; background: linear-gradient(145deg, rgba(30, 40, 60, 0.7), rgba(15, 20, 30, 0.8)); border-color: rgba(255,255,255,0.2);">
+                        <h3>Pro Creador</h3>
+                        <div class="plan-price">$9.99<span style="font-size: 0.4em; color: rgba(224,225,221,0.5);">/m</span></div>
+                        <ul class="plan-list">
+                            <li>Todo lo del plan Básico</li>
+                            <li>Sincronización IG y X</li>
+                            <li>Archivos ilimitados</li>
+                            <li>Radar OSINT 24/7 activo</li>
                         </ul>
-                        <button class="btn" style="margin-top: 20px; width: 100%;">Mejorar a Pro</button>
+                        <button class="btn" style="width: 100%; margin-top: 20px;">Mejorar a Pro</button>
                     </div>
                     <div class="glass-card" style="display: flex; flex-direction: column;">
-                        <h3 style="color: #E0E1DD;">Enterprise</h3>
-                        <h2 style="color: #5EEAD4; font-size: 2.5em; margin: 10px 0;">$49.99<span style="font-size: 0.4em; color: #778DA9;">/mes</span></h2>
-                        <ul style="text-align: left; font-size: 0.9em; color: rgba(224, 225, 221, 0.85); padding-left: 20px; line-height: 1.8; flex-grow: 1;">
-                            <li>Todo lo del plan Pro Creador.</li>
-                            <li>Conexión de Fanpages corporativas.</li>
-                            <li>Protección masiva de catálogos.</li>
-                            <li>Takedown automático (Cease & Desist).</li>
+                        <h3>Enterprise</h3>
+                        <div class="plan-price">$49.99<span style="font-size: 0.4em; color: rgba(224,225,221,0.5);">/m</span></div>
+                        <ul class="plan-list">
+                            <li>Todo lo del plan Pro</li>
+                            <li>Conexión de Fanpages</li>
+                            <li>Protección masiva</li>
+                            <li>Takedown automático</li>
                         </ul>
-                        <button class="btn btn-secondary" style="margin-top: 20px; width: 100%;">Contactar Ventas</button>
+                        <button class="btn btn-secondary" style="width: 100%; margin-top: 20px;">Contactar Ventas</button>
                     </div>
                 </div>
             </div>
@@ -586,20 +625,19 @@ HTML_TEMPLATE = """
 
         <div id="como-funciona-section" class="section-container app-centered-layout" style="display: none; opacity: 0;">
             <div class="content-wrapper-inner" style="max-width: 900px;">
-                <h2 class="app-title" style="text-align: center; margin: 0 0 10px 0;">¿Cómo funciona?</h2>
-                <p class="app-subtitle" style="text-align: center; margin: 0 0 40px 0; font-weight: 300;">Tecnología ágil y accesible detrás de la plataforma.</p>
-                <div class="glass-grid-3">
+                <h2 class="app-title">Arquitectura del Sistema</h2>
+                <div class="glass-grid-3" style="margin-top: 30px;">
                     <div class="glass-card">
-                        <h3>Lectura Inteligente</h3>
-                        <p>Al subir un archivo, nuestra tecnología funciona como un "ojo virtual". Analiza el texto de tus documentos o los colores y formas de tus imágenes para crear una huella matemática única.</p>
+                        <h3>1. Lectura Inteligente</h3>
+                        <p>Evaluación matemática de texto e imágenes para crear una huella criptográfica única inviolable.</p>
                     </div>
                     <div class="glass-card">
-                        <h3>Radar Global OSINT</h3>
-                        <p>Una vez creada la huella, el sistema lanza una búsqueda profunda y rápida en la red y perfiles públicos. Su objetivo es confirmar que nadie más haya publicado tu trabajo previamente.</p>
+                        <h3>2. Radar Global OSINT</h3>
+                        <p>Búsqueda profunda automatizada en la web para asegurar que tu creación sea 100% original antes de certificar.</p>
                     </div>
                     <div class="glass-card">
-                        <h3>Bóveda Segura</h3>
-                        <p>Si el archivo es original, le otorgamos un código indestructible (Blockchain) y lo guardamos bajo llave. Si detectamos una copia en internet, se rechaza la protección.</p>
+                        <h3>3. Bóveda Segura</h3>
+                        <p>Registro inmutable con sello de tiempo (Blockchain) legalmente válido en caso de disputas de derechos.</p>
                     </div>
                 </div>
             </div>
@@ -607,30 +645,15 @@ HTML_TEMPLATE = """
 
         <div id="quienes-section" class="section-container app-centered-layout" style="display: none; opacity: 0;">
             <div class="content-wrapper-inner" style="max-width: 900px;">
-                <h2 class="app-title" style="text-align: center; margin: 0 0 10px 0;">Redefiniendo el Derecho Digital</h2>
-                <p class="app-subtitle" style="text-align: center; margin: 0 0 40px 0; font-weight: 300;">Automatizamos y democratizamos la protección de activos digitales.</p>
-                <div class="glass-grid-2">
+                <h2 class="app-title">Nuestra Visión</h2>
+                <div class="glass-grid-2" style="margin-top: 30px;">
                     <div class="glass-card">
-                        <h3>El Desafío</h3>
-                        <p>En la era digital, el plagio y la copia no autorizada de cursos, software y diseños ocurren a la velocidad de la luz. La defensa legal tradicional es burocrática, lenta y sumamente costosa para las PyMEs.</p>
+                        <h3>El Problema</h3>
+                        <p>La protección legal es lenta y cara. El robo digital es rápido. Creadores y PyMEs quedan desprotegidos.</p>
                     </div>
                     <div class="glass-card">
-                        <h3>La Solución</h3>
-                        <p><span style="color: #778DA9; font-weight: 400;">DeepTech Legal Solutions S.A.P.I. de C.V.</span> transforma este proceso reactivo en un ecosistema proactivo mediante un modelo SaaS diseñado para detectar y actuar en tiempo real.</p>
-                    </div>
-                </div>
-                <div class="glass-grid-3">
-                    <div class="glass-card">
-                        <h3>Nuestra Misión</h3>
-                        <p>Ofrecer herramientas tecnológicas accesibles que permitan a los usuarios defender sus creaciones de manera eficiente y segura desde etapas tempranas.</p>
-                    </div>
-                    <div class="glass-card">
-                        <h3>Nuestra Visión</h3>
-                        <p>Liderar la evolución del derecho digital a nivel global, creando el estándar de protección perimetral e inmutable para creadores de contenido.</p>
-                    </div>
-                    <div class="glass-card">
-                        <h3>Tecnología Dual</h3>
-                        <p>Combinamos Inteligencia Artificial (rastreo web OSINT 24/7) y tecnología Blockchain (certificados de autoría inmutables) en una sola plataforma.</p>
+                        <h3>DeepTech Solution</h3>
+                        <p>Democratizamos el derecho digital con un entorno SaaS preventivo, económico y 100% automatizado.</p>
                     </div>
                 </div>
             </div>
@@ -638,13 +661,11 @@ HTML_TEMPLATE = """
         
         <div id="notificaciones-section" class="section-container app-centered-layout" style="display: none; opacity: 0;">
             <div class="content-wrapper-inner" style="max-width: 650px;">
-                <h2 class="app-title" style="text-align: center; margin: 0 0 10px 0;">Buzón de Notificaciones</h2>
-                <p class="app-subtitle" style="text-align: center; margin: 0 0 30px 0; font-weight: 300;">Actualizaciones sobre tus solicitudes y auditorías.</p>
-                
-                <div id="lista-notificaciones" style="width: 100%; display: flex; flex-direction: column; align-items: center;">
-                    <div id="notif-vacia" style="display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; color: #778DA9; padding: 40px; width: 100%;">
+                <h2 class="app-title">Buzón de Notificaciones</h2>
+                <div id="lista-notificaciones" style="width: 100%; margin-top: 20px;">
+                    <div id="notif-vacia" style="text-align: center; color: rgba(224,225,221,0.5); padding: 40px;">
                         <div style="font-size: 3em; margin-bottom: 10px; line-height: 1;">📭</div>
-                        <p style="font-weight: 300; margin: 0;">No tienes notificaciones nuevas.</p>
+                        <p>Sin notificaciones nuevas.</p>
                     </div>
                 </div>
             </div>
@@ -653,84 +674,65 @@ HTML_TEMPLATE = """
     </div>
 
     <div id="bulk-action-bar" class="bulk-action-bar">
-        <span style="font-weight: 400; color: white; font-family: 'Oswald', sans-serif;"><span id="sel-count">0</span> seleccionados</span>
+        <span style="font-weight: 400; color: white; font-family: 'Montserrat', sans-serif;"><span id="sel-count">0</span> seleccionados</span>
         <button class="btn btn-secondary" style="padding: 8px 15px; margin-left: 10px;" onclick="cancelarSeleccion()">Cancelar</button>
         <button class="btn btn-danger" style="padding: 8px 15px;" onclick="eliminarSeleccionados()">Eliminar</button>
     </div>
 
     <div id="informe-modal" class="modal-overlay">
-        <div class="glass-card" style="width: 90%; max-width: 500px; position: relative;">
+        <div class="glass-card" style="width: 90%; max-width: 450px; position: relative;">
             <button class="modal-close-btn" onclick="cerrarInforme()">&times;</button>
-            <h2 style="color: #E0E1DD; margin-top: 0; text-align: center;">📄 Informe de Auditoría</h2>
-            <div style="margin-top: 20px;">
-                <p style="font-weight: 300; text-align: left;">Archivo protegido: <br><span id="inf-nombre" style="color: #778DA9;"></span></p>
-                <p style="font-weight: 300; text-align: left; margin-top:10px;">ID Blockchain (Firma SHA-256): <br><span id="inf-hash" style="font-family: monospace; color: #778DA9; word-break: break-all; font-size: 0.9em;"></span></p>
-                <p style="font-weight: 300; text-align: left; margin-top:10px;">Estado del Monitor: <br><span id="inf-estado"></span></p>
+            <h3 style="margin-top: 0;">📄 Informe OSINT</h3>
+            <div style="margin-top: 20px; text-align: left;">
+                <p style="font-weight: 300;">Activo: <span id="inf-nombre" style="color: #E0E1DD; font-weight:500;"></span></p>
+                <p style="font-weight: 300; margin-top:10px;">Hash ID: <br><span id="inf-hash" style="font-family: monospace; color: rgba(224,225,221,0.6); font-size: 0.85em; word-break: break-all;"></span></p>
+                <p style="font-weight: 300; margin-top:10px;">Estado: <br><span id="inf-estado"></span></p>
                 
-                <div style="margin-top: 15px; border-top: 1px solid rgba(119, 141, 169, 0.2); padding-top: 15px;">
+                <div style="margin-top: 15px; border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 15px;">
                     <p style="font-weight: 500; text-align: left; margin-bottom: 10px; font-size: 0.9em; color: #E0E1DD;">Bitácora de Rastreo OSINT 24/7:</p>
                     <div id="inf-bitacora" class="url-list" style="max-height: 120px; margin-top: 0; text-align: left;"></div>
                 </div>
-
             </div>
-            <div style="text-align: center; margin-top: 30px;">
-                <button class="btn btn-secondary" onclick="cerrarInforme()">Cerrar Informe</button>
-            </div>
+            <button class="btn btn-secondary" style="margin-top: 25px; width: 100%;" onclick="cerrarInforme()">Cerrar Informe</button>
         </div>
     </div>
 
     <div id="certificado-modal" class="modal-overlay">
-        <div class="glass-card" style="width: 95%; max-width: 650px; position: relative; padding: 20px;">
+        <div class="glass-card" style="width: 95%; max-width: 600px; position: relative; padding: 25px;">
             <button class="modal-close-btn" onclick="cerrarCertificado()">&times;</button>
-            
             <div class="certificate-box">
                 <div style="text-align: center;">
-                    <p class="cert-logo">DeepTech™</p>
-                    <h2 class="cert-title">CERTIFICADO DE AUTORÍA Y SELLO DE TIEMPO</h2>
+                    <p class="cert-logo">DeepTech</p>
+                    <h3 class="cert-title">CERTIFICADO DE AUTORÍA</h3>
                 </div>
-                
-                <p class="cert-text">
-                    A través de la presente, <strong>DeepTech Legal Solutions S.A.P.I. de C.V.</strong> certifica que el activo digital identificado en este documento ha sido analizado por nuestro motor de Inteligencia Artificial (OSINT) y registrado exitosamente en la cadena de bloques (Blockchain), estableciendo una prueba inmutable de anterioridad y autoría.
-                </p>
-                
-                <div style="background: rgba(13, 27, 42, 0.5); padding: 15px; border-radius: 8px; margin-bottom: 20px;">
-                    <p style="margin: 0 0 5px 0; font-size: 0.85em; color: #778DA9;">Nombre del Activo:</p>
-                    <p id="cert-nombre" style="margin: 0 0 15px 0; color: #E0E1DD; font-weight: 500; word-break: break-all;"></p>
-                    
-                    <p style="margin: 0 0 5px 0; font-size: 0.85em; color: #778DA9;">Identificador Criptográfico (Firma SHA-256):</p>
-                    <p id="cert-hash" style="margin: 0; color: #5EEAD4; font-family: monospace; font-size: 0.9em; word-break: break-all;"></p>
+                <p class="cert-text">Por la presente, certificamos que el activo digital ha sido registrado en la Blockchain, estableciendo prueba inmutable de anterioridad.</p>
+                <div style="background: rgba(0,0,0,0.2); padding: 15px; border-radius: 12px; margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.05);">
+                    <p style="margin: 0 0 5px 0; font-size: 0.8em; color: rgba(224,225,221,0.6);">Archivo:</p>
+                    <p id="cert-nombre" style="margin: 0 0 15px 0; color: #E0E1DD; font-weight: 500;"></p>
+                    <p style="margin: 0 0 5px 0; font-size: 0.8em; color: rgba(224,225,221,0.6);">Firma SHA-256:</p>
+                    <p id="cert-hash" style="margin: 0; color: #5EEAD4; font-family: monospace; font-size: 0.85em; word-break: break-all;"></p>
                 </div>
-                
-                <div class="cert-data-row">
-                    <div style="display: flex; flex-direction: column; text-align: left;">
-                        <span style="color: #778DA9; margin-bottom: 5px;">Sello de Tiempo (Timestamp):</span>
+                <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.85em;">
+                    <div style="text-align: left;">
+                        <span style="color: rgba(224,225,221,0.6); display:block; margin-bottom: 5px;">Timestamp:</span>
                         <strong id="cert-fecha" style="color: #E0E1DD;"></strong>
                     </div>
-                    <div style="display: flex; align-items: center; gap: 15px;">
-                        <div class="cert-seal">SELLO<br>VÁLIDO</div>
-                        <div class="qr-placeholder">🔲</div>
-                    </div>
                 </div>
             </div>
-            
-            <div style="text-align: center; margin-top: 20px;">
-                <button class="btn" onclick="alert('Funcionalidad de descarga de PDF activada para tu presentación.')">Descargar Certificado PDF</button>
-            </div>
+            <button class="btn" style="margin-top: 25px; width: 100%;" onclick="alert('Funcionalidad de descarga de PDF activada para tu presentación.')">Descargar PDF</button>
         </div>
     </div>
 
     <div id="auditoria-modal" class="modal-overlay">
-        <div class="glass-card" style="width: 90%; max-width: 500px; position: relative;">
+        <div class="glass-card" style="width: 90%; max-width: 450px; position: relative;">
             <button class="modal-close-btn" onclick="cerrarAuditoria()">&times;</button>
-            <h2 style="color: #E0E1DD; margin-top: 0; text-align: center;">⚖️ Solicitud de Auditoría</h2>
+            <h3 style="margin-top: 0;">⚖️ Solicitud de Auditoría</h3>
             <div style="margin-top: 20px;">
-                <p style="font-weight: 300; text-align: left;">Archivo a revisar: <br><span style="color: #778DA9;">{% if mostrando_resultado %}{{ nombre_archivo }}{% else %}Archivo Auditado{% endif %}</span></p>
-                <p style="font-weight: 300; text-align: left; margin-top:10px;">Motivo de la solicitud: <br><span style="font-family: monospace; color: #778DA9; font-size: 0.9em;">Revisión manual por posible falso positivo / uso justo.</span></p>
+                <p style="font-weight: 300; text-align: left;">Archivo a revisar: <br><span style="color: #E0E1DD;">{% if mostrando_resultado %}{{ nombre_archivo }}{% else %}Archivo Auditado{% endif %}</span></p>
+                <p style="font-weight: 300; text-align: left; margin-top:10px;">Motivo: <br><span style="font-family: monospace; color: rgba(224,225,221,0.7); font-size: 0.9em;">Revisión manual por posible falso positivo.</span></p>
                 <p style="font-weight: 300; text-align: left; margin-top:10px;">Estado de la solicitud: <br><span id="auditoria-estado" style="color: #FCA5A5; font-weight: 500;">Pendiente de envío</span></p>
             </div>
-            <div style="text-align: center; margin-top: 30px; display: flex; justify-content: center; gap: 15px;">
-                <button id="btn-enviar-auditoria" class="btn" onclick="enviarAuditoria()">Enviar Solicitud</button>
-            </div>
+            <button id="btn-enviar-auditoria" class="btn" style="width: 100%; margin-top: 25px;" onclick="enviarAuditoria()">Enviar Solicitud Oficial</button>
         </div>
     </div>
 
@@ -741,6 +743,18 @@ HTML_TEMPLATE = """
 
     <script>
         let unreadCount = 0;
+
+        // Lógica del Switch Glass
+        function activarToggle(element) {
+            let thumb = document.getElementById('switch-thumb-btn');
+            if(thumb.classList.contains('active')) return;
+            
+            thumb.classList.add('active');
+            
+            setTimeout(() => {
+                ingresarApp();
+            }, 600);
+        }
 
         if (window.performance) {
             var navEntries = window.performance.getEntriesByType("navigation");
@@ -758,6 +772,7 @@ HTML_TEMPLATE = """
         function ingresarApp() {
             var main = document.getElementById('landing-main');
             var wrapper = document.getElementById('main-wrapper');
+            var bgTitle = document.getElementById('bg-title');
             main.style.opacity = '0';
             main.style.transform = 'translateY(-30px)';
             setTimeout(function() {
@@ -765,6 +780,7 @@ HTML_TEMPLATE = """
                 wrapper.style.display = 'flex';
                 void wrapper.offsetWidth; 
                 wrapper.style.opacity = '1';
+                if(bgTitle) bgTitle.style.opacity = '1';
             }, 500);
         }
 
@@ -777,7 +793,7 @@ HTML_TEMPLATE = """
             var textoCarga = document.getElementById('texto-carga');
             if(textoCarga) {
                 textoCarga.style.fontFamily = "'Montserrat', sans-serif";
-                textoCarga.style.color = "#778DA9";
+                textoCarga.style.color = "rgba(224,225,221,0.7)";
             }
 
             setTimeout(function() {
@@ -806,8 +822,18 @@ HTML_TEMPLATE = """
             }, 400);
         }
 
-        function cambiarPestana(idMostrar) {
+        function cambiarPestana(idMostrar, tituloFondo) {
             cancelarSeleccion();
+
+            var bgTitle = document.getElementById('bg-title');
+            if(bgTitle && tituloFondo) {
+                bgTitle.style.opacity = '0';
+                setTimeout(() => {
+                    bgTitle.innerText = tituloFondo;
+                    bgTitle.style.opacity = '1';
+                }, 300);
+            }
+
             var appSec = document.getElementById('app-section');
             var dashSec = document.getElementById('dashboard-section');
             var infoSec = document.getElementById('como-funciona-section');
@@ -868,9 +894,7 @@ HTML_TEMPLATE = """
                 var sec = document.getElementById(secId);
                 if (sec && sec.style.display !== 'none') {
                     sec.style.opacity = '0';
-                    setTimeout(function() {
-                        sec.style.display = 'none';
-                    }, 300); 
+                    setTimeout(function() { sec.style.display = 'none'; }, 300); 
                 }
             });
             setTimeout(function() {
@@ -893,8 +917,7 @@ HTML_TEMPLATE = """
                         <div class="loading-bar-container" style="max-width: 300px; height: 8px;">
                             <div class="loading-bar-fill" id="sim-loading-fill"></div>
                         </div>
-                        <p style="color: #778DA9; font-weight: 300; font-size: 1.1em; margin-top: 20px; text-align: center;">Estableciendo conexión segura con la API de ${redSocial}...</p>
-                        <p style="color: rgba(224, 225, 221, 0.6); font-size: 0.9em; text-align: center;">Validando tokens OAuth 2.0</p>
+                        <p style="color: #E0E1DD; font-weight: 300; font-size: 1.1em; margin-top: 20px; text-align: center;">Estableciendo conexión segura con ${redSocial}...</p>
                     </div>
                 `;
                 container.style.opacity = 1;
@@ -913,13 +936,13 @@ HTML_TEMPLATE = """
                     for(let i=1; i<=3; i++) {
                         let shortId = Math.random().toString(36).substring(2, 10).toUpperCase();
                         mockCards += `
-                            <div class="card-proyecto" style="cursor: default;">
+                            <div class="card-proyecto glass-card" style="cursor: default;">
                                 <div class="card-header-flex">
                                     <span class="social-badge badge-${redSocial.toLowerCase()}" style="margin:0;">${redSocial}</span>
                                 </div>
                                 <div class="img-mock" style="margin-top: 10px;">${icon}</div>
-                                <p style="margin: 0; font-weight: 400; font-size: 0.95em; color: #E0E1DD; width: 100%;">Pub_${redSocial}_00${i}</p>
-                                <small style="color: #778DA9; font-size: 0.7em; margin-top: 5px; font-family: monospace;">ID: ${shortId}...</small>
+                                <p style="margin: 0; font-weight: 500; font-size: 0.95em; color: #E0E1DD; width: 100%;">Pub_${redSocial}_00${i}</p>
+                                <small style="color: rgba(224,225,221,0.5); font-size: 0.7em; margin-top: 5px; font-family: monospace;">ID: ${shortId}...</small>
                                 <span class="badge-status badge-clean">🟢 Monitor 24/7 Activo</span>
                             </div>
                         `;
@@ -928,9 +951,9 @@ HTML_TEMPLATE = """
                     container.style.opacity = 0;
                     setTimeout(() => {
                         container.innerHTML = `
-                            <div style="width: 100%; display: flex; flex-direction: column; align-items: center; margin-bottom: 20px; border-bottom: 1px solid rgba(119,141,169,0.2); padding-bottom: 15px;">
+                            <div style="width: 100%; display: flex; flex-direction: column; align-items: center; margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 15px;">
                                 <h3 style="color: #5EEAD4; margin:0 0 5px 0; font-family: 'Oswald', sans-serif; font-size: 1.5em; text-align: center;">✓ Cuenta vinculada exitosamente</h3>
-                                <p style="color: rgba(224, 225, 221, 0.85); margin:0; font-weight: 300; font-size: 1em; text-align: center;">La plataforma ha importado y protegido tus últimas publicaciones automáticamente.</p>
+                                <p style="color: rgba(224, 225, 221, 0.85); margin:0; font-weight: 300; font-size: 1em; text-align: center;">Se han importado y protegido tus últimas publicaciones.</p>
                             </div>
                             <div class="grid-proyectos" style="justify-content: center;">
                                 ${mockCards}
@@ -1044,7 +1067,7 @@ HTML_TEMPLATE = """
                 var lista = document.getElementById('lista-boveda');
                 lista.style.opacity = '0';
                 setTimeout(function() {
-                    lista.innerHTML = '<div style="grid-column: 1 / -1; text-align: center; color: #778DA9; padding: 40px; width: 100%; display: flex; flex-direction: column; align-items: center;"><p style="font-weight: 300; margin-bottom: 20px;">Tu bóveda está vacía.<br>Sube tu primer archivo para protegerlo.</p><button class="btn btn-secondary" onclick="cambiarPestana(\\'app-section\\')">Subir Archivo</button></div>';
+                    lista.innerHTML = '<div style="grid-column: 1 / -1; text-align: center; color: rgba(224,225,221,0.5); padding: 40px; width: 100%; display: flex; flex-direction: column; align-items: center;"><p style="font-weight: 300; margin-bottom: 20px;">Tu bóveda está vacía.<br>Sube tu primer archivo para protegerlo.</p><button class="btn btn-secondary" onclick="cambiarPestana(\\'app-section\\', \\'AUDITAR\\')">Subir Archivo</button></div>';
                     lista.style.transition = 'opacity 0.4s';
                     lista.style.opacity = '1';
                 }, 200);
@@ -1161,7 +1184,7 @@ HTML_TEMPLATE = """
             if(plagio === 'True') {
                 document.getElementById('inf-estado').innerHTML = '<span style="color: #FCA5A5; font-weight: 500;">🔴 Alerta de Plagio: Se encontraron copias idénticas.</span>';
             } else {
-                document.getElementById('inf-estado').innerHTML = '<span style="color: #778DA9; font-weight: 500;">🟢 100% Original - Activo monitoreado y seguro.</span>';
+                document.getElementById('inf-estado').innerHTML = '<span style="color: #5EEAD4; font-weight: 500;">🟢 100% Original - Activo monitoreado y seguro.</span>';
             }
             
             let bitacora = document.getElementById('inf-bitacora');
@@ -1180,7 +1203,7 @@ HTML_TEMPLATE = """
                     bitacora.innerHTML = `
                         <div style="font-size: 0.85em; margin-bottom: 8px;"><span style="color:#5EEAD4;">🟢 Hoy, ${hHoy}</span> - Escaneo completado. 0 coincidencias.</div>
                         <div style="font-size: 0.85em; margin-bottom: 8px;"><span style="color:#5EEAD4;">🟢 Ayer, ${hAyer}</span> - Escaneo OSINT completado. 0 coincidencias.</div>
-                        <div style="font-size: 0.85em; margin-bottom: 8px;"><span style="color:#778DA9;">⚪ Registro Inicial</span> - Sello de tiempo creado en Blockchain.</div>
+                        <div style="font-size: 0.85em; margin-bottom: 8px;"><span style="color:rgba(224,225,221,0.6);">⚪ Registro Inicial</span> - Sello de tiempo creado en Blockchain.</div>
                     `;
                 }
             }
@@ -1233,8 +1256,8 @@ HTML_TEMPLATE = """
                 var estado = document.getElementById('auditoria-estado');
                 if(btn) {
                     btn.innerHTML = "Enviar Solicitud Oficial";
-                    btn.style.backgroundColor = "#415A77";
-                    btn.style.color = "#E0E1DD";
+                    btn.style.backgroundColor = "#E0E1DD";
+                    btn.style.color = "#050A11";
                     btn.disabled = false;
                 }
                 if(estado) {
@@ -1253,7 +1276,7 @@ HTML_TEMPLATE = """
             setTimeout(() => {
                 btn.innerHTML = "✓ Solicitud Enviada";
                 btn.style.backgroundColor = "#5EEAD4";
-                btn.style.color = "#0D1B2A";
+                btn.style.color = "#050A11";
                 
                 if(estado) {
                     estado.innerHTML = "🟢 En revisión por especialista legal";
@@ -1284,8 +1307,8 @@ HTML_TEMPLATE = """
             let notifHTML = `
                 <div class="notif-card fade-in-element" style="width: 100%; box-sizing: border-box;">
                     <h4>⚖️ Auditoría Humana Solicitada</h4>
-                    <p>Se ha levantado un ticket de revisión manual para el archivo: <span style="color:#778DA9; font-weight:500;">${fileName}</span>. Un especialista legal de DeepTech evaluará tu caso en las próximas 24 horas.</p>
-                    <span class="notif-time">${dateString} - ${timeString}</span>
+                    <p>Se ha levantado un ticket de revisión manual para el archivo: <span style="color:#E0E1DD; font-weight:500;">${fileName}</span>. Un especialista evaluará tu caso en las próximas 24 horas.</p>
+                    <span class="notif-time" style="color: rgba(224,225,221,0.5);">${dateString} - ${timeString}</span>
                 </div>
             `;
             container.innerHTML = notifHTML + container.innerHTML;
@@ -1293,7 +1316,7 @@ HTML_TEMPLATE = """
             unreadCount++;
             let badge = document.getElementById('notif-badge');
             badge.innerText = unreadCount;
-            badge.style.display = 'inline-block';
+            badge.style.display = 'flex';
         }
 
         // --- MOTOR DE BÚSQUEDA CONTINUA (REVISIÓN DE INTEGRIDAD) ---
@@ -1327,14 +1350,13 @@ HTML_TEMPLATE = """
                         continue;
                     }
 
-                    // Actualizar la tarjeta visualmente si se detecta un cambio
                     let badge = card.querySelector('.badge-status');
                     let verInformeBtn = card.querySelector('a[onclick^="verInforme"]');
 
                     if (data.plagio) {
                         if (badge) {
                             badge.className = 'badge-status badge-alert';
-                            badge.innerHTML = '🔴 Alerta de Plagio en Web';
+                            badge.innerHTML = '🔴 Alerta en Web';
                         }
                         if (verInformeBtn) {
                             verInformeBtn.setAttribute('onclick', `verInforme('${nombre}', '${hash}', 'True')`);
@@ -1342,7 +1364,7 @@ HTML_TEMPLATE = """
                     } else {
                         if (badge) {
                             badge.className = 'badge-status badge-clean';
-                            badge.innerHTML = '🟢 Monitor 24/7 Activo';
+                            badge.innerHTML = '🟢 Monitor Activo';
                         }
                         if (verInformeBtn) {
                             verInformeBtn.setAttribute('onclick', `verInforme('${nombre}', '${hash}', 'False')`);
@@ -1353,8 +1375,7 @@ HTML_TEMPLATE = """
                 }
             }
 
-            // Restaurar el botón al finalizar
-            btn.innerText = "🔍 Revisar Integridad";
+            btn.innerText = "🔍 Analizar Integridad";
             btn.disabled = false;
             btn.style.opacity = '1';
             btn.style.cursor = 'pointer';
