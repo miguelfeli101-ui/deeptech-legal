@@ -56,26 +56,49 @@ HTML_TEMPLATE = """
 
         h1, h2, h3 { font-family: 'Oswald', sans-serif; }
 
-        /* FONDO: LIQUID MESH GRADIENT */
+        /* FONDO: SOFT MESH GRADIENT (ESTILO AURORA) */
         .bg-organic {
-            position: fixed; top: -20%; left: -20%; right: -20%; bottom: -20%; 
-            z-index: -2; background-color: #0D1B2A; filter: blur(120px); overflow: hidden;
-            transform: translate3d(0, 0, 0); opacity: 0; animation: fadeInBg 1.5s ease-out forwards; 
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0; 
+            z-index: -2; background-color: #0D1B2A; overflow: hidden;
+            opacity: 0; animation: fadeInBg 2s ease-out forwards; 
+        }
+        
+        /* Capa de desenfoque de cristal para unificar los colores */
+        .bg-organic::after {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            backdrop-filter: blur(120px); -webkit-backdrop-filter: blur(120px); z-index: 1;
+        }
+
+        /* Formas orgánicas de color */
+        .gradient-blob {
+            position: absolute; border-radius: 50%; filter: blur(60px);
+            animation: slowDrift infinite alternate cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Aplicación estricta de la paleta */
+        .blob-1 {
+            width: 70vw; height: 70vw; top: -10%; left: -10%;
+            background-color: #1B263B; opacity: 0.8; animation-duration: 25s;
+        }
+        .blob-2 {
+            width: 60vw; height: 60vw; bottom: -20%; right: -10%;
+            background-color: #415A77; opacity: 0.6; animation-duration: 30s; animation-delay: -5s;
+        }
+        .blob-3 {
+            width: 50vw; height: 50vw; top: 20%; left: 30%;
+            background-color: #778DA9; opacity: 0.3; animation-duration: 35s; animation-delay: -10s;
+        }
+
+        /* Movimiento ultra lento y sin rotaciones bruscas para evitar mareos */
+        @keyframes slowDrift {
+            0% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(8vw, 6vh) scale(1.05); }
+            66% { transform: translate(-5vw, 10vh) scale(0.95); }
+            100% { transform: translate(-8vw, -5vh) scale(1.05); }
         }
 
         @keyframes fadeInBg { from { opacity: 0; } to { opacity: 1; } }
         @keyframes fadeInTab { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-        .liquid-shape { position: absolute; border-radius: 50%; opacity: 0.8; animation: liquidFlow 12s infinite alternate cubic-bezier(0.4, 0, 0.2, 1); }
-        .liquid-1 { width: 70vw; height: 70vh; top: 0; left: 0; background-color: #1B263B; animation-duration: 16s; }
-        .liquid-2 { width: 80vw; height: 80vh; bottom: 0; right: 0; background-color: #415A77; animation-duration: 14s; animation-delay: -3s; opacity: 0.6; }
-        .liquid-3 { width: 50vw; height: 50vh; top: 25%; right: 20%; background-color: #778DA9; opacity: 0.35; animation-duration: 18s; animation-delay: -6s; }
-
-        @keyframes liquidFlow {
-            0% { transform: translate(0, 0) scale(1) rotate(0deg); border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; }
-            50% { transform: translate(10%, 10%) scale(1.1) rotate(180deg); border-radius: 60% 40% 30% 70% / 50% 60% 40% 50%; }
-            100% { transform: translate(-10%, -5%) scale(0.9) rotate(360deg); border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; }
-        }
 
         /* ANIMACIÓN DE ENTRADA */
         @keyframes fadeUpEntrance { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
@@ -305,71 +328,50 @@ HTML_TEMPLATE = """
            ADAPTACIÓN PARA TELÉFONOS MÓVILES (DISEÑO RESPONSIVO) 
            ========================================================= */
         @media screen and (max-width: 768px) {
-            body {
-                padding: 10px;
-            }
+            body { padding: 10px; }
             #main-wrapper {
-                height: 90vh; /* Permite que la caja se ajuste a la pantalla del celular */
+                height: 90vh; 
                 min-height: 500px;
                 max-height: none;
                 width: 100%;
                 border-radius: 12px;
             }
-            .app-centered-layout {
-                padding: 15px 15px 30px 15px; /* Menos espacio en los bordes para celulares */
-            }
+            
+            /* Adaptación del fondo animado para móviles */
+            .blob-1 { width: 120vw; height: 120vh; top: -10%; left: -20%; }
+            .blob-2 { width: 120vw; height: 120vh; bottom: -10%; right: -20%; }
+            .blob-3 { width: 100vw; height: 100vh; top: 20%; left: 10%; }
+            .bg-organic::after { backdrop-filter: blur(80px); -webkit-backdrop-filter: blur(80px); }
+
+            .app-centered-layout { padding: 15px 15px 30px 15px; }
             .top-nav {
-                justify-content: flex-start; /* Ayuda a que los botones se deslicen mejor */
+                justify-content: flex-start; 
                 padding: 0 10px;
                 height: 65px; 
                 min-height: 65px;
             }
-            .tab-btn {
-                padding: 6px 12px;
-                font-size: 0.8em;
-            }
-            .app-title {
-                font-size: 1.8em;
-            }
-            .app-subtitle {
-                font-size: 0.9em;
-            }
-            /* Convierte las filas de 3 y 2 cuadros en 1 sola columna hacia abajo */
+            .tab-btn { padding: 6px 12px; font-size: 0.8em; }
+            .app-title { font-size: 1.8em; }
+            .app-subtitle { font-size: 0.9em; }
             .glass-grid-3, .glass-grid-2, .metrics-wrapper {
                 grid-template-columns: 1fr; 
                 gap: 15px;
             }
-            .upload-area {
-                padding: 20px 10px;
-            }
-            .cert-logo { 
-                font-size: 2em; 
-            }
-            .cert-title { 
-                font-size: 1.1em; 
-                letter-spacing: 1px; 
-            }
-            /* Acomoda el sello del certificado en celulares */
-            .cert-data-row { 
-                flex-direction: column; 
-                align-items: flex-start; 
-                gap: 15px; 
-            }
-            .cert-seal { 
-                align-self: center; 
-            }
-            .sub-nav {
-                padding-bottom: 10px;
-            }
+            .upload-area { padding: 20px 10px; }
+            .cert-logo { font-size: 2em; }
+            .cert-title { font-size: 1.1em; letter-spacing: 1px; }
+            .cert-data-row { flex-direction: column; align-items: flex-start; gap: 15px; }
+            .cert-seal { align-self: center; }
+            .sub-nav { padding-bottom: 10px; }
         }
     </style>
 </head>
 <body>
 
     <div class="bg-organic">
-        <div class="liquid-shape liquid-1"></div>
-        <div class="liquid-shape liquid-2"></div>
-        <div class="liquid-shape liquid-3"></div>
+        <div class="gradient-blob blob-1"></div>
+        <div class="gradient-blob blob-2"></div>
+        <div class="gradient-blob blob-3"></div>
     </div>
 
     <div id="landing-main" class="landing-screen" {% if skip_intro %} style="display: none; opacity: 0;" {% else %} style="display: flex; opacity: 1;" {% endif %}>
