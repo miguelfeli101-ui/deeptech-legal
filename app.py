@@ -1114,7 +1114,7 @@ HTML_TEMPLATE = """
                 var lista = document.getElementById('lista-boveda');
                 lista.style.opacity = '0';
                 setTimeout(function() {
-                    lista.innerHTML = '<div style="grid-column: 1 / -1; text-align: center; color: #778DA9; padding: 40px; width: 100%; display: flex; flex-direction: column; align-items: center;"><p style="font-weight: 300; margin-bottom: 20px;">Tu bóveda está vacía.<br>Sube tu primer archivo para protegerlo.</p><button class="btn btn-secondary" onclick="cambiarPestana(\\'app-section\\')">Subir Archivo</button></div>';
+                    lista.innerHTML = '<div style="grid-column: 1 / -1; text-align: center; color: #778DA9; padding: 40px; width: 100%; display: flex; flex-direction: column; align-items: center;"><p style="font-weight: 300; margin-bottom: 20px;">Tu bóveda está vacía.<br>Sube tu primer archivo para protegerlo.</p><button class="btn btn-secondary" onclick="cambiarPestana(\'app-section\')">Subir Archivo</button></div>';
                     lista.style.transition = 'opacity 0.4s';
                     lista.style.opacity = '1';
                 }, 200);
@@ -1381,14 +1381,17 @@ HTML_TEMPLATE = """
 # ==========================================
 def comparar_phash_local(imagen_bytes):
     try:
+        # Generamos la huella matemática de la imagen entrante
         img = Image.open(io.BytesIO(imagen_bytes))
         nuevo_phash = imagehash.phash(img)
         
+        # Comparamos contra la memoria de la bóveda
         for proyecto in db_proyectos:
              if 'phash' in proyecto and proyecto['phash']:
                 hash_guardado = imagehash.hex_to_hash(proyecto['phash'])
                 distancia = nuevo_phash - hash_guardado
                 
+                # Tolerancia estricta: Permite ligeros recortes o cambios de calidad, pero rechaza imágenes "similares"
                 if distancia <= 2: 
                     return True
         return False
@@ -1397,7 +1400,7 @@ def comparar_phash_local(imagen_bytes):
         return False
 
 def buscar_imagen_estricta_serpapi(imagen_bytes, nombre_archivo):
-    # 1. MOTOR LOCAL (Validación pHash en memoria) - ESTO FUNCIONA 100% EN LA NUBE
+    # FASE 1: Comprobación Local Inmediata
     if comparar_phash_local(imagen_bytes):
         resultado_local = [{
             "titulo": "Registro Encontrado en Base de Datos Interna",
@@ -1407,38 +1410,36 @@ def buscar_imagen_estricta_serpapi(imagen_bytes, nombre_archivo):
         }]
         return resultado_local, None
 
+    # FASE 2: Subida y Análisis OSINT
     try:
         img_original = Image.open(io.BytesIO(imagen_bytes))
         phash_original = imagehash.phash(img_original)
     except Exception as e:
         return None, "Error decodificando imagen."
 
-    # 2. INTENTO EXTERNO (Conexión OSINT)
     try:
         archivos = {'reqtype': (None, 'fileupload'), 'fileToUpload': (nombre_archivo, imagen_bytes)}
-        
-        respuesta_subida = requests.post('https://catbox.moe/user/api.php', files=archivos, timeout=5)
+        respuesta_subida = requests.post('https://catbox.moe/user/api.php', files=archivos)
         url_publica = respuesta_subida.text.strip()
-        
         if not url_publica.startswith("http"):
-            return [], None
-            
+            return None, "No se pudo generar el enlace temporal para el radar."
     except Exception as e:
-        return [], None
+        return None, f"Error de subida al nodo: {str(e)}"
 
     try:
         params = {"engine": "google_lens", "url": url_publica, "api_key": SERPAPI_KEY}
-        respuesta_serpapi = requests.get("https://serpapi.com/search.json", params=params, timeout=5)
+        respuesta_serpapi = requests.get("https://serpapi.com/search.json", params=params)
         datos = respuesta_serpapi.json()
     
-        if "error" in datos: 
-            return [], None 
+        if "error" in datos: return None, f"Error SerpApi: {datos['error']}"
             
         plagios_confirmados = []
         links_vistos = set()
 
+        # Extraer coincidencias que Google ya considera idénticas
         for item in datos.get("exact_matches", []):
             link = item.get("link", "#").lower()
+        
             if link not in links_vistos:
                 plagios_confirmados.append({
                     "titulo": item.get("title", "Coincidencia Exacta Detectada"),
@@ -1448,6 +1449,7 @@ def buscar_imagen_estricta_serpapi(imagen_bytes, nombre_archivo):
                 })
                 links_vistos.add(link)
 
+        # Validación matemática sobre los "similares" para encontrar copias camufladas
         for item in datos.get("visual_matches", []):
             link = item.get("link", "#").lower()
             if link in links_vistos: continue
@@ -1462,6 +1464,7 @@ def buscar_imagen_estricta_serpapi(imagen_bytes, nombre_archivo):
                         phash_thumb = imagehash.phash(img_thumb)
                         distancia = phash_original - phash_thumb
                         
+                        # Si la imagen web es estructuralmente la misma 
                         if distancia <= 16:
                             plagios_confirmados.append({
                                 "titulo": item.get("title", "Copia Idéntica (Verificada por pHash)"),
@@ -1477,7 +1480,7 @@ def buscar_imagen_estricta_serpapi(imagen_bytes, nombre_archivo):
             
         return plagios_confirmados, None
     except Exception as e:
-        return [], None 
+        return None, f"Error en validación web cruzada: {str(e)}"
 
 # ==========================================
 # MOTOR 2: DOCUMENTOS (EXTRACCIÓN INTELIGENTE + GOOGLE SEARCH)
@@ -1489,15 +1492,16 @@ def buscar_documento_con_serpapi(archivo_bytes, nombre_archivo):
     try:
         if extension == 'pdf':
             lector = PyPDF2.PdfReader(io.BytesIO(archivo_bytes))
-            for pagina in lector.pages[:4]:
+            for pagina in lector.pages[:4]: # Escaneamos hasta 4 páginas
                 texto = pagina.extract_text()
                 if texto:
+                    # Dividimos el texto en oraciones usando puntos y saltos de línea
                     oraciones = texto.replace('\n', ' ').split('. ')
                     fragmentos_candidatos.extend(oraciones)
                     
         elif extension in ['doc', 'docx']:
             doc = docx.Document(io.BytesIO(archivo_bytes))
-            for parrafo in doc.paragraphs[:20]:
+            for parrafo in doc.paragraphs[:20]: # Escaneamos los primeros 20 párrafos
                 if parrafo.text:
                     oraciones = parrafo.text.replace('\n', ' ').split('. ')
                     fragmentos_candidatos.extend(oraciones)
@@ -1505,29 +1509,32 @@ def buscar_documento_con_serpapi(archivo_bytes, nombre_archivo):
     except Exception as e:
         return None, f"Error al leer documento: {str(e)}"
         
+    # Filtrado Inteligente: Descartamos fragmentos menores a 15 palabras
     fragmentos_limpios = [f.strip() for f in fragmentos_candidatos if len(f.split()) > 15]
     
     if not fragmentos_limpios: 
         return [], None
         
+    # Ordenamos de mayor a menor longitud para encontrar la oración más densa
     fragmentos_limpios.sort(key=lambda x: len(x.split()), reverse=True)
     
+    # Aislamos la mejor huella textual y la limitamos a ~25 palabras
     mejor_fragmento = fragmentos_limpios[0]
     palabras_clave = mejor_fragmento.split()
     fragmento_clave = " ".join(palabras_clave[:25])
     
     try:
+        # Ejecutamos el radar con coincidencia exacta
         params = { 
             "engine": "google", 
             "q": f'"{fragmento_clave}"', 
             "api_key": SERPAPI_KEY, 
             "hl": "es" 
         }
-        res = requests.get("https://serpapi.com/search.json", params=params, timeout=5)
+        res = requests.get("https://serpapi.com/search.json", params=params)
         datos = res.json()
         
-        if "error" in datos: 
-            return [], None 
+        if "error" in datos: return None, f"Error SerpApi Text: {datos['error']}"
 
         resultados_limpios = []
         if "organic_results" in datos:
@@ -1541,7 +1548,7 @@ def buscar_documento_con_serpapi(archivo_bytes, nombre_archivo):
                 })
         return resultados_limpios, None
     except Exception as e:
-        return [], None
+        return None, f"Error en Motor Texto: {str(e)}"
 
 # ==========================================
 # ENRUTAMIENTOS Y LÓGICA CORE
