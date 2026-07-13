@@ -32,7 +32,9 @@ HTML_TEMPLATE = """
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>DeepTech Legal Solutions</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <title>DeepTech Legal Solutions</title>
+  
     <style>
         /* IMPORTACIÓN DE TIPOGRAFÍAS */
         @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Oswald:wght@300;400;500;600&display=swap');
@@ -56,49 +58,28 @@ HTML_TEMPLATE = """
 
         h1, h2, h3 { font-family: 'Oswald', sans-serif; }
 
-        /* FONDO: SOFT MESH GRADIENT (ESTILO AURORA LENTO) */
+        /* FONDO: LIQUID MESH GRADIENT */
         .bg-organic {
-            position: fixed; top: 0; left: 0; right: 0; bottom: 0; 
-            z-index: -2; background-color: #0D1B2A; overflow: hidden;
-            opacity: 0; animation: fadeInBg 2s ease-out forwards; 
-        }
-        
-        /* Capa de desenfoque de cristal para unificar los colores */
-        .bg-organic::after {
-            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-            backdrop-filter: blur(100px); -webkit-backdrop-filter: blur(100px); z-index: 1;
-        }
-
-        /* Formas orgánicas de color */
-        .gradient-blob {
-            position: absolute; border-radius: 50%; filter: blur(60px);
-            animation: slowDrift infinite alternate cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        /* Aplicación estricta de la paleta */
-        .blob-1 {
-            width: 70vw; height: 70vw; top: -10%; left: -10%;
-            background-color: #1B263B; opacity: 0.8; animation-duration: 25s;
-        }
-        .blob-2 {
-            width: 60vw; height: 60vw; bottom: -20%; right: -10%;
-            background-color: #415A77; opacity: 0.6; animation-duration: 30s; animation-delay: -5s;
-        }
-        .blob-3 {
-            width: 50vw; height: 50vw; top: 20%; left: 30%;
-            background-color: #778DA9; opacity: 0.3; animation-duration: 35s; animation-delay: -10s;
-        }
-
-        /* Movimiento ultra lento y sin rotaciones bruscas para evitar mareos */
-        @keyframes slowDrift {
-            0% { transform: translate(0, 0) scale(1); }
-            33% { transform: translate(5vw, 4vh) scale(1.05); }
-            66% { transform: translate(-3vw, 6vh) scale(0.95); }
-            100% { transform: translate(-5vw, -3vh) scale(1.05); }
+            position: fixed;
+            top: -20%; left: -20%; right: -20%; bottom: -20%; 
+            z-index: -2; background-color: #0D1B2A; filter: blur(120px); overflow: hidden;
+            transform: translate3d(0, 0, 0);
+            opacity: 0; animation: fadeInBg 1.5s ease-out forwards; 
         }
 
         @keyframes fadeInBg { from { opacity: 0; } to { opacity: 1; } }
         @keyframes fadeInTab { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .liquid-shape { position: absolute; border-radius: 50%; opacity: 0.8; animation: liquidFlow 12s infinite alternate cubic-bezier(0.4, 0, 0.2, 1); }
+        .liquid-1 { width: 70vw; height: 70vh; top: 0; left: 0; background-color: #1B263B; animation-duration: 16s; }
+        .liquid-2 { width: 80vw; height: 80vh; bottom: 0; right: 0; background-color: #415A77; animation-duration: 14s; animation-delay: -3s; opacity: 0.6; }
+        .liquid-3 { width: 50vw; height: 50vh; top: 25%; right: 20%; background-color: #778DA9; opacity: 0.35; animation-duration: 18s; animation-delay: -6s; }
+
+        @keyframes liquidFlow {
+            0% { transform: translate(0, 0) scale(1) rotate(0deg); border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; }
+            50% { transform: translate(10%, 10%) scale(1.1) rotate(180deg); border-radius: 60% 40% 30% 70% / 50% 60% 40% 50%; }
+            100% { transform: translate(-10%, -5%) scale(0.9) rotate(360deg); border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; }
+        }
 
         /* ANIMACIÓN DE ENTRADA */
         @keyframes fadeUpEntrance { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
@@ -129,7 +110,7 @@ HTML_TEMPLATE = """
 
         .hero-subtitle { font-family: 'Montserrat', sans-serif; font-size: clamp(0.9em, 2vw, 1.2em); color: #778DA9 !important; font-weight: 400; margin-bottom: 40px; text-align: center; letter-spacing: 1px; line-height: 1.5;}
 
-        /* NUEVAS INSIGNIAS DE CONFIANZA */
+        /* INSIGNIAS DE CONFIANZA */
         .trust-badges { display: flex; justify-content: center; gap: 20px; margin-top: 40px; flex-wrap: wrap; opacity: 0; animation: fadeUpEntrance 1.5s cubic-bezier(0.4, 0, 0.2, 1) 1.8s forwards; }
         .trust-badge-item { display: flex; align-items: center; gap: 8px; font-size: 0.85em; color: rgba(224, 225, 221, 0.6); font-family: 'Montserrat', sans-serif; font-weight: 400; }
         
@@ -150,17 +131,18 @@ HTML_TEMPLATE = """
         /* LA PLATAFORMA SAAS */
         #main-wrapper { 
             background: rgba(13, 27, 42, 0.65); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(119, 141, 169, 0.2); border-radius: 16px; box-shadow: 0px 25px 60px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.1); 
+            border: 1px solid rgba(119, 141, 169, 0.2); border-radius: 16px;
+            box-shadow: 0px 25px 60px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.1); 
             width: 95%; max-width: 850px; position: relative; overflow: hidden; height: 85vh; min-height: 600px; max-height: 800px;
             transition: opacity 0.5s ease-in-out; display: flex; flex-direction: column; z-index: 1000;
         }
         
-        /* MENU SUPERIOR FIJO Y ESTABLE */
+        /* MENU SUPERIOR FIJO */
         .top-nav { 
             display: flex; justify-content: center; align-items: center; gap: 8px; width: 100%; 
-            border-bottom: 1px solid rgba(119, 141, 169, 0.2); padding: 0 10px; margin: 0; 
+            border-bottom: 1px solid rgba(119, 141, 169, 0.2); padding: 0 10px; margin: 0;
             box-sizing: border-box; z-index: 10; flex-wrap: nowrap; overflow-x: auto;
-            flex-shrink: 0; height: 75px; min-height: 75px; 
+            flex-shrink: 0; height: 75px; min-height: 75px;
         }
         .top-nav::-webkit-scrollbar { display: none; }
         
@@ -173,11 +155,7 @@ HTML_TEMPLATE = """
         .tab-btn:hover { background-color: rgba(65, 90, 119, 0.5); color: #E0E1DD; }
         .tab-btn.active { background-color: #415A77; color: #E0E1DD; border-color: #778DA9;}
 
-        .notif-badge {
-            background-color: #DC2626; color: white; font-size: 0.85em; font-family: 'Montserrat', sans-serif; 
-            font-weight: 600; padding: 2px 6px; border-radius: 12px; margin-left: 6px; 
-            box-shadow: 0px 2px 4px rgba(0,0,0,0.3); display: none; align-items: center; justify-content: center;
-        }
+        .notif-badge { background-color: #DC2626; color: white; font-size: 0.85em; font-family: 'Montserrat', sans-serif; font-weight: 600; padding: 2px 6px; border-radius: 12px; margin-left: 6px; box-shadow: 0px 2px 4px rgba(0,0,0,0.3); display: none; align-items: center; justify-content: center; }
 
         /* MENÚ INFERIOR (SUB-NAV PARA BÓVEDA) */
         .sub-nav { 
@@ -192,11 +170,10 @@ HTML_TEMPLATE = """
         .sub-tab-btn:hover { background-color: rgba(27, 38, 59, 0.6); color: #E0E1DD; border-color: rgba(119, 141, 169, 0.2); }
         .sub-tab-btn.active { background-color: rgba(27, 38, 59, 0.8); color: #E0E1DD; border-color: #778DA9;}
 
-        /* CLASES DE CONTENEDORES Y ALINEACIÓN ESTABLE */
         .section-container { 
             width: 100%; flex-grow: 1; box-sizing: border-box; transition: opacity 0.4s ease-in-out; 
             background-color: transparent; overflow-y: auto; display: flex; flex-direction: column; 
-            min-height: 0; 
+            min-height: 0;
         }
         .section-container::-webkit-scrollbar { width: 6px; }
         .section-container::-webkit-scrollbar-thumb { background-color: rgba(119, 141, 169, 0.3); border-radius: 4px; }
@@ -205,7 +182,6 @@ HTML_TEMPLATE = """
         
         .app-centered-layout { display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding: 20px 40px 40px 40px; box-sizing: border-box; }
         
-        /* CORRECCIÓN SCROLL SUBIDA: Margen seguro que no genera overflow */
         .view-centered { margin-top: 8vh; transition: margin-top 0.4s ease; }
 
         .content-wrapper-inner { width: 100%; max-width: 750px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; padding-bottom: 20px; }
@@ -226,13 +202,13 @@ HTML_TEMPLATE = """
         @keyframes fadeInSlide { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
         .fade-in-element { animation: fadeInSlide 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
         
-        /* BARRA DE CARGA REALISTA SIN PARPADEO */
+        /* BARRA DE CARGA REALISTA */
         .loading-bar-container { width: 100%; max-width: 400px; height: 10px; background-color: rgba(13, 27, 42, 0.8); border-radius: 10px; margin: 30px auto; overflow: hidden; border: 1px solid rgba(119, 141, 169, 0.3); box-shadow: inset 0 2px 5px rgba(0,0,0,0.5); }
         .loading-bar-fill { 
             height: 100%; width: 0%; border-radius: 10px; 
             background: linear-gradient(90deg, #415A77, #5EEAD4, #778DA9, #415A77); 
             background-size: 200% 100%; 
-            animation: shimmerGradient 2.5s linear infinite; 
+            animation: shimmerGradient 2.5s linear infinite;
             transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1); 
         }
         @keyframes shimmerGradient { 
@@ -293,13 +269,7 @@ HTML_TEMPLATE = """
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(13, 27, 42, 0.8); z-index: 20000; align-items: center; justify-content: center; backdrop-filter: blur(5px); opacity: 0; transition: opacity 0.3s ease; }
         
         /* ESTILOS PARA TARJETAS DE NOTIFICACIÓN EN EL BUZÓN */
-        .notif-card {
-            background: rgba(27, 38, 59, 0.5);
-            backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(119, 141, 169, 0.2); border-left: 4px solid #5EEAD4;
-            border-radius: 12px; padding: 20px; text-align: left; margin-bottom: 15px;
-            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1); transition: transform 0.3s ease;
-        }
+        .notif-card { background: rgba(27, 38, 59, 0.5); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(119, 141, 169, 0.2); border-left: 4px solid #5EEAD4; border-radius: 12px; padding: 20px; text-align: left; margin-bottom: 15px; box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1); transition: transform 0.3s ease; }
         .notif-card:hover { transform: translateY(-3px); }
         .notif-card h4 { margin: 0 0 10px 0; color: #E0E1DD; font-family: 'Oswald', sans-serif; font-size: 1.2em;}
         .notif-card p { margin: 0; color: rgba(224, 225, 221, 0.85); font-size: 0.9em; font-weight: 300; line-height: 1.5; text-align: justify; }
@@ -315,48 +285,19 @@ HTML_TEMPLATE = """
         .qr-placeholder { font-size: 3em; line-height: 1; opacity: 0.8;}
         .cert-seal { width: 60px; height: 60px; border: 2px dashed #5EEAD4; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 0.6em; color: #5EEAD4; font-weight: bold; text-align: center; font-family: 'Oswald', sans-serif; transform: rotate(-15deg); flex-shrink: 0; }
 
-        .modal-close-btn {
-            position: absolute; top: 12px; right: 12px; background: rgba(13, 27, 42, 0.6); 
-            border: 1px solid rgba(119, 141, 169, 0.3); color: #E0E1DD; 
-            width: 32px; height: 32px; border-radius: 50%; font-size: 1.2em; 
-            display: flex; align-items: center; justify-content: center; 
-            cursor: pointer; z-index: 50; transition: all 0.2s ease;
-        }
+        .modal-close-btn { position: absolute; top: 12px; right: 12px; background: rgba(13, 27, 42, 0.6); border: 1px solid rgba(119, 141, 169, 0.3); color: #E0E1DD; width: 32px; height: 32px; border-radius: 50%; font-size: 1.2em; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 50; transition: all 0.2s ease; }
         .modal-close-btn:hover { background: #DC2626; color: white; border-color: #DC2626; }
 
-        /* =========================================================
-           ADAPTACIÓN PARA TELÉFONOS MÓVILES (DISEÑO RESPONSIVO) 
-           ========================================================= */
+        /* ADAPTACIÓN PARA TELÉFONOS MÓVILES */
         @media screen and (max-width: 768px) {
             body { padding: 10px; }
-            #main-wrapper {
-                height: 90vh; 
-                min-height: 500px;
-                max-height: none;
-                width: 100%;
-                border-radius: 12px;
-            }
-            
-            /* Adaptación del fondo animado para móviles */
-            .blob-1 { width: 120vw; height: 120vh; top: -10%; left: -20%; }
-            .blob-2 { width: 120vw; height: 120vh; bottom: -10%; right: -20%; }
-            .blob-3 { width: 100vw; height: 100vh; top: 20%; left: 10%; }
-            .bg-organic::after { backdrop-filter: blur(80px); -webkit-backdrop-filter: blur(80px); }
-
+            #main-wrapper { height: 90vh; min-height: 500px; max-height: none; width: 100%; border-radius: 12px; }
             .app-centered-layout { padding: 15px 15px 30px 15px; }
-            .top-nav {
-                justify-content: flex-start; 
-                padding: 0 10px;
-                height: 65px; 
-                min-height: 65px;
-            }
+            .top-nav { justify-content: flex-start; padding: 0 10px; height: 65px; min-height: 65px; }
             .tab-btn { padding: 6px 12px; font-size: 0.8em; }
             .app-title { font-size: 1.8em; }
             .app-subtitle { font-size: 0.9em; }
-            .glass-grid-3, .glass-grid-2, .metrics-wrapper {
-                grid-template-columns: 1fr; 
-                gap: 15px;
-            }
+            .glass-grid-3, .glass-grid-2, .metrics-wrapper { grid-template-columns: 1fr; gap: 15px; }
             .upload-area { padding: 20px 10px; }
             .cert-logo { font-size: 2em; }
             .cert-title { font-size: 1.1em; letter-spacing: 1px; }
@@ -369,9 +310,9 @@ HTML_TEMPLATE = """
 <body>
 
     <div class="bg-organic">
-        <div class="gradient-blob blob-1"></div>
-        <div class="gradient-blob blob-2"></div>
-        <div class="gradient-blob blob-3"></div>
+        <div class="liquid-shape liquid-1"></div>
+        <div class="liquid-shape liquid-2"></div>
+        <div class="liquid-shape liquid-3"></div>
     </div>
 
     <div id="landing-main" class="landing-screen" {% if skip_intro %} style="display: none; opacity: 0;" {% else %} style="display: flex; opacity: 1;" {% endif %}>
@@ -384,7 +325,7 @@ HTML_TEMPLATE = """
             </div>
         </div>
         <p class="hero-subtitle">POTENCIADO POR INTELIGENCIA ARTIFICIAL & BLOCKCHAIN</p>
-        <button type="button" class="btn btn-ingreso" style="padding: 18px 45px; font-size: 1.2em;" onclick="ingresarApp()">Ingresar a la Plataforma</button>
+        <button class="btn btn-ingreso" style="padding: 18px 45px; font-size: 1.2em;" onclick="ingresarApp()">Ingresar a la Plataforma</button>
         
         <div class="trust-badges">
             <div class="trust-badge-item"><span style="color: #5EEAD4; font-size: 1.2em;">🔒</span> Cifrado Militar</div>
@@ -432,7 +373,7 @@ HTML_TEMPLATE = """
                 </div>
                 
                 <div class="upload-area" id="upload-area-box" {% if mostrando_resultado %} style="display: none;" {% endif %}>
-                    <form id="upload-form" action="/" method="POST" enctype="multipart/form-data" onsubmit="ejecutarCarga()" style="display: flex; flex-direction: column; align-items: center;">
+                    <form id="upload-form" action="/" method="POST" enctype="multipart/form-data" onsubmit="ejecutarCarga(event)" style="display: flex; flex-direction: column; align-items: center;">
                         <label style="font-weight: 400; color: #E0E1DD; text-align: center; font-size: 1.1em; letter-spacing: 0.5px; font-family: 'Oswald', sans-serif;">Selecciona el archivo para certificar:</label>
                         <input type="file" name="archivo" accept="image/*,.pdf,.doc,.docx" required id="input-archivo">
                         <button type="submit" class="btn" style="width: 100%;">Analizar y Proteger en Bóveda</button>
@@ -550,13 +491,13 @@ HTML_TEMPLATE = """
                                 <div class="card-header-flex">
                                     <span></span>
                                     <div class="dropdown">
-                                        <button onclick="toggleDropdown('drop-{{ loop.index }}')" class="dots-btn">⋮</button>
+                                        <button onclick="toggleDropdown(event, 'drop-{{ loop.index }}')" class="dots-btn">⋮</button>
                                         <div id="drop-{{ loop.index }}" class="dropdown-content">
-                                            <a href="#" onclick="verInforme('{{ p.nombre }}', '{{ p.hash_full }}', '{{ p.plagio }}')">Ver informe general</a>
-                                            <a href="#" style="color: #5EEAD4; font-size: 0.82em; white-space: normal; line-height: 1.3;" onclick="verCertificado('{{ p.nombre }}', '{{ p.hash_full }}', '{{ p.timestamp|default('Fecha no disponible') }}')">Ver Certificado Legal</a>
-                                            <a href="#" onclick="activarModoSeleccion('{{ p.hash_full }}')">Seleccionar</a>
-                                            <a href="#" onclick="renombrarArchivo('{{ p.hash_full }}', '{{ p.nombre }}', this)">Cambiar nombre</a>
-                                            <a href="#" onclick="eliminarConAnimacion('{{ p.hash_full }}', this)">Eliminar</a>
+                                            <a href="#" onclick="verInforme(event, '{{ p.nombre }}', '{{ p.hash_full }}', '{{ p.plagio }}')">Ver informe general</a>
+                                            <a href="#" style="color: #5EEAD4; font-size: 0.82em; white-space: normal; line-height: 1.3;" onclick="verCertificado(event, '{{ p.nombre }}', '{{ p.hash_full }}', '{{ p.timestamp|default('Fecha no disponible') }}')">Ver Certificado Legal</a>
+                                            <a href="#" onclick="activarModoSeleccion(event, '{{ p.hash_full }}')">Seleccionar</a>
+                                            <a href="#" onclick="renombrarArchivo(event, '{{ p.hash_full }}', '{{ p.nombre }}', this)">Cambiar nombre</a>
+                                            <a href="#" onclick="eliminarConAnimacion(event, '{{ p.hash_full }}', this)">Eliminar</a>
                                         </div>
                                     </div>
                                 </div>
@@ -807,38 +748,34 @@ HTML_TEMPLATE = """
     <script>
         let unreadCount = 0;
 
-        // BARRERA ANTI-BUG: Manejo seguro para navegadores embebidos o con restricciones de API (Render, IG/FB browsers)
-        try {
-            if (window.performance) {
-                let isReload = false;
-                if (typeof window.performance.getEntriesByType === 'function') {
-                    let navEntries = window.performance.getEntriesByType("navigation");
-                    if (navEntries.length > 0 && navEntries[0].type === "reload") {
-                        isReload = true;
-                    }
-                } else if (window.performance.navigation && window.performance.navigation.type === 1) {
-                    isReload = true;
-                }
-                if (isReload && window.location.search !== "") {
-                    window.location.href = "/";
-                }
+        if (window.performance) {
+            var navEntries = window.performance.getEntriesByType("navigation");
+            var isReload = false;
+            if (navEntries.length > 0 && navEntries[0].type === "reload") {
+                isReload = true;
+            } else if (window.performance.navigation && window.performance.navigation.type === 1) {
+                isReload = true;
             }
-        } catch (error) {
-            console.warn("API de performance omitida para asegurar compatibilidad.", error);
+            if (isReload && window.location.search !== "") {
+                window.location.href = "/";
+            }
         }
 
-        // FUNCIÓN MEJORADA: En lugar de solo manipular el DOM, fuerza una transición real 
-        // del lado del backend usando la URL, garantizando que el botón NUNCA se trabe.
         function ingresarApp() {
             var main = document.getElementById('landing-main');
-            if (main) {
-                main.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+            var wrapper = document.getElementById('main-wrapper');
+            if(main) {
                 main.style.opacity = '0';
                 main.style.transform = 'translateY(-30px)';
+                setTimeout(function() {
+                    main.style.display = 'none';
+                    if(wrapper) {
+                        wrapper.style.display = 'flex';
+                        void wrapper.offsetWidth; 
+                        wrapper.style.opacity = '1';
+                    }
+                }, 500);
             }
-            setTimeout(function() {
-                window.location.href = '/?skip_intro=true';
-            }, 400);
         }
 
         function transicionAuditarNuevo() {
@@ -881,42 +818,29 @@ HTML_TEMPLATE = """
 
         function cambiarPestana(idMostrar) {
             cancelarSeleccion();
-            var appSec = document.getElementById('app-section');
-            var dashSec = document.getElementById('dashboard-section');
-            var infoSec = document.getElementById('como-funciona-section');
-            var qsSec = document.getElementById('quienes-section');
-            var notifSec = document.getElementById('notificaciones-section');
-            var planesSec = document.getElementById('planes-section');
-            
-            var tabAuditar = document.getElementById('tab-auditar');
-            var tabBoveda = document.getElementById('tab-boveda');
-            var tabInfo = document.getElementById('tab-como-funciona');
-            var tabQs = document.getElementById('tab-quienes');
-            var tabNotif = document.getElementById('tab-notificaciones');
-            var tabPlanes = document.getElementById('tab-planes');
+            var sections = ['app-section', 'dashboard-section', 'como-funciona-section', 'quienes-section', 'notificaciones-section', 'planes-section'];
+            var tabs = ['tab-auditar', 'tab-boveda', 'tab-como-funciona', 'tab-quienes', 'tab-notificaciones', 'tab-planes'];
 
-            if(tabAuditar) tabAuditar.classList.remove('active');
-            if(tabBoveda) tabBoveda.classList.remove('active');
-            if(tabInfo) tabInfo.classList.remove('active');
-            if(tabQs) tabQs.classList.remove('active');
-            if(tabNotif) tabNotif.classList.remove('active');
-            if(tabPlanes) tabPlanes.classList.remove('active');
+            tabs.forEach(tabId => {
+                var tab = document.getElementById(tabId);
+                if(tab) tab.classList.remove('active');
+            });
 
-            if(idMostrar === 'app-section') { if(tabAuditar) tabAuditar.classList.add('active'); }
-            else if(idMostrar === 'dashboard-section') { if(tabBoveda) tabBoveda.classList.add('active'); }
-            else if(idMostrar === 'como-funciona-section') { if(tabInfo) tabInfo.classList.add('active'); }
-            else if(idMostrar === 'quienes-section') { if(tabQs) tabQs.classList.add('active'); }
-            else if(idMostrar === 'planes-section') { if(tabPlanes) tabPlanes.classList.add('active'); }
-            else if(idMostrar === 'notificaciones-section') { 
-                if(tabNotif) tabNotif.classList.add('active'); 
+            if(idMostrar === 'app-section') document.getElementById('tab-auditar')?.classList.add('active');
+            if(idMostrar === 'dashboard-section') document.getElementById('tab-boveda')?.classList.add('active');
+            if(idMostrar === 'como-funciona-section') document.getElementById('tab-como-funciona')?.classList.add('active');
+            if(idMostrar === 'quienes-section') document.getElementById('tab-quienes')?.classList.add('active');
+            if(idMostrar === 'notificaciones-section') { 
+                document.getElementById('tab-notificaciones')?.classList.add('active');
                 unreadCount = 0;
                 var badge = document.getElementById('notif-badge');
                 if(badge) badge.style.display = 'none';
             }
+            if(idMostrar === 'planes-section') document.getElementById('tab-planes')?.classList.add('active');
 
-            var sections = [appSec, dashSec, infoSec, qsSec, notifSec, planesSec];
-            sections.forEach(sec => {
-                if(sec && sec.style.display !== 'none') {
+            sections.forEach(secId => {
+                var sec = document.getElementById(secId);
+                if(sec && sec.style.display !== 'none' && secId !== idMostrar) {
                     sec.style.opacity = '0';
                     setTimeout(function() { sec.style.display = 'none'; }, 400);
                 }
@@ -941,7 +865,7 @@ HTML_TEMPLATE = """
             
             sections.forEach(secId => {
                 var sec = document.getElementById(secId);
-                if (sec && sec.style.display !== 'none') {
+                if (sec && sec.style.display !== 'none' && secId !== idMostrar) {
                     sec.style.opacity = '0';
                     setTimeout(function() {
                         sec.style.display = 'none';
@@ -1018,7 +942,7 @@ HTML_TEMPLATE = """
             }, 300);
         }
 
-        function ejecutarCarga() {
+        function ejecutarCarga(e) {
             var archivo = document.getElementById('input-archivo').value.toLowerCase();
             var textoCarga = document.getElementById('texto-carga');
             
@@ -1070,7 +994,7 @@ HTML_TEMPLATE = """
             }, 400);
         }
 
-        function toggleDropdown(id) {
+        function toggleDropdown(event, id) {
             event.stopPropagation();
             var dropdowns = document.getElementsByClassName("dropdown-content");
             for (var i = 0; i < dropdowns.length; i++) {
@@ -1092,7 +1016,7 @@ HTML_TEMPLATE = """
             }
         }
 
-        function eliminarConAnimacion(hash, btnElement) {
+        function eliminarConAnimacion(event, hash, btnElement) {
             event.preventDefault();
             event.stopPropagation();
             var card = btnElement.closest('.card-proyecto');
@@ -1131,7 +1055,7 @@ HTML_TEMPLATE = """
             }
         }
 
-        function renombrarArchivo(hash, nombreActual, btnElement) {
+        function renombrarArchivo(event, hash, nombreActual, btnElement) {
             event.preventDefault();
             event.stopPropagation();
             var nuevoNombre = prompt("Introduce el nuevo nombre para el archivo:", nombreActual);
@@ -1148,8 +1072,8 @@ HTML_TEMPLATE = """
                     if(titleEl) { titleEl.innerText = nuevoNombre; titleEl.title = nuevoNombre; }
                     var verInformeBtn = card.querySelector('a[onclick^="verInforme"]');
                     if (verInformeBtn) {
-                        var isPlagio = verInformeBtn.getAttribute('onclick').split(", '")[2].replace("')", "");
-                        verInformeBtn.setAttribute('onclick', "verInforme('"+nuevoNombre+"', '"+hash+"', '"+isPlagio+"')");
+                        var isPlagio = verInformeBtn.getAttribute('onclick').split(", '")[3].replace("')", "");
+                        verInformeBtn.setAttribute('onclick', "verInforme(event, '"+nuevoNombre+"', '"+hash+"', '"+isPlagio+"')");
                     }
                 }
                 var dropdowns = document.getElementsByClassName("dropdown-content");
@@ -1158,7 +1082,7 @@ HTML_TEMPLATE = """
         }
 
         let modoSeleccion = false;
-        function activarModoSeleccion(hashInicial) {
+        function activarModoSeleccion(event, hashInicial) {
             event.preventDefault();
             event.stopPropagation();
             modoSeleccion = true;
@@ -1235,7 +1159,7 @@ HTML_TEMPLATE = """
             }, 300);
         }
 
-        function verInforme(nombre, hash, plagio) {
+        function verInforme(event, nombre, hash, plagio) {
             event.preventDefault();
             document.getElementById('inf-nombre').innerText = nombre;
             document.getElementById('inf-hash').innerText = hash;
@@ -1281,7 +1205,7 @@ HTML_TEMPLATE = """
             setTimeout(() => { modal.style.display = 'none'; }, 300);
         }
         
-        function verCertificado(nombre, hash, fecha) {
+        function verCertificado(event, nombre, hash, fecha) {
             event.preventDefault();
             document.getElementById('cert-nombre').innerText = nombre;
             document.getElementById('cert-hash').innerText = hash;
@@ -1391,17 +1315,14 @@ HTML_TEMPLATE = """
 # ==========================================
 def comparar_phash_local(imagen_bytes):
     try:
-        # Generamos la huella matemática de la imagen entrante
         img = Image.open(io.BytesIO(imagen_bytes))
         nuevo_phash = imagehash.phash(img)
         
-        # Comparamos contra la memoria de la bóveda
         for proyecto in db_proyectos:
              if 'phash' in proyecto and proyecto['phash']:
                 hash_guardado = imagehash.hex_to_hash(proyecto['phash'])
                 distancia = nuevo_phash - hash_guardado
                 
-                # Tolerancia estricta: Permite ligeros recortes o cambios de calidad, pero rechaza imágenes "similares"
                 if distancia <= 2: 
                     return True
         return False
@@ -1410,7 +1331,6 @@ def comparar_phash_local(imagen_bytes):
         return False
 
 def buscar_imagen_estricta_serpapi(imagen_bytes, nombre_archivo):
-    # FASE 1: Comprobación Local Inmediata
     if comparar_phash_local(imagen_bytes):
         resultado_local = [{
             "titulo": "Registro Encontrado en Base de Datos Interna",
@@ -1420,7 +1340,6 @@ def buscar_imagen_estricta_serpapi(imagen_bytes, nombre_archivo):
         }]
         return resultado_local, None
 
-    # FASE 2: Subida y Análisis OSINT
     try:
         img_original = Image.open(io.BytesIO(imagen_bytes))
         phash_original = imagehash.phash(img_original)
@@ -1446,10 +1365,8 @@ def buscar_imagen_estricta_serpapi(imagen_bytes, nombre_archivo):
         plagios_confirmados = []
         links_vistos = set()
 
-        # Extraer coincidencias que Google ya considera idénticas
         for item in datos.get("exact_matches", []):
             link = item.get("link", "#").lower()
-        
             if link not in links_vistos:
                 plagios_confirmados.append({
                     "titulo": item.get("title", "Coincidencia Exacta Detectada"),
@@ -1459,7 +1376,6 @@ def buscar_imagen_estricta_serpapi(imagen_bytes, nombre_archivo):
                 })
                 links_vistos.add(link)
 
-        # Validación matemática sobre los "similares" para encontrar copias camufladas
         for item in datos.get("visual_matches", []):
             link = item.get("link", "#").lower()
             if link in links_vistos: continue
@@ -1474,7 +1390,6 @@ def buscar_imagen_estricta_serpapi(imagen_bytes, nombre_archivo):
                         phash_thumb = imagehash.phash(img_thumb)
                         distancia = phash_original - phash_thumb
                         
-                        # Si la imagen web es estructuralmente la misma 
                         if distancia <= 16:
                             plagios_confirmados.append({
                                 "titulo": item.get("title", "Copia Idéntica (Verificada por pHash)"),
@@ -1502,16 +1417,15 @@ def buscar_documento_con_serpapi(archivo_bytes, nombre_archivo):
     try:
         if extension == 'pdf':
             lector = PyPDF2.PdfReader(io.BytesIO(archivo_bytes))
-            for pagina in lector.pages[:4]: # Escaneamos hasta 4 páginas
+            for pagina in lector.pages[:4]:
                 texto = pagina.extract_text()
                 if texto:
-                    # Dividimos el texto en oraciones usando puntos y saltos de línea
                     oraciones = texto.replace('\n', ' ').split('. ')
                     fragmentos_candidatos.extend(oraciones)
                     
         elif extension in ['doc', 'docx']:
             doc = docx.Document(io.BytesIO(archivo_bytes))
-            for parrafo in doc.paragraphs[:20]: # Escaneamos los primeros 20 párrafos
+            for parrafo in doc.paragraphs[:20]:
                 if parrafo.text:
                     oraciones = parrafo.text.replace('\n', ' ').split('. ')
                     fragmentos_candidatos.extend(oraciones)
@@ -1519,22 +1433,18 @@ def buscar_documento_con_serpapi(archivo_bytes, nombre_archivo):
     except Exception as e:
         return None, f"Error al leer documento: {str(e)}"
         
-    # Filtrado Inteligente: Descartamos fragmentos menores a 15 palabras
     fragmentos_limpios = [f.strip() for f in fragmentos_candidatos if len(f.split()) > 15]
     
     if not fragmentos_limpios: 
         return [], None
         
-    # Ordenamos de mayor a menor longitud para encontrar la oración más densa
     fragmentos_limpios.sort(key=lambda x: len(x.split()), reverse=True)
     
-    # Aislamos la mejor huella textual y la limitamos a ~25 palabras
     mejor_fragmento = fragmentos_limpios[0]
     palabras_clave = mejor_fragmento.split()
     fragmento_clave = " ".join(palabras_clave[:25])
     
     try:
-        # Ejecutamos el radar con coincidencia exacta
         params = { 
             "engine": "google", 
             "q": f'"{fragmento_clave}"', 
@@ -1661,5 +1571,4 @@ def index():
                                   mostrar_boveda=abrir_boveda)
 
 if __name__ == "__main__":
-    # IMPORTANTE: Escuchando en todos los puertos para la nube (Render)
     app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 5000)), debug=True)
