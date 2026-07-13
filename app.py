@@ -34,6 +34,7 @@ HTML_TEMPLATE = """
     <meta charset="UTF-8">
     <title>DeepTech Legal Solutions</title>
     <style>
+  
         /* IMPORTACIÓN DE TIPOGRAFÍAS */
         @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Oswald:wght@300;400;500;600&display=swap');
         @import url('https://fonts.cdnfonts.com/css/bukhari-script');
@@ -58,9 +59,11 @@ HTML_TEMPLATE = """
 
         /* FONDO: LIQUID MESH GRADIENT */
         .bg-organic {
-            position: fixed; top: -20%; left: -20%; right: -20%; bottom: -20%; 
+            position: fixed;
+            top: -20%; left: -20%; right: -20%; bottom: -20%; 
             z-index: -2; background-color: #0D1B2A; filter: blur(120px); overflow: hidden;
-            transform: translate3d(0, 0, 0); opacity: 0; animation: fadeInBg 1.5s ease-out forwards; 
+            transform: translate3d(0, 0, 0);
+            opacity: 0; animation: fadeInBg 1.5s ease-out forwards; 
         }
 
         @keyframes fadeInBg { from { opacity: 0; } to { opacity: 1; } }
@@ -116,8 +119,7 @@ HTML_TEMPLATE = """
         
         .glass-card {
             background: rgba(27, 38, 59, 0.5); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(119, 141, 169, 0.2); border-radius: 16px; padding: 25px; text-align: center;
-            transition: transform 0.3s ease, border-color 0.3s ease; box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1); 
+            border: 1px solid rgba(119, 141, 169, 0.2); border-radius: 16px; padding: 25px; text-align: center; transition: transform 0.3s ease, border-color 0.3s ease; box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
         }
         .glass-card:hover { transform: translateY(-5px); border-color: #778DA9; }
         .glass-card h3 { color: #CCFBF1; font-size: 1.5em; margin-bottom: 15px; display: flex; justify-content: center; align-items: center; gap: 10px; font-family: 'Oswald', sans-serif;}
@@ -134,9 +136,8 @@ HTML_TEMPLATE = """
         /* MENU SUPERIOR FIJO Y ESTABLE */
         .top-nav { 
             display: flex; justify-content: center; align-items: center; gap: 8px; width: 100%; 
-            border-bottom: 1px solid rgba(119, 141, 169, 0.2); padding: 0 10px; margin: 0; 
-            box-sizing: border-box; z-index: 10; flex-wrap: nowrap; overflow-x: auto;
-            flex-shrink: 0; height: 75px; min-height: 75px; 
+            border-bottom: 1px solid rgba(119, 141, 169, 0.2); padding: 0 10px; margin: 0; box-sizing: border-box; z-index: 10; flex-wrap: nowrap; overflow-x: auto;
+            flex-shrink: 0; height: 75px; min-height: 75px;
         }
         .top-nav::-webkit-scrollbar { display: none; }
         
@@ -152,8 +153,7 @@ HTML_TEMPLATE = """
         /* GLOBITO DE NOTIFICACIÓN INCORPORADO AL BOTÓN */
         .notif-badge {
             background-color: #DC2626; color: white; font-size: 0.85em; font-family: 'Montserrat', sans-serif; 
-            font-weight: 600; padding: 2px 6px; border-radius: 12px; margin-left: 6px; 
-            box-shadow: 0px 2px 4px rgba(0,0,0,0.3); display: none; align-items: center; justify-content: center;
+            font-weight: 600; padding: 2px 6px; border-radius: 12px; margin-left: 6px; box-shadow: 0px 2px 4px rgba(0,0,0,0.3); display: none; align-items: center; justify-content: center;
         }
 
         /* MENÚ INFERIOR (SUB-NAV PARA BÓVEDA) */
@@ -173,7 +173,7 @@ HTML_TEMPLATE = """
         .section-container { 
             width: 100%; flex-grow: 1; box-sizing: border-box; transition: opacity 0.4s ease-in-out; 
             background-color: transparent; overflow-y: auto; display: flex; flex-direction: column; 
-            min-height: 0; 
+            min-height: 0;
         }
         .section-container::-webkit-scrollbar { width: 6px; }
         .section-container::-webkit-scrollbar-thumb { background-color: rgba(119, 141, 169, 0.3); border-radius: 4px; }
@@ -209,7 +209,7 @@ HTML_TEMPLATE = """
             height: 100%; width: 0%; border-radius: 10px; 
             background: linear-gradient(90deg, #415A77, #5EEAD4, #778DA9, #415A77); 
             background-size: 200% 100%; 
-            animation: shimmerGradient 2.5s linear infinite; 
+            animation: shimmerGradient 2.5s linear infinite;
             transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1); 
         }
         @keyframes shimmerGradient { 
@@ -241,7 +241,6 @@ HTML_TEMPLATE = """
         
         /* BÓVEDA DINÁMICA */
         .grid-proyectos { display: flex; flex-wrap: wrap; gap: 20px; width: 100%; justify-content: center; }
-        /* CORRECCIÓN: overflow: visible para que el dropdown no se corte */
         .card-proyecto { background: rgba(27, 38, 59, 0.4); border: 1px solid rgba(119, 141, 169, 0.2); border-radius: 12px; padding: 20px 15px; text-align: center; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; cursor: default; flex: 1 1 200px; max-width: 240px; box-sizing: border-box; overflow: visible; box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1); }
         .card-proyecto:hover { transform: translateY(-4px); border-color: #778DA9; background: rgba(65, 90, 119, 0.3);}
         .card-proyecto .img-mock { height: 70px; width: 100%; background-color: rgba(13, 27, 42, 0.4); border-radius: 8px; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; font-size: 2em; border: 1px solid rgba(119, 141, 169, 0.1); }
@@ -272,11 +271,8 @@ HTML_TEMPLATE = """
         
         /* ESTILOS PARA TARJETAS DE NOTIFICACIÓN EN EL BUZÓN */
         .notif-card {
-            background: rgba(27, 38, 59, 0.5);
-            backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(119, 141, 169, 0.2); border-left: 4px solid #5EEAD4;
-            border-radius: 12px; padding: 20px; text-align: left; margin-bottom: 15px;
-            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1); transition: transform 0.3s ease;
+            background: rgba(27, 38, 59, 0.5); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(119, 141, 169, 0.2); border-left: 4px solid #5EEAD4; border-radius: 12px; padding: 20px; text-align: left; margin-bottom: 15px; box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1); transition: transform 0.3s ease;
         }
         .notif-card:hover { transform: translateY(-3px); }
         .notif-card h4 { margin: 0 0 10px 0; color: #E0E1DD; font-family: 'Oswald', sans-serif; font-size: 1.2em;}
@@ -296,10 +292,8 @@ HTML_TEMPLATE = """
         /* NUEVO BOTÓN DE CERRAR MODAL ELEGANTE */
         .modal-close-btn {
             position: absolute; top: 12px; right: 12px; background: rgba(13, 27, 42, 0.6); 
-            border: 1px solid rgba(119, 141, 169, 0.3); color: #E0E1DD; 
-            width: 32px; height: 32px; border-radius: 50%; font-size: 1.2em; 
-            display: flex; align-items: center; justify-content: center; 
-            cursor: pointer; z-index: 50; transition: all 0.2s ease;
+            border: 1px solid rgba(119, 141, 169, 0.3); color: #E0E1DD; width: 32px; height: 32px; border-radius: 50%; font-size: 1.2em; 
+            display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 50; transition: all 0.2s ease;
         }
         .modal-close-btn:hover { background: #DC2626; color: white; border-color: #DC2626; }
     </style>
@@ -446,9 +440,12 @@ HTML_TEMPLATE = """
         <div id="dashboard-section" class="section-container app-centered-layout" {% if mostrar_boveda %} style="display: flex; opacity: 1;" {% else %} style="display: none; opacity: 0;" {% endif %}>
             <div class="content-wrapper-inner" style="max-width: 800px; width: 100%;">
                 
-                <div style="width: 100%; margin-bottom: 15px; text-align: left;">
-                    <h2 class="app-title" style="text-align: left; margin: 0;">Bóveda Criptográfica</h2>
-                    <p class="app-subtitle" style="text-align: left; margin: 5px 0 0 0; font-weight: 300;">Archivos encriptados y monitoreados en tiempo real.</p>
+                <div style="width: 100%; display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 15px;">
+                    <div>
+                        <h2 class="app-title" style="text-align: left; margin: 0;">Bóveda Criptográfica</h2>
+                        <p class="app-subtitle" style="text-align: left; margin: 5px 0 0 0; font-weight: 300;">Archivos encriptados y monitoreados en tiempo real.</p>
+                    </div>
+                    <button id="btn-revisar-integridad" class="btn btn-secondary" style="font-size: 0.9em; padding: 10px 15px; border-color: rgba(119, 141, 169, 0.5);" onclick="revisarIntegridad()">🔍 Revisar Integridad</button>
                 </div>
                 
                 <div class="metrics-wrapper">
@@ -491,7 +488,6 @@ HTML_TEMPLATE = """
                                         <button onclick="toggleDropdown('drop-{{ loop.index }}')" class="dots-btn">⋮</button>
                                         <div id="drop-{{ loop.index }}" class="dropdown-content">
                                             <a href="#" onclick="verInforme('{{ p.nombre }}', '{{ p.hash_full }}', '{{ p.plagio }}')">Ver informe general</a>
-                                            <!-- CORRECCIÓN: Ajuste tipográfico y de tamaño en 'Ver Certificado Legal' -->
                                             <a href="#" style="color: #5EEAD4; font-size: 0.82em; white-space: normal; line-height: 1.3;" onclick="verCertificado('{{ p.nombre }}', '{{ p.hash_full }}', '{{ p.timestamp|default('Fecha no disponible') }}')">Ver Certificado Legal</a>
                                             <a href="#" onclick="activarModoSeleccion('{{ p.hash_full }}')">Seleccionar</a>
                                             <a href="#" onclick="renombrarArchivo('{{ p.hash_full }}', '{{ p.nombre }}', this)">Cambiar nombre</a>
@@ -662,10 +658,8 @@ HTML_TEMPLATE = """
         <button class="btn btn-danger" style="padding: 8px 15px;" onclick="eliminarSeleccionados()">Eliminar</button>
     </div>
 
-    <!-- MODAL INFORME BÓVEDA (CON BITÁCORA) -->
     <div id="informe-modal" class="modal-overlay">
         <div class="glass-card" style="width: 90%; max-width: 500px; position: relative;">
-            <!-- CORRECCIÓN: BOTÓN DE CERRAR REDISEÑADO -->
             <button class="modal-close-btn" onclick="cerrarInforme()">&times;</button>
             <h2 style="color: #E0E1DD; margin-top: 0; text-align: center;">📄 Informe de Auditoría</h2>
             <div style="margin-top: 20px;">
@@ -685,10 +679,8 @@ HTML_TEMPLATE = """
         </div>
     </div>
 
-    <!-- MODAL: CERTIFICADO DE AUTORÍA LEGAL -->
     <div id="certificado-modal" class="modal-overlay">
         <div class="glass-card" style="width: 95%; max-width: 650px; position: relative; padding: 20px;">
-            <!-- CORRECCIÓN: BOTÓN DE CERRAR REDISEÑADO -->
             <button class="modal-close-btn" onclick="cerrarCertificado()">&times;</button>
             
             <div class="certificate-box">
@@ -727,10 +719,8 @@ HTML_TEMPLATE = """
         </div>
     </div>
 
-    <!-- MODAL DE AUDITORÍA HUMANA -->
     <div id="auditoria-modal" class="modal-overlay">
         <div class="glass-card" style="width: 90%; max-width: 500px; position: relative;">
-            <!-- CORRECCIÓN: BOTÓN DE CERRAR REDISEÑADO -->
             <button class="modal-close-btn" onclick="cerrarAuditoria()">&times;</button>
             <h2 style="color: #E0E1DD; margin-top: 0; text-align: center;">⚖️ Solicitud de Auditoría</h2>
             <div style="margin-top: 20px;">
@@ -838,14 +828,14 @@ HTML_TEMPLATE = """
             if(tabQs) tabQs.classList.remove('active');
             if(tabNotif) tabNotif.classList.remove('active');
             if(tabPlanes) tabPlanes.classList.remove('active');
-
+            
             if(idMostrar === 'app-section') { if(tabAuditar) tabAuditar.classList.add('active'); }
             else if(idMostrar === 'dashboard-section') { if(tabBoveda) tabBoveda.classList.add('active'); }
             else if(idMostrar === 'como-funciona-section') { if(tabInfo) tabInfo.classList.add('active'); }
             else if(idMostrar === 'quienes-section') { if(tabQs) tabQs.classList.add('active'); }
             else if(idMostrar === 'planes-section') { if(tabPlanes) tabPlanes.classList.add('active'); }
             else if(idMostrar === 'notificaciones-section') { 
-                if(tabNotif) tabNotif.classList.add('active'); 
+                if(tabNotif) tabNotif.classList.add('active');
                 unreadCount = 0;
                 var badge = document.getElementById('notif-badge');
                 if(badge) badge.style.display = 'none';
@@ -858,7 +848,6 @@ HTML_TEMPLATE = """
                     setTimeout(function() { sec.style.display = 'none'; }, 400);
                 }
             });
-
             setTimeout(function() {
                 var showSec = document.getElementById(idMostrar);
                 if(showSec) {
@@ -875,7 +864,6 @@ HTML_TEMPLATE = """
             btnElement.classList.add('active');
 
             var sections = ['boveda-personal-tab', 'boveda-instagram-tab', 'boveda-facebook-tab', 'boveda-x-tab'];
-            
             sections.forEach(secId => {
                 var sec = document.getElementById(secId);
                 if (sec && sec.style.display !== 'none') {
@@ -885,7 +873,6 @@ HTML_TEMPLATE = """
                     }, 300); 
                 }
             });
-
             setTimeout(function() {
                 var showSec = document.getElementById(idMostrar);
                 if (showSec) {
@@ -961,7 +948,6 @@ HTML_TEMPLATE = """
             
             var trustBadges = document.getElementById('upload-badges');
             if(trustBadges) trustBadges.style.display = 'none';
-
             if (archivo.endsWith('.pdf') || archivo.endsWith('.docx') || archivo.endsWith('.doc')) {
                 textoCarga.innerText = "Encriptando texto y conectando con radar web...";
             } else {
@@ -998,11 +984,10 @@ HTML_TEMPLATE = """
                         fill.style.width = '90%'; 
                         textoCarga.innerText = "Generando certificado de evidencia inmutable...";
                     }, 4500);
-                    
                     setTimeout(() => { 
                         fill.style.width = '96%'; 
                         textoCarga.innerText = "Finalizando auditoría de propiedad intelectual...";
-                    }, 8000); 
+                    }, 8000);
                 }
             }, 400);
         }
@@ -1036,10 +1021,8 @@ HTML_TEMPLATE = """
             card.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
             card.style.opacity = '0';
             card.style.transform = 'scale(0.8)';
-
             var dropdowns = document.getElementsByClassName("dropdown-content");
             for (var i = 0; i < dropdowns.length; i++) dropdowns[i].classList.remove('show');
-
             setTimeout(function() {
                 fetch('/eliminar/' + hash);
                 card.innerHTML = ''; 
@@ -1072,7 +1055,6 @@ HTML_TEMPLATE = """
             event.preventDefault();
             event.stopPropagation();
             var nuevoNombre = prompt("Introduce el nuevo nombre para el archivo:", nombreActual);
-            
             if (nuevoNombre != null && nuevoNombre.trim() != "") {
                 var formData = new FormData();
                 formData.append('hash_id', hash);
@@ -1103,7 +1085,6 @@ HTML_TEMPLATE = """
             var bar = document.getElementById('bulk-action-bar');
             bar.style.display = 'flex';
             setTimeout(() => { bar.style.opacity = '1'; }, 50);
-
             if(hashInicial) {
                 var card = document.querySelector('.card-proyecto[data-hash="'+hashInicial+'"]');
                 if(card) toggleSeleccion(card);
@@ -1117,7 +1098,8 @@ HTML_TEMPLATE = """
             var lista = document.getElementById('lista-boveda');
             if(lista) lista.classList.remove('selection-mode');
             var bar = document.getElementById('bulk-action-bar');
-            if(bar) { bar.style.opacity = '0'; setTimeout(() => { bar.style.display = 'none'; }, 300); }
+            if(bar) { bar.style.opacity = '0';
+                setTimeout(() => { bar.style.display = 'none'; }, 300); }
             document.querySelectorAll('.card-proyecto.selected').forEach(card => {
                 card.classList.remove('selected');
                 var ind = card.querySelector('.select-indicator');
@@ -1154,7 +1136,6 @@ HTML_TEMPLATE = """
                 card.style.transform = 'scale(0.8)';
                 formData.append('hashes[]', card.dataset.hash);
             });
-
             setTimeout(() => {
                 fetch('/eliminar_multiples', { method: 'POST', body: formData });
                 seleccionados.forEach(card => {
@@ -1187,7 +1168,6 @@ HTML_TEMPLATE = """
             if(bitacora) {
                 let d = new Date();
                 let horaAyer = new Date(d.getTime() - (24 * 60 * 60 * 1000));
-                
                 let hHoy = d.getHours().toString().padStart(2, '0') + ":" + d.getMinutes().toString().padStart(2, '0') + (d.getHours() >= 12 ? ' PM' : ' AM');
                 let hAyer = horaAyer.getHours().toString().padStart(2, '0') + ":" + horaAyer.getMinutes().toString().padStart(2, '0') + (horaAyer.getHours() >= 12 ? ' PM' : ' AM');
                 
@@ -1270,7 +1250,6 @@ HTML_TEMPLATE = """
             
             btn.innerHTML = "⏳ Procesando...";
             btn.disabled = true;
-            
             setTimeout(() => {
                 btn.innerHTML = "✓ Solicitud Enviada";
                 btn.style.backgroundColor = "#5EEAD4";
@@ -1300,8 +1279,7 @@ HTML_TEMPLATE = """
             let now = new Date();
             let timeString = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
             let dateString = now.toLocaleDateString();
-            
-            let fileName = "{% if mostrando_resultado %}{{ nombre_archivo }}{% else %}Archivo{% endif %}"; 
+            let fileName = "{% if mostrando_resultado %}{{ nombre_archivo }}{% else %}Archivo{% endif %}";
             
             let notifHTML = `
                 <div class="notif-card fade-in-element" style="width: 100%; box-sizing: border-box;">
@@ -1310,13 +1288,76 @@ HTML_TEMPLATE = """
                     <span class="notif-time">${dateString} - ${timeString}</span>
                 </div>
             `;
-            
             container.innerHTML = notifHTML + container.innerHTML;
             
             unreadCount++;
             let badge = document.getElementById('notif-badge');
             badge.innerText = unreadCount;
             badge.style.display = 'inline-block';
+        }
+
+        // --- MOTOR DE BÚSQUEDA CONTINUA (REVISIÓN DE INTEGRIDAD) ---
+        async function revisarIntegridad() {
+            var btn = document.getElementById('btn-revisar-integridad');
+            var cards = document.querySelectorAll('.card-proyecto');
+            
+            if (cards.length === 0) {
+                alert("La bóveda está vacía.");
+                return;
+            }
+
+            btn.disabled = true;
+            btn.style.opacity = '0.6';
+            btn.style.cursor = 'wait';
+
+            for (let i = 0; i < cards.length; i++) {
+                let card = cards[i];
+                let hash = card.dataset.hash;
+                let tituloEl = card.querySelector('p[title]');
+                let nombre = tituloEl ? tituloEl.innerText : "Archivo";
+                
+                btn.innerText = `🔍 Revisando (${i + 1}/${cards.length})...`;
+                
+                try {
+                    let response = await fetch('/revisar_integridad_hash/' + hash, { method: 'POST' });
+                    let data = await response.json();
+                    
+                    if(data.error) {
+                        console.error("Error al revisar", nombre, ":", data.error);
+                        continue;
+                    }
+
+                    // Actualizar la tarjeta visualmente si se detecta un cambio
+                    let badge = card.querySelector('.badge-status');
+                    let verInformeBtn = card.querySelector('a[onclick^="verInforme"]');
+
+                    if (data.plagio) {
+                        if (badge) {
+                            badge.className = 'badge-status badge-alert';
+                            badge.innerHTML = '🔴 Alerta de Plagio en Web';
+                        }
+                        if (verInformeBtn) {
+                            verInformeBtn.setAttribute('onclick', `verInforme('${nombre}', '${hash}', 'True')`);
+                        }
+                    } else {
+                        if (badge) {
+                            badge.className = 'badge-status badge-clean';
+                            badge.innerHTML = '🟢 Monitor 24/7 Activo';
+                        }
+                        if (verInformeBtn) {
+                            verInformeBtn.setAttribute('onclick', `verInforme('${nombre}', '${hash}', 'False')`);
+                        }
+                    }
+                } catch (e) {
+                    console.error("Error en conexión para:", nombre, e);
+                }
+            }
+
+            // Restaurar el botón al finalizar
+            btn.innerText = "🔍 Revisar Integridad";
+            btn.disabled = false;
+            btn.style.opacity = '1';
+            btn.style.cursor = 'pointer';
         }
     </script>
 </body>
@@ -1486,6 +1527,57 @@ def buscar_documento_con_serpapi(archivo_bytes, nombre_archivo):
 # ==========================================
 # ENRUTAMIENTOS Y LÓGICA CORE
 # ==========================================
+
+@app.route("/revisar_integridad_hash/<hash_id>", methods=["POST"])
+def revisar_integridad_hash(hash_id):
+    global db_proyectos
+    
+    # 1. Encontrar el archivo correspondiente
+    proyecto = next((p for p in db_proyectos if p['hash_full'] == hash_id), None)
+    if not proyecto:
+        return jsonify({"error": "Proyecto no encontrado", "plagio": False}), 404
+
+    # 2. Leer el archivo almacenado desde el disco
+    ruta_guardado = os.path.join(CARPETA_BOVEDA, proyecto['nombre'])
+    if not os.path.exists(ruta_guardado):
+        return jsonify({"error": "El archivo físico no existe en la bóveda", "plagio": False}), 404
+
+    try:
+        with open(ruta_guardado, 'rb') as f:
+            contenido_binario = f.read()
+    except Exception as e:
+        return jsonify({"error": str(e), "plagio": False}), 500
+
+    nombre = proyecto['nombre']
+    extension = nombre.split('.')[-1].lower()
+
+    # 3. AISLAMIENTO TEMPORAL (Evita falso positivo local)
+    db_proyectos_temporales = [p for p in db_proyectos if p['hash_full'] != hash_id]
+    db_original = list(db_proyectos)
+    db_proyectos.clear()
+    db_proyectos.extend(db_proyectos_temporales)
+
+    sitios_web = []
+    try:
+        # 4. Usar los motores definidos
+        if extension in ['pdf', 'doc', 'docx']:
+            sitios_web, error = buscar_documento_con_serpapi(contenido_binario, nombre)
+        else:
+            sitios_web, error = buscar_imagen_estricta_serpapi(contenido_binario, nombre)
+            
+        hay_plagio = True if sitios_web and len(sitios_web) > 0 else False
+    finally:
+        # 5. Restaurar la base de datos íntegra
+        db_proyectos.clear()
+        db_proyectos.extend(db_original)
+
+    # 6. Actualizar el estado real en la memoria
+    for p in db_proyectos:
+        if p['hash_full'] == hash_id:
+            p['plagio'] = hay_plagio
+            break
+
+    return jsonify({"plagio": hay_plagio, "sitios": sitios_web})
 
 @app.route("/eliminar/<hash_id>")
 def eliminar_proyecto(hash_id):
