@@ -8,7 +8,6 @@ import docx
 import os
 from PIL import Image
 import imagehash
-import concurrent.futures
 
 app = Flask(__name__)
 
@@ -17,118 +16,128 @@ app = Flask(__name__)
 # ==========================================
 SERPAPI_KEY = "9c253e2fb00e86510296ff2a44c10d6d7e1ef197344aa602f6e06c5513b0a9ee" 
 
+# Identificador para evitar bloqueos anti-bots en las APIs externas
 HEADERS_ESTANDAR = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
 }
 
+# Crear carpeta de Bóveda Local a prueba de fallos
 CARPETA_BOVEDA = 'boveda_local'
 try:
     if not os.path.exists(CARPETA_BOVEDA):
         os.makedirs(CARPETA_BOVEDA)
 except Exception as e:
-    print("Aviso: No se pudo crear la carpeta.")
+    print("Aviso: No se pudo crear la carpeta, pero la simulación en memoria continuará.")
 
+# Base de datos simulada en memoria
 db_proyectos = []
 
 # ==========================================
-# MOTOR 1: IMÁGENES (LENS + REVERSE DORKS CONCURRENTES)
+# MOTOR 1: IMÁGENES (VALIDACIÓN CRUZADA DE ALTA PRECISIÓN)
 # ==========================================
-def buscar_imagen_estricta_serpapi(imagen_bytes, nombre_archivo, huella_perceptual):
-    # 1. Búsqueda Local (Reciclando el hash para ahorrar memoria)
-    if huella_perceptual:
-        hash_actual = imagehash.hex_to_hash(huella_perceptual)
-        for p in db_proyectos:
-             if p.get('phash'):
-                if hash_actual - imagehash.hex_to_hash(p['phash']) <= 2: 
-                    return [{"titulo": "Registro Encontrado en Base de Datos Interna", "link": "Plataforma Local", "es_instagram": False, "es_facebook": False}], None
-    else:
-        return None, "Error interno al procesar matemáticamente la imagen."
+def comparar_phash_local(imagen_bytes):
+    try:
+        img = Image.open(io.BytesIO(imagen_bytes))
+        nuevo_phash = imagehash.phash(img)
+        
+        for proyecto in db_proyectos:
+             if 'phash' in proyecto and proyecto['phash']:
+                hash_guardado = imagehash.hex_to_hash(proyecto['phash'])
+                distancia = nuevo_phash - hash_guardado
+                
+                if distancia <= 2: 
+                    return True
+        return False
+    except Exception as e:
+        print("Error en pHash:", e)
+        return False
 
-    # 2. Subida temporal ultrarrápida (Timeout reducido para evitar bloqueos)
+def buscar_imagen_estricta_serpapi(imagen_bytes, nombre_archivo):
+    if comparar_phash_local(imagen_bytes):
+        resultado_local = [{
+            "titulo": "Registro Encontrado en Base de Datos Interna",
+            "link": "Plataforma Local",
+            "es_instagram": False,
+            "es_facebook": False
+        }]
+        return resultado_local, None
+
+    try:
+        img_original = Image.open(io.BytesIO(imagen_bytes))
+        phash_original = imagehash.phash(img_original)
+    except Exception as e:
+        return None, "Error decodificando imagen."
+
     try:
         archivos = {'reqtype': (None, 'fileupload'), 'fileToUpload': (nombre_archivo, imagen_bytes)}
-        respuesta_subida = requests.post('https://catbox.moe/user/api.php', files=archivos, headers=HEADERS_ESTANDAR, timeout=10)
+        # MEJORA: Se añaden headers y un timeout máximo de 15 segundos
+        respuesta_subida = requests.post('https://catbox.moe/user/api.php', files=archivos, headers=HEADERS_ESTANDAR, timeout=15)
         url_publica = respuesta_subida.text.strip()
-        if not url_publica.startswith("http"): 
-            return None, "Error de comunicación con el nodo criptográfico temporal."
-    except Exception as e: 
-        return None, "El nodo temporal superó el tiempo límite de espera."
+        if not url_publica.startswith("http"):
+            return None, "No se pudo generar el enlace temporal para el radar."
+    except requests.exceptions.Timeout:
+         return None, "El nodo temporal tardó demasiado en responder."
+    except Exception as e:
+        return None, f"Error de subida al nodo: {str(e)}"
 
-    # 3. DEFINICIÓN DE LOS DOS "OJOS" VISUALES
-    def fetch_lens():
+    try:
         params = {"engine": "google_lens", "url": url_publica, "api_key": SERPAPI_KEY}
-        try: return requests.get("https://serpapi.com/search.json", params=params, timeout=20).json()
-        except: return {}
+        # MEJORA: Timeout preventivo para SerpApi
+        respuesta_serpapi = requests.get("https://serpapi.com/search.json", params=params, timeout=25)
+        datos = respuesta_serpapi.json()
+    
+        if "error" in datos: return None, f"Error SerpApi: {datos['error']}"
+            
+        plagios_confirmados = []
+        links_vistos = set()
 
-    def fetch_reverse_dorks():
-        params = {
-            "engine": "google_reverse_image", 
-            "image_url": url_publica, 
-            "q": "site:instagram.com OR site:facebook.com", # El Radar profundo de Meta
-            "api_key": SERPAPI_KEY
-        }
-        try: return requests.get("https://serpapi.com/search.json", params=params, timeout=20).json()
-        except: return {}
+        for item in datos.get("exact_matches", []):
+            link = item.get("link", "#").lower()
+            if link not in links_vistos:
+                plagios_confirmados.append({
+                    "titulo": item.get("title", "Coincidencia Exacta Detectada"),
+                    "link": link,
+                    "es_instagram": "instagram.com" in link,
+                    "es_facebook": "facebook.com" in link
+                })
+                links_vistos.add(link)
 
-    # 4. EJECUCIÓN PARALELA CONCURRENTE
-    with concurrent.futures.ThreadPoolExecutor(max_workers=2) as executor:
-        future_lens = executor.submit(fetch_lens)
-        future_dorks = executor.submit(fetch_reverse_dorks)
-        datos_lens = future_lens.result()
-        datos_dorks = future_dorks.result()
-
-    if "error" in datos_lens and "error" in datos_dorks: 
-        return None, "Error crítico en los radares web OSINT."
-
-    plagios_confirmados = []
-    links_vistos = set()
-
-    # Análisis Ojo 1: Google Lens (Red Global)
-    for item in datos_lens.get("exact_matches", []):
-        link = item.get("link", "#").lower()
-        if link not in links_vistos and link != "#":
-            plagios_confirmados.append({
-                "titulo": item.get("title", "Coincidencia Exacta Detectada"),
-                "link": link, "es_instagram": "instagram.com" in link, "es_facebook": "facebook.com" in link
-            })
-            links_vistos.add(link)
-
-    # Análisis Ojo 2: Reverse Image + Dorks (Cuentas privadas y Walled Gardens)
-    for item in datos_dorks.get("image_results", []):
-        link = item.get("link", "#").lower()
-        if link not in links_vistos and link != "#":
-            plagios_confirmados.append({
-                "titulo": item.get("title", "Copia Exacta en Redes (Radar Profundo)"),
-                "link": link, "es_instagram": "instagram.com" in link, "es_facebook": "facebook.com" in link
-            })
-            links_vistos.add(link)
-
-    # Validación Estricta: Filtro final de miniaturas con liberación inmediata de RAM
-    for item in datos_lens.get("visual_matches", []):
-        link = item.get("link", "#").lower()
-        if link in links_vistos: continue
-        
-        thumb_url = item.get("thumbnail")
-        if thumb_url:
-            try:
-                res_thumb = requests.get(thumb_url, headers=HEADERS_ESTANDAR, timeout=5)
-                if res_thumb.status_code == 200:
-                    # Aplicamos "with" para que la memoria se libere instantáneamente tras leer
-                    with Image.open(io.BytesIO(res_thumb.content)) as img_thumb:
-                        if hash_actual - imagehash.phash(img_thumb) <= 16:
+        for item in datos.get("visual_matches", []):
+            link = item.get("link", "#").lower()
+            if link in links_vistos: continue
+            
+            thumb_url = item.get("thumbnail")
+            
+            if thumb_url:
+                try:
+                    # MEJORA: Headers y timeout corto para descargar las miniaturas
+                    res_thumb = requests.get(thumb_url, headers=HEADERS_ESTANDAR, timeout=5)
+                    if res_thumb.status_code == 200:
+                        img_thumb = Image.open(io.BytesIO(res_thumb.content))
+                        phash_thumb = imagehash.phash(img_thumb)
+                        distancia = phash_original - phash_thumb
+                        
+                        if distancia <= 16:
                             plagios_confirmados.append({
                                 "titulo": item.get("title", "Copia Idéntica (Verificada por pHash)"),
-                                "link": link, "es_instagram": "instagram.com" in link, "es_facebook": "facebook.com" in link
+                                "link": link,
+                                "es_instagram": "instagram.com" in link,
+                                "es_facebook": "facebook.com" in link
                             })
                             links_vistos.add(link)
-            except: pass
+                except:
+                    pass
             
-        if len(plagios_confirmados) >= 5: break
+            if len(plagios_confirmados) >= 5: break
             
-    return plagios_confirmados, None
+        return plagios_confirmados, None
+    except requests.exceptions.Timeout:
+         return None, "El radar OSINT superó el tiempo límite de búsqueda."
+    except Exception as e:
+        return None, f"Error en validación web cruzada: {str(e)}"
 
 # ==========================================
-# MOTOR 2: DOCUMENTOS (EXTRACCIÓN + DORKS TEXTUALES MULTI-HILO)
+# MOTOR 2: DOCUMENTOS (EXTRACCIÓN INTELIGENTE + GOOGLE SEARCH)
 # ==========================================
 def buscar_documento_con_serpapi(archivo_bytes, nombre_archivo):
     fragmentos_candidatos = []
@@ -140,56 +149,58 @@ def buscar_documento_con_serpapi(archivo_bytes, nombre_archivo):
             for pagina in lector.pages[:4]:
                 texto = pagina.extract_text()
                 if texto:
-                    fragmentos_candidatos.extend(texto.replace('\n', ' ').split('. '))
+                    oraciones = texto.replace('\n', ' ').split('. ')
+                    fragmentos_candidatos.extend(oraciones)
+                    
         elif extension in ['doc', 'docx']:
             doc = docx.Document(io.BytesIO(archivo_bytes))
             for parrafo in doc.paragraphs[:20]:
                 if parrafo.text:
-                    fragmentos_candidatos.extend(parrafo.text.replace('\n', ' ').split('. '))
+                    oraciones = parrafo.text.replace('\n', ' ').split('. ')
+                    fragmentos_candidatos.extend(oraciones)
+                    
     except Exception as e:
         return None, f"Error al leer documento: {str(e)}"
         
     fragmentos_limpios = [f.strip() for f in fragmentos_candidatos if len(f.split()) > 15]
-    if not fragmentos_limpios: return [], None
+    
+    if not fragmentos_limpios: 
+        return [], None
+        
     fragmentos_limpios.sort(key=lambda x: len(x.split()), reverse=True)
     
     mejor_fragmento = fragmentos_limpios[0]
-    fragmento_clave = " ".join(mejor_fragmento.split()[:25])
+    palabras_clave = mejor_fragmento.split()
+    fragmento_clave = " ".join(palabras_clave[:25])
     
-    # ESTRATEGIA DORKS: 3 consultas distribuidas para mayor precisión
-    consultas = [
-        f'"{fragmento_clave}"',                                
-        f'"{fragmento_clave}" site:instagram.com',             
-        f'"{fragmento_clave}" site:facebook.com'               
-    ]
+    try:
+        params = { 
+            "engine": "google", 
+            "q": f'"{fragmento_clave}"', 
+            "api_key": SERPAPI_KEY, 
+            "hl": "es" 
+        }
+        # MEJORA: Añadimos un timeout preventivo
+        res = requests.get("https://serpapi.com/search.json", params=params, timeout=20)
+        datos = res.json()
+        
+        if "error" in datos: return None, f"Error SerpApi Text: {datos['error']}"
 
-    def fetch_texto(q):
-        params = {"engine": "google", "q": q, "api_key": SERPAPI_KEY, "hl": "es"}
-        try: return requests.get("https://serpapi.com/search.json", params=params, timeout=20).json()
-        except: return {}
-
-    resultados_limpios = []
-    links_vistos = set()
-
-    # EJECUCIÓN PARALELA MULTI-HILO
-    with concurrent.futures.ThreadPoolExecutor(max_workers=3) as executor:
-        resultados_hilos = list(executor.map(fetch_texto, consultas))
-    
-    # Unificación y purga de resultados clonados
-    for datos in resultados_hilos:
+        resultados_limpios = []
         if "organic_results" in datos:
             for item in datos["organic_results"][:5]:
                 link_encontrado = item.get("link", "#").lower()
-                if link_encontrado not in links_vistos and link_encontrado != "#":
-                    links_vistos.add(link_encontrado)
-                    resultados_limpios.append({
-                        "titulo": item.get("title", "Copia Textual Detectada"),
-                        "link": item.get("link", "#"),
-                        "es_instagram": "instagram.com" in link_encontrado,
-                        "es_facebook": "facebook.com" in link_encontrado
-                    })
-                    
-    return resultados_limpios, None
+                resultados_limpios.append({
+                    "titulo": item.get("title", "Copia Textual Detectada"),
+                    "link": item.get("link", "#"),
+                    "es_instagram": "instagram.com" in link_encontrado,
+                    "es_facebook": "facebook.com" in link_encontrado
+                })
+        return resultados_limpios, None
+    except requests.exceptions.Timeout:
+         return None, "El radar textual superó el tiempo de búsqueda permitido."
+    except Exception as e:
+        return None, f"Error en Motor Texto: {str(e)}"
 
 # ==========================================
 # ENRUTAMIENTOS Y LÓGICA CORE
@@ -198,20 +209,27 @@ def buscar_documento_con_serpapi(archivo_bytes, nombre_archivo):
 @app.route("/revisar_integridad_hash/<hash_id>", methods=["POST"])
 def revisar_integridad_hash(hash_id):
     global db_proyectos
+    
+    # 1. Encontrar el archivo correspondiente
     proyecto = next((p for p in db_proyectos if p['hash_full'] == hash_id), None)
-    if not proyecto: return jsonify({"error": "Proyecto no encontrado", "plagio": False}), 404
+    if not proyecto:
+        return jsonify({"error": "Proyecto no encontrado", "plagio": False}), 404
 
+    # 2. Leer el archivo almacenado desde el disco
     ruta_guardado = os.path.join(CARPETA_BOVEDA, proyecto['nombre'])
-    if not os.path.exists(ruta_guardado): return jsonify({"error": "El archivo físico no existe", "plagio": False}), 404
+    if not os.path.exists(ruta_guardado):
+        return jsonify({"error": "El archivo físico no existe en la bóveda", "plagio": False}), 404
 
     try:
         with open(ruta_guardado, 'rb') as f:
             contenido_binario = f.read()
-    except Exception as e: return jsonify({"error": str(e), "plagio": False}), 500
+    except Exception as e:
+        return jsonify({"error": str(e), "plagio": False}), 500
 
     nombre = proyecto['nombre']
     extension = nombre.split('.')[-1].lower()
 
+    # 3. AISLAMIENTO TEMPORAL (Evita falso positivo local)
     db_proyectos_temporales = [p for p in db_proyectos if p['hash_full'] != hash_id]
     db_original = list(db_proyectos)
     db_proyectos.clear()
@@ -219,16 +237,19 @@ def revisar_integridad_hash(hash_id):
 
     sitios_web = []
     try:
+        # 4. Usar los motores definidos
         if extension in ['pdf', 'doc', 'docx']:
             sitios_web, error = buscar_documento_con_serpapi(contenido_binario, nombre)
         else:
-            # Re-evaluación ligera para comprobaciones programadas
-            sitios_web, error = buscar_imagen_estricta_serpapi(contenido_binario, nombre, proyecto.get('phash'))
+            sitios_web, error = buscar_imagen_estricta_serpapi(contenido_binario, nombre)
+            
         hay_plagio = True if sitios_web and len(sitios_web) > 0 else False
     finally:
+        # 5. Restaurar la base de datos íntegra
         db_proyectos.clear()
         db_proyectos.extend(db_original)
 
+    # 6. Actualizar el estado real en la memoria
     for p in db_proyectos:
         if p['hash_full'] == hash_id:
             p['plagio'] = hay_plagio
@@ -265,30 +286,35 @@ def index():
     skip_intro = request.args.get("skip_intro") == "true"
     abrir_boveda = request.args.get("boveda") == "true" 
     
-    if abrir_boveda: skip_intro = True
+    if abrir_boveda:
+        skip_intro = True
     
     if request.method == "POST":
+        
         archivo = request.files.get("archivo")
         if archivo and archivo.filename != '':
             nombre = archivo.filename.replace(" ", "_").replace("/", "")
             contenido_binario = archivo.read()
+            
             hash_sha256 = hashlib.sha256(contenido_binario).hexdigest()
+             
             tiempo_actual = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             extension = nombre.split('.')[-1].lower()
+            
             huella_perceptual = None
             
             if extension in ['pdf', 'doc', 'docx']:
                 sitios_web, error = buscar_documento_con_serpapi(contenido_binario, nombre)
-                tipo_motor = "Motor NLP Multi-Hilo & Dorks de Redes"
+                tipo_motor = "Motor NLP (Búsqueda Exacta) & Radar OSINT"
             else:
-                # OPTIMIZACIÓN CRÍTICA: Se calcula la huella perceptual una sola vez y se libera la RAM.
                 try:
-                    with Image.open(io.BytesIO(contenido_binario)) as img:
-                        huella_perceptual = str(imagehash.phash(img))
-                except: pass
+                    img_hash = imagehash.phash(Image.open(io.BytesIO(contenido_binario)))
+                    huella_perceptual = str(img_hash)
+                except:
+                    pass
                 
-                sitios_web, error = buscar_imagen_estricta_serpapi(contenido_binario, nombre, huella_perceptual)
-                tipo_motor = "Validación Cruzada Concurrente & Dorks de Redes"
+                sitios_web, error = buscar_imagen_estricta_serpapi(contenido_binario, nombre)
+                tipo_motor = "Validación Cruzada (pHash) & Radar OSINT"
 
             hay_plagio = True if sitios_web and len(sitios_web) > 0 else False
             
@@ -297,22 +323,37 @@ def index():
                     ruta_guardado = os.path.join(CARPETA_BOVEDA, nombre)
                     with open(ruta_guardado, 'wb') as f:
                         f.write(contenido_binario)
-                except Exception as e: print("Aviso de guardado:", e)
+                except Exception as e:
+                    print("Aviso de guardado:", e)
                 
                 db_proyectos.insert(0, {
-                    "nombre": nombre, "hash": hash_sha256[:12] + "...", 
-                    "hash_full": hash_sha256, "phash": huella_perceptual, 
-                    "plagio": hay_plagio, "timestamp": tiempo_actual
+                    "nombre": nombre,
+                    "hash": hash_sha256[:12] + "...", 
+                    "hash_full": hash_sha256, 
+                    "phash": huella_perceptual, 
+                    "plagio": hay_plagio,
+                    "timestamp": tiempo_actual
                 })
             
-            return render_template('index.html', mostrando_resultado=True, paginas_encontradas=sitios_web, 
-                                   error_api=error, hash_resultado=hash_sha256, nombre_archivo=nombre, 
-                                   tipo_motor=tipo_motor, timestamp=tiempo_actual, skip_intro=True, 
-                                   proyectos=db_proyectos, mostrar_boveda=False) 
+            return render_template('index.html', 
+                                   mostrando_resultado=True, 
+                                   paginas_encontradas=sitios_web, 
+                                   error_api=error, 
+                                   hash_resultado=hash_sha256, 
+                                   nombre_archivo=nombre, 
+                                   tipo_motor=tipo_motor, 
+                                   timestamp=tiempo_actual, 
+                                   skip_intro=True, 
+                                   proyectos=db_proyectos,
+                                   mostrar_boveda=False) 
             
-    return render_template('index.html', mostrando_resultado=False, skip_intro=skip_intro, 
-                           proyectos=db_proyectos, mostrar_boveda=abrir_boveda)
+    return render_template('index.html', 
+                           mostrando_resultado=False, 
+                           skip_intro=skip_intro, 
+                           proyectos=db_proyectos,
+                           mostrar_boveda=abrir_boveda)
 
 if __name__ == "__main__":
-    # Mantener threaded=True asegura que Flask maneje peticiones sin bloquearse
-    app.run(debug=False, host='0.0.0.0', threaded=True)
+    # MEJORA CRÍTICA PARA SERVIDORES EN LA NUBE: debug=False evita que el servidor
+    # se reinicie abruptamente cuando el usuario guarda un archivo en la Bóveda.
+    app.run(debug=False, host='0.0.0.0')
