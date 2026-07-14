@@ -1436,11 +1436,16 @@ def buscar_imagen_estricta_serpapi(imagen_bytes, nombre_archivo):
         return None, "Error decodificando imagen."
 
     try:
-        archivos = {'reqtype': (None, 'fileupload'), 'fileToUpload': (nombre_archivo, imagen_bytes)}
-        respuesta_subida = requests.post('https://catbox.moe/user/api.php', files=archivos)
-        url_publica = respuesta_subida.text.strip()
-        if not url_publica.startswith("http"):
-            return None, "No se pudo generar el enlace temporal para el radar."
+        # CONEXIÓN IMGBB CON ENVÍO BINARIO (Mantiene la precisión del pHash original)
+        IMGBB_API_KEY = "6cdbb99a549385c7460087ee1c8dd915"
+        archivos = {'image': (nombre_archivo, imagen_bytes)}
+        respuesta_subida = requests.post(f'https://api.imgbb.com/1/upload?key={IMGBB_API_KEY}', files=archivos)
+        datos_subida = respuesta_subida.json()
+        
+        if datos_subida.get("success"):
+            url_publica = datos_subida["data"]["url"]
+        else:
+            return None, "El servicio de alojamiento rechazó la imagen. Revisa la conexión."
     except Exception as e:
         return None, f"Error de subida al nodo: {str(e)}"
 
