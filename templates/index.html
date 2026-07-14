@@ -1276,7 +1276,12 @@
                 var lista = document.getElementById('lista-boveda');
                 lista.style.opacity = '0';
                 setTimeout(function() {
-                    lista.innerHTML = '<div style="grid-column: 1 / -1; text-align: center; color: rgba(224, 225, 221, 0.5); padding: 40px; width: 100%; display: flex; flex-direction: column; align-items: center;"><p style="font-weight: 300; margin-bottom: 20px;">Tu bóveda está vacía.<br>Sube tu primer archivo para protegerlo.</p><button class="btn btn-secondary" onclick="cambiarPestana(\\'app-section\\', document.getElementById(\\'tab-auditar\\'))">Subir Archivo</button></div>';
+                    lista.innerHTML = `
+                        <div style="grid-column: 1 / -1; text-align: center; color: rgba(224, 225, 221, 0.5); padding: 40px; width: 100%; display: flex; flex-direction: column; align-items: center;">
+                            <p style="font-weight: 300; margin-bottom: 20px;">Tu bóveda está vacía.<br>Sube tu primer archivo para protegerlo.</p>
+                            <button class="btn btn-secondary" onclick="cambiarPestana('app-section', document.getElementById('tab-auditar'))">Subir Archivo</button>
+                        </div>
+                    `;
                     lista.style.transition = 'opacity 0.4s';
                     lista.style.opacity = '1';
                 }, 200);
