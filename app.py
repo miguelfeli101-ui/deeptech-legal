@@ -8,7 +8,7 @@ import docx
 import os
 from PIL import Image
 import imagehash
-import concurrent.futures  # NUEVO: Importación para Hilos Múltiples (Velocidad)
+import concurrent.futures
 
 app = Flask(__name__)
 
@@ -17,7 +17,6 @@ app = Flask(__name__)
 # ==========================================
 SERPAPI_KEY = "9c253e2fb00e86510296ff2a44c10d6d7e1ef197344aa602f6e06c5513b0a9ee" 
 
-# Identificador para evitar bloqueos anti-bots
 HEADERS_ESTANDAR = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
 }
@@ -34,55 +33,44 @@ db_proyectos = []
 # ==========================================
 # MOTOR 1: IMÁGENES (LENS + REVERSE DORKS CONCURRENTES)
 # ==========================================
-def comparar_phash_local(imagen_bytes):
-    try:
-        img = Image.open(io.BytesIO(imagen_bytes))
-        nuevo_phash = imagehash.phash(img)
-        for proyecto in db_proyectos:
-             if 'phash' in proyecto and proyecto['phash']:
-                hash_guardado = imagehash.hex_to_hash(proyecto['phash'])
-                if nuevo_phash - hash_guardado <= 2: 
-                    return True
-        return False
-    except Exception as e:
-        return False
+def buscar_imagen_estricta_serpapi(imagen_bytes, nombre_archivo, huella_perceptual):
+    # 1. Búsqueda Local (Reciclando el hash para ahorrar memoria)
+    if huella_perceptual:
+        hash_actual = imagehash.hex_to_hash(huella_perceptual)
+        for p in db_proyectos:
+             if p.get('phash'):
+                if hash_actual - imagehash.hex_to_hash(p['phash']) <= 2: 
+                    return [{"titulo": "Registro Encontrado en Base de Datos Interna", "link": "Plataforma Local", "es_instagram": False, "es_facebook": False}], None
+    else:
+        return None, "Error interno al procesar matemáticamente la imagen."
 
-def buscar_imagen_estricta_serpapi(imagen_bytes, nombre_archivo):
-    if comparar_phash_local(imagen_bytes):
-        return [{"titulo": "Registro Encontrado en Base de Datos Interna", "link": "Plataforma Local", "es_instagram": False, "es_facebook": False}], None
-
-    try:
-        img_original = Image.open(io.BytesIO(imagen_bytes))
-        phash_original = imagehash.phash(img_original)
-    except:
-        return None, "Error decodificando imagen."
-
-    # Subida al nodo temporal
+    # 2. Subida temporal ultrarrápida (Timeout reducido para evitar bloqueos)
     try:
         archivos = {'reqtype': (None, 'fileupload'), 'fileToUpload': (nombre_archivo, imagen_bytes)}
-        respuesta_subida = requests.post('https://catbox.moe/user/api.php', files=archivos, headers=HEADERS_ESTANDAR, timeout=15)
+        respuesta_subida = requests.post('https://catbox.moe/user/api.php', files=archivos, headers=HEADERS_ESTANDAR, timeout=10)
         url_publica = respuesta_subida.text.strip()
-        if not url_publica.startswith("http"): return None, "Error al generar enlace temporal."
-    except requests.exceptions.Timeout: return None, "El nodo temporal tardó demasiado."
-    except Exception as e: return None, f"Error de subida: {str(e)}"
+        if not url_publica.startswith("http"): 
+            return None, "Error de comunicación con el nodo criptográfico temporal."
+    except Exception as e: 
+        return None, "El nodo temporal superó el tiempo límite de espera."
 
-    # DEFINICIÓN DE LOS DOS "OJOS" VISUALES
+    # 3. DEFINICIÓN DE LOS DOS "OJOS" VISUALES
     def fetch_lens():
         params = {"engine": "google_lens", "url": url_publica, "api_key": SERPAPI_KEY}
-        try: return requests.get("https://serpapi.com/search.json", params=params, timeout=25).json()
+        try: return requests.get("https://serpapi.com/search.json", params=params, timeout=20).json()
         except: return {}
 
     def fetch_reverse_dorks():
         params = {
             "engine": "google_reverse_image", 
             "image_url": url_publica, 
-            "q": "site:instagram.com OR site:facebook.com", # EL DORK DE META
+            "q": "site:instagram.com OR site:facebook.com", # El Radar profundo de Meta
             "api_key": SERPAPI_KEY
         }
-        try: return requests.get("https://serpapi.com/search.json", params=params, timeout=25).json()
+        try: return requests.get("https://serpapi.com/search.json", params=params, timeout=20).json()
         except: return {}
 
-    # EJECUCIÓN PARALELA (VELOCIDAD)
+    # 4. EJECUCIÓN PARALELA CONCURRENTE
     with concurrent.futures.ThreadPoolExecutor(max_workers=2) as executor:
         future_lens = executor.submit(fetch_lens)
         future_dorks = executor.submit(fetch_reverse_dorks)
@@ -90,22 +78,22 @@ def buscar_imagen_estricta_serpapi(imagen_bytes, nombre_archivo):
         datos_dorks = future_dorks.result()
 
     if "error" in datos_lens and "error" in datos_dorks: 
-        return None, "Error en los motores de búsqueda de imagen."
+        return None, "Error crítico en los radares web OSINT."
 
     plagios_confirmados = []
     links_vistos = set()
 
-    # 1. Analizar resultados de Google Lens (Alta precisión)
+    # Análisis Ojo 1: Google Lens (Red Global)
     for item in datos_lens.get("exact_matches", []):
         link = item.get("link", "#").lower()
         if link not in links_vistos and link != "#":
             plagios_confirmados.append({
-                "titulo": item.get("title", "Coincidencia Exacta Detectada (Lens)"),
+                "titulo": item.get("title", "Coincidencia Exacta Detectada"),
                 "link": link, "es_instagram": "instagram.com" in link, "es_facebook": "facebook.com" in link
             })
             links_vistos.add(link)
 
-    # 2. Analizar resultados de Reverse Image (Walled Gardens Dorks)
+    # Análisis Ojo 2: Reverse Image + Dorks (Cuentas privadas y Walled Gardens)
     for item in datos_dorks.get("image_results", []):
         link = item.get("link", "#").lower()
         if link not in links_vistos and link != "#":
@@ -115,23 +103,26 @@ def buscar_imagen_estricta_serpapi(imagen_bytes, nombre_archivo):
             })
             links_vistos.add(link)
 
-    # 3. Validación Matemática de Miniaturas Similares (Filtro final)
+    # Validación Estricta: Filtro final de miniaturas con liberación inmediata de RAM
     for item in datos_lens.get("visual_matches", []):
         link = item.get("link", "#").lower()
         if link in links_vistos: continue
+        
         thumb_url = item.get("thumbnail")
         if thumb_url:
             try:
                 res_thumb = requests.get(thumb_url, headers=HEADERS_ESTANDAR, timeout=5)
                 if res_thumb.status_code == 200:
-                    img_thumb = Image.open(io.BytesIO(res_thumb.content))
-                    if phash_original - imagehash.phash(img_thumb) <= 16:
-                        plagios_confirmados.append({
-                            "titulo": item.get("title", "Copia Idéntica (Verificada por pHash)"),
-                            "link": link, "es_instagram": "instagram.com" in link, "es_facebook": "facebook.com" in link
-                        })
-                        links_vistos.add(link)
+                    # Aplicamos "with" para que la memoria se libere instantáneamente tras leer
+                    with Image.open(io.BytesIO(res_thumb.content)) as img_thumb:
+                        if hash_actual - imagehash.phash(img_thumb) <= 16:
+                            plagios_confirmados.append({
+                                "titulo": item.get("title", "Copia Idéntica (Verificada por pHash)"),
+                                "link": link, "es_instagram": "instagram.com" in link, "es_facebook": "facebook.com" in link
+                            })
+                            links_vistos.add(link)
             except: pass
+            
         if len(plagios_confirmados) >= 5: break
             
     return plagios_confirmados, None
@@ -165,14 +156,13 @@ def buscar_documento_con_serpapi(archivo_bytes, nombre_archivo):
     mejor_fragmento = fragmentos_limpios[0]
     fragmento_clave = " ".join(mejor_fragmento.split()[:25])
     
-    # ESTRATEGIA DORKS: Creamos 3 consultas distintas
+    # ESTRATEGIA DORKS: 3 consultas distribuidas para mayor precisión
     consultas = [
-        f'"{fragmento_clave}"',                                # Ojo 1: Web Global Abierta
-        f'"{fragmento_clave}" site:instagram.com',             # Ojo 2: Francotirador Instagram
-        f'"{fragmento_clave}" site:facebook.com'               # Ojo 3: Francotirador Facebook
+        f'"{fragmento_clave}"',                                
+        f'"{fragmento_clave}" site:instagram.com',             
+        f'"{fragmento_clave}" site:facebook.com'               
     ]
 
-    # Función auxiliar para que los hilos la ejecuten
     def fetch_texto(q):
         params = {"engine": "google", "q": q, "api_key": SERPAPI_KEY, "hl": "es"}
         try: return requests.get("https://serpapi.com/search.json", params=params, timeout=20).json()
@@ -181,11 +171,11 @@ def buscar_documento_con_serpapi(archivo_bytes, nombre_archivo):
     resultados_limpios = []
     links_vistos = set()
 
-    # EJECUCIÓN PARALELA DE LAS 3 BÚSQUEDAS (VELOCIDAD)
+    # EJECUCIÓN PARALELA MULTI-HILO
     with concurrent.futures.ThreadPoolExecutor(max_workers=3) as executor:
-        resultados_hilos = executor.map(fetch_texto, consultas)
+        resultados_hilos = list(executor.map(fetch_texto, consultas))
     
-    # Unificación de resultados y eliminación de duplicados
+    # Unificación y purga de resultados clonados
     for datos in resultados_hilos:
         if "organic_results" in datos:
             for item in datos["organic_results"][:5]:
@@ -232,7 +222,8 @@ def revisar_integridad_hash(hash_id):
         if extension in ['pdf', 'doc', 'docx']:
             sitios_web, error = buscar_documento_con_serpapi(contenido_binario, nombre)
         else:
-            sitios_web, error = buscar_imagen_estricta_serpapi(contenido_binario, nombre)
+            # Re-evaluación ligera para comprobaciones programadas
+            sitios_web, error = buscar_imagen_estricta_serpapi(contenido_binario, nombre, proyecto.get('phash'))
         hay_plagio = True if sitios_web and len(sitios_web) > 0 else False
     finally:
         db_proyectos.clear()
@@ -290,12 +281,13 @@ def index():
                 sitios_web, error = buscar_documento_con_serpapi(contenido_binario, nombre)
                 tipo_motor = "Motor NLP Multi-Hilo & Dorks de Redes"
             else:
+                # OPTIMIZACIÓN CRÍTICA: Se calcula la huella perceptual una sola vez y se libera la RAM.
                 try:
-                    img_hash = imagehash.phash(Image.open(io.BytesIO(contenido_binario)))
-                    huella_perceptual = str(img_hash)
+                    with Image.open(io.BytesIO(contenido_binario)) as img:
+                        huella_perceptual = str(imagehash.phash(img))
                 except: pass
                 
-                sitios_web, error = buscar_imagen_estricta_serpapi(contenido_binario, nombre)
+                sitios_web, error = buscar_imagen_estricta_serpapi(contenido_binario, nombre, huella_perceptual)
                 tipo_motor = "Validación Cruzada Concurrente & Dorks de Redes"
 
             hay_plagio = True if sitios_web and len(sitios_web) > 0 else False
@@ -322,4 +314,5 @@ def index():
                            proyectos=db_proyectos, mostrar_boveda=abrir_boveda)
 
 if __name__ == "__main__":
-    app.run(debug=False, host='0.0.0.0')
+    # Mantener threaded=True asegura que Flask maneje peticiones sin bloquearse
+    app.run(debug=False, host='0.0.0.0', threaded=True)
