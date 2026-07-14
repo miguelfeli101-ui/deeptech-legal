@@ -16,6 +16,11 @@ app = Flask(__name__)
 # ==========================================
 SERPAPI_KEY = "9c253e2fb00e86510296ff2a44c10d6d7e1ef197344aa602f6e06c5513b0a9ee" 
 
+# Identificador para evitar bloqueos anti-bots en las APIs externas
+HEADERS_ESTANDAR = {
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+}
+
 # Crear carpeta de Bóveda Local a prueba de fallos
 CARPETA_BOVEDA = 'boveda_local'
 try:
@@ -65,16 +70,20 @@ def buscar_imagen_estricta_serpapi(imagen_bytes, nombre_archivo):
 
     try:
         archivos = {'reqtype': (None, 'fileupload'), 'fileToUpload': (nombre_archivo, imagen_bytes)}
-        respuesta_subida = requests.post('https://catbox.moe/user/api.php', files=archivos)
+        # MEJORA: Se añaden headers y un timeout máximo de 15 segundos
+        respuesta_subida = requests.post('https://catbox.moe/user/api.php', files=archivos, headers=HEADERS_ESTANDAR, timeout=15)
         url_publica = respuesta_subida.text.strip()
         if not url_publica.startswith("http"):
             return None, "No se pudo generar el enlace temporal para el radar."
+    except requests.exceptions.Timeout:
+         return None, "El nodo temporal tardó demasiado en responder."
     except Exception as e:
         return None, f"Error de subida al nodo: {str(e)}"
 
     try:
         params = {"engine": "google_lens", "url": url_publica, "api_key": SERPAPI_KEY}
-        respuesta_serpapi = requests.get("https://serpapi.com/search.json", params=params)
+        # MEJORA: Timeout preventivo para SerpApi
+        respuesta_serpapi = requests.get("https://serpapi.com/search.json", params=params, timeout=25)
         datos = respuesta_serpapi.json()
     
         if "error" in datos: return None, f"Error SerpApi: {datos['error']}"
@@ -101,7 +110,8 @@ def buscar_imagen_estricta_serpapi(imagen_bytes, nombre_archivo):
             
             if thumb_url:
                 try:
-                    res_thumb = requests.get(thumb_url, timeout=3)
+                    # MEJORA: Headers y timeout corto para descargar las miniaturas
+                    res_thumb = requests.get(thumb_url, headers=HEADERS_ESTANDAR, timeout=5)
                     if res_thumb.status_code == 200:
                         img_thumb = Image.open(io.BytesIO(res_thumb.content))
                         phash_thumb = imagehash.phash(img_thumb)
@@ -121,6 +131,8 @@ def buscar_imagen_estricta_serpapi(imagen_bytes, nombre_archivo):
             if len(plagios_confirmados) >= 5: break
             
         return plagios_confirmados, None
+    except requests.exceptions.Timeout:
+         return None, "El radar OSINT superó el tiempo límite de búsqueda."
     except Exception as e:
         return None, f"Error en validación web cruzada: {str(e)}"
 
@@ -168,7 +180,8 @@ def buscar_documento_con_serpapi(archivo_bytes, nombre_archivo):
             "api_key": SERPAPI_KEY, 
             "hl": "es" 
         }
-        res = requests.get("https://serpapi.com/search.json", params=params)
+        # MEJORA: Añadimos un timeout preventivo
+        res = requests.get("https://serpapi.com/search.json", params=params, timeout=20)
         datos = res.json()
         
         if "error" in datos: return None, f"Error SerpApi Text: {datos['error']}"
@@ -184,6 +197,8 @@ def buscar_documento_con_serpapi(archivo_bytes, nombre_archivo):
                     "es_facebook": "facebook.com" in link_encontrado
                 })
         return resultados_limpios, None
+    except requests.exceptions.Timeout:
+         return None, "El radar textual superó el tiempo de búsqueda permitido."
     except Exception as e:
         return None, f"Error en Motor Texto: {str(e)}"
 
@@ -339,4 +354,6 @@ def index():
                            mostrar_boveda=abrir_boveda)
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    # MEJORA CRÍTICA PARA SERVIDORES EN LA NUBE: debug=False evita que el servidor
+    # se reinicie abruptamente cuando el usuario guarda un archivo en la Bóveda.
+    app.run(debug=False, host='0.0.0.0')
