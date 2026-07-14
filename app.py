@@ -8,6 +8,7 @@ import docx
 import os
 from PIL import Image
 import imagehash
+import base64  # <-- Nueva librería agregada para ImgBB
 
 app = Flask(__name__)
 
@@ -1436,11 +1437,21 @@ def buscar_imagen_estricta_serpapi(imagen_bytes, nombre_archivo):
         return None, "Error decodificando imagen."
 
     try:
-        archivos = {'reqtype': (None, 'fileupload'), 'fileToUpload': (nombre_archivo, imagen_bytes)}
-        respuesta_subida = requests.post('https://catbox.moe/user/api.php', files=archivos)
-        url_publica = respuesta_subida.text.strip()
-        if not url_publica.startswith("http"):
-            return None, "No se pudo generar el enlace temporal para el radar."
+        # AQUI REEMPLAZAMOS CATBOX POR IMGBB USANDO TU KEY
+        IMGBB_API_KEY = "6cdbb99a549385c7460087ee1c8dd915" 
+        url_imgbb = f"https://api.imgbb.com/1/upload?key={IMGBB_API_KEY}"
+        
+        # Convertimos la imagen a base64 para enviarla de forma segura
+        imagen_b64 = base64.b64encode(imagen_bytes).decode('utf-8')
+        
+        respuesta_subida = requests.post(url_imgbb, data={"image": imagen_b64})
+        datos_subida = respuesta_subida.json()
+        
+        if datos_subida.get("success"):
+            url_publica = datos_subida["data"]["url"]
+        else:
+            return None, "El servicio de alojamiento rechazó la imagen. Revisa la conexión."
+            
     except Exception as e:
         return None, f"Error de subida al nodo: {str(e)}"
 
