@@ -37,11 +37,11 @@
             top: -20%; left: -20%; right: -20%; bottom: -20%; 
             z-index: -2; background-color: var(--bg-dark); filter: blur(100px); overflow: hidden;
             transform: translate3d(0, 0, 0);
-            opacity: 0; animation: fadeInBg 1.5s ease-out forwards; 
+            opacity: 1; transition: opacity 1.5s ease;
         }
 
         .bg-organic.no-intro {
-            opacity: 1;
+            opacity: 1 !important;
             animation: none !important;
         }
 
@@ -58,48 +58,78 @@
             100% { transform: translate(-10%, -5%) scale(0.9) rotate(360deg); border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; }
         }
 
-        @keyframes fadeUpEntrance { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-
-        /* PANTALLAS DE PRESENTACIÓN */
-        .landing-screen { 
-            position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 9999; 
-            display: flex; flex-direction: column; align-items: center; justify-content: center; 
-            color: var(--text-main); overflow-y: auto; background: transparent; 
-            transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out; transform: translateY(0);
+        /* =========================================
+           NUEVA INTRODUCCIÓN CINEMATOGRÁFICA
+           ========================================= */
+        #cinematic-intro {
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 9999;
+            background-color: transparent; display: flex; flex-direction: column; align-items: center; justify-content: center;
+            transition: opacity 1s ease, background-color 1.5s ease;
         }
 
-        .hero-logo-wrapper { display: flex; flex-direction: column; align-items: center; margin-bottom: 25px; filter: drop-shadow(0px 8px 20px rgba(0, 0, 0, 0.6)); opacity: 0; animation: fadeUpEntrance 1.5s cubic-bezier(0.4, 0, 0.2, 1) 0.2s forwards; }
+        .logo-cinematic {
+            position: absolute; display: flex; flex-direction: column; align-items: center;
+            opacity: 0; transform: scale(0.8); transition: all 1.5s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+        .logo-cinematic.step-1 { opacity: 1; transform: scale(1.1); }
+        .logo-cinematic.step-2 { opacity: 0; transform: translateY(-150px) scale(1.1); } /* Sube y desaparece */
+
         .logo-top-line { display: flex; align-items: flex-start; line-height: 1; }
         .logo-deeptech { font-family: 'Bukhari Script', cursive; font-size: clamp(5rem, 12vw, 8.5rem); color: var(--accent-light); font-weight: normal; text-shadow: 0px 4px 15px rgba(0,0,0, 0.5); padding-right: 5px; }
         .logo-tm { font-family: 'Oswald', sans-serif; font-size: clamp(0.9rem, 2vw, 1.4rem); color: var(--accent-light); margin-top: clamp(15px, 3.5vw, 25px); font-weight: 500; }
         .logo-bottom-line { display: flex; justify-content: center; width: 100%; margin-top: 35px; }
         .logo-legal { font-family: 'Oswald', sans-serif; font-size: clamp(1.2rem, 3vw, 2.2rem); color: var(--text-main); letter-spacing: 0.38em; font-weight: 400; text-transform: none; margin-left: 0.38em; text-shadow: 0px 4px 10px rgba(0,0,0,0.4); }
 
-        .hero-logo-wrapper.small-logo { margin-bottom: 15px; filter: drop-shadow(0px 4px 10px rgba(0,0,0, 0.4)); animation: none; opacity: 1; }
-        .hero-logo-wrapper.small-logo .logo-deeptech { font-size: clamp(3rem, 6vw, 4.5rem); }
-        .hero-logo-wrapper.small-logo .logo-tm { font-size: 0.8rem; margin-top: 10px; }
-        .hero-logo-wrapper.small-logo .logo-bottom-line { margin-top: 10px; }
-        .hero-logo-wrapper.small-logo .logo-legal { font-size: clamp(0.8rem, 1.5vw, 1.1rem); }
-
-        .hero-subtitle { opacity: 0; animation: fadeUpEntrance 1.5s cubic-bezier(0.4, 0, 0.2, 1) 0.8s forwards; font-family: 'Montserrat', sans-serif; font-size: 1.2em; color: var(--accent-light); font-weight: 400; margin-bottom: 60px; text-align: center; letter-spacing: 2px; }
-
-        /* SWITCH */
-        .glass-switch-container {
-            opacity: 0; animation: fadeUpEntrance 1.5s cubic-bezier(0.4, 0, 0.2, 1) 1.2s forwards; position: relative; width: 170px; height: 70px;
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.02)); border-radius: 40px; box-shadow: 0 0 20px rgba(119, 141, 169, 0.4), inset 0 2px 10px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255,255,255,0.1); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border: 1px solid var(--accent-light); cursor: pointer; display: flex; align-items: center; padding: 6px; box-sizing: border-box; transition: all 0.3s ease;
+        /* Contenedor del Ojo y los Iconos */
+        .intro-eye-container {
+            position: absolute; width: 350px; height: 350px; display: flex; align-items: center; justify-content: center;
+            opacity: 0; transform: scale(0.8); transition: all 1s ease; pointer-events: none;
         }
-        .glass-switch-container:hover { box-shadow: 0 0 30px rgba(119, 141, 169, 0.7), inset 0 2px 10px rgba(0, 0, 0, 0.5); }
-        .switch-thumb { width: 56px; height: 56px; background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.05)); border-radius: 50%; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4), inset 0 2px 5px rgba(255, 255, 255, 0.2); display: flex; justify-content: center; align-items: center; font-size: 1.5em; transform: translateX(0); transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55), background 0.3s ease, box-shadow 0.3s ease; }
-        .switch-thumb.active { transform: translateX(100px); background: linear-gradient(135deg, var(--accent-light), var(--accent-blue)); box-shadow: 0 0 20px var(--accent-light), inset 0 2px 5px rgba(255, 255, 255, 0.5); }
-        .switch-icon { transition: opacity 0.2s ease, transform 0.3s ease; position: absolute; color: var(--bg-dark); text-shadow: 0 2px 5px rgba(0,0,0,0.5); }
-        .icon-lock { opacity: 1; transform: scale(1); }
-        .icon-unlock { opacity: 0; transform: scale(0.5); }
-        .switch-thumb.active .icon-lock { opacity: 0; transform: scale(0.5); }
-        .switch-thumb.active .icon-unlock { opacity: 1; transform: scale(1); text-shadow: none;}
+        .intro-eye-container.active { opacity: 1; transform: scale(1); pointer-events: auto; }
+        .intro-eye-container.implode { transform: scale(0) rotate(180deg); opacity: 0; filter: brightness(2) blur(5px); }
 
+        /* Animación de la pupila mirando a los iconos */
+        .pupil-animate { animation: lookAround 4s infinite alternate ease-in-out; }
+        @keyframes lookAround {
+            0% { transform: translate(0px, 0px); }
+            25% { transform: translate(-15px, -15px); }
+            50% { transform: translate(15px, 10px); }
+            75% { transform: translate(-10px, 15px); }
+            100% { transform: translate(10px, -10px); }
+        }
+
+        /* Iconos Flotantes */
+        .floating-icon { position: absolute; font-size: 2.5em; opacity: 0; transition: opacity 1s ease; filter: drop-shadow(0 0 10px rgba(119, 141, 169, 0.4)); }
+        .intro-eye-container.active .floating-icon { opacity: 1; }
+        .icon-1 { top: 10%; left: 5%; animation: float1 4s ease-in-out infinite; }
+        .icon-2 { top: 15%; right: 5%; animation: float2 5s ease-in-out infinite; }
+        .icon-3 { bottom: 15%; left: 15%; animation: float3 4.5s ease-in-out infinite; }
+        .icon-4 { bottom: 10%; right: 15%; animation: float1 5.5s ease-in-out infinite; }
+
+        @keyframes float1 { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+        @keyframes float2 { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(15px); } }
+        @keyframes float3 { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(-15px); } }
+
+        /* Candado (Fusión) */
+        .intro-lock-container {
+            position: absolute; display: flex; flex-direction: column; align-items: center; justify-content: center;
+            opacity: 0; transform: scale(0); transition: all 1s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .intro-lock-container.active { opacity: 1; transform: scale(1); filter: drop-shadow(0 0 20px rgba(94, 234, 212, 0.4)); }
+
+        /* Textos de Acción de la Intro */
+        .intro-text-box {
+            position: absolute; bottom: 10%; display: flex; flex-direction: column; align-items: center;
+            opacity: 0; transform: translateY(20px); transition: all 0.8s ease; text-align: center;
+        }
+        .intro-text-box.active { opacity: 1; transform: translateY(0); }
+        .intro-text-box.hide { opacity: 0; transform: translateY(20px); pointer-events: none; }
+        
+        .intro-pregunta { font-family: 'Montserrat', sans-serif; font-size: 1.3em; color: var(--text-main); margin-bottom: 20px; font-weight: 300; letter-spacing: 1px; }
+        .intro-ayuda { font-family: 'Montserrat', sans-serif; font-size: 1.5em; color: var(--success); font-weight: 500; letter-spacing: 2px; }
 
         /* =========================================
-           MAQUETACIÓN Y CARRUSEL
+           MAQUETACIÓN DE LA PLATAFORMA PRINCIPAL (INTACTA)
            ========================================= */
         #main-wrapper { 
             width: 100vw; height: 100vh; position: relative; overflow: hidden;
@@ -112,7 +142,7 @@
         }
         .top-nav::-webkit-scrollbar { display: none; }
         
-        .bubble-indicator { position: absolute; top: 6px; bottom: 6px; left: 6px; width: 0px; background: linear-gradient(135deg, var(--accent-light), var(--accent-blue)); border-radius: 40px; z-index: 0; box-shadow: 0 4px 15px rgba(119, 141, 169, 0.4); }
+        .bubble-indicator { position: absolute; top: 6px; bottom: 6px; left: 6px; width: 0px; background: linear-gradient(135deg, var(--accent-light), var(--accent-blue)); border-radius: 40px; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); z-index: 0; box-shadow: 0 4px 15px rgba(119, 141, 169, 0.4); }
 
         .tab-btn { position: relative; z-index: 1; background: transparent !important; border: none; color: rgba(224, 225, 221, 0.7); padding: 10px 22px; border-radius: 30px; font-size: 0.9em; font-family: 'Montserrat', sans-serif; font-weight: 500; cursor: pointer; transition: color 0.3s ease; letter-spacing: 0.5px; white-space: nowrap; display: flex; align-items: center; justify-content: center; }
         .tab-btn:hover { color: var(--text-main); }
@@ -129,25 +159,16 @@
         .section-container::-webkit-scrollbar { width: 6px; }
         .section-container::-webkit-scrollbar-thumb { background-color: rgba(119, 141, 169, 0.3); border-radius: 4px; }
         
-        /* =========================================
-           NUEVAS ANIMACIONES: EFECTO DE HUNDIMIENTO HACIA ATRÁS
-           ========================================= */
-        /* Carrusel Horizontal (Menú) */
+        /* Animaciones del Carrusel */
         @keyframes slideInFromRight { 0% { transform: translateX(100%); opacity: 0; } 100% { transform: translateX(0); opacity: 1; } }
         @keyframes slideInFromLeft { 0% { transform: translateX(-100%); opacity: 0; } 100% { transform: translateX(0); opacity: 1; } }
         @keyframes slideOutToLeft { 0% { transform: translateX(0) scale(1); opacity: 1; } 100% { transform: translateX(-20%) scale(0.9); opacity: 0; } }
         @keyframes slideOutToRight { 0% { transform: translateX(0) scale(1); opacity: 1; } 100% { transform: translateX(20%) scale(0.9); opacity: 0; } }
 
-        /* Carrusel Vertical: Entra desde abajo y se hunde hacia atrás */
         @keyframes slideUpIn { 0% { transform: translateY(100%); opacity: 0; } 100% { transform: translateY(0); opacity: 1; } }
         @keyframes slideDownIn { 0% { transform: translateY(-100%); opacity: 0; } 100% { transform: translateY(0); opacity: 1; } }
         @keyframes slideDownOut { 0% { transform: translateY(0) scale(1); opacity: 1; } 100% { transform: translateY(20%) scale(0.9); opacity: 0; } }
-        
-        /* CORRECCIÓN: La pantalla vieja se hunde hacia atrás en lugar de subir */
-        @keyframes scaleDownBack { 
-            0% { transform: scale(1); opacity: 1; } 
-            100% { transform: scale(0.85); opacity: 0; } 
-        }
+        @keyframes scaleDownBack { 0% { transform: scale(1); opacity: 1; } 100% { transform: scale(0.85); opacity: 0; } }
 
         .animate-in-right { animation: slideInFromRight 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards; z-index: 2; display: flex !important; }
         .animate-in-left { animation: slideInFromLeft 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards; z-index: 2; display: flex !important; }
@@ -157,17 +178,12 @@
         .vertical-in-up { animation: slideUpIn 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards; z-index: 3; display: flex !important;}
         .vertical-in-down { animation: slideDownIn 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards; z-index: 3; display: flex !important;}
         .vertical-out-down { animation: slideDownOut 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards; z-index: 1; }
-        
-        /* CLASE APLICADA PARA HUNDIRSE HACIA ATRÁS */
         .scale-out-back { animation: scaleDownBack 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards; z-index: 1; }
 
         .sub-section-container { width: 100%; flex-grow: 1; box-sizing: border-box; transition: opacity 0.3s ease-in-out; display: flex; flex-direction: column; align-items: center; opacity: 0; display: none;}
         .app-centered-layout { display: flex; flex-direction: column; align-items: center; box-sizing: border-box; }
         
-        .content-wrapper-inner { 
-            width: 100%; max-width: 900px; padding: 0 20px; box-sizing: border-box; 
-            display: flex; flex-direction: column; align-items: center; margin-top: auto; margin-bottom: auto;
-        }
+        .content-wrapper-inner { width: 100%; max-width: 900px; padding: 0 20px; box-sizing: border-box; display: flex; flex-direction: column; align-items: center; margin-top: auto; margin-bottom: auto;}
         
         .app-title { font-family: 'Oswald', sans-serif; font-size: 2.5em; color: var(--text-main); margin: 0 0 5px 0; text-align: center; font-weight: 500; text-shadow: 0 4px 15px rgba(0,0,0,0.4);}
         .app-subtitle { font-family: 'Montserrat', sans-serif; font-size: 1em; color: rgba(224, 225, 221, 0.7); text-align: center; margin-bottom: 25px; font-weight: 300;}
@@ -263,14 +279,17 @@
 </head>
 <body>
 
-    <div class="bg-organic {% if skip_intro %}no-intro{% endif %}">
+    <!-- FONDO ANIMADO PERSISTENTE -->
+    <div class="bg-organic {% if skip_intro %}no-intro{% endif %}" id="main-background">
         <div class="liquid-shape liquid-1"></div>
         <div class="liquid-shape liquid-2"></div>
         <div class="liquid-shape liquid-3"></div>
     </div>
 
-    <div id="landing-main" class="landing-screen" {% if skip_intro %} style="display: none; opacity: 0;" {% else %} style="display: flex; opacity: 1;" {% endif %}>
-        <div class="hero-logo-wrapper">
+    <!-- NUEVA INTRODUCCIÓN CINEMATOGRÁFICA -->
+    <div id="cinematic-intro" {% if skip_intro %} style="display: none; opacity: 0;" {% endif %}>
+        
+        <div class="logo-cinematic" id="intro-logo">
             <div class="logo-top-line">
                 <span class="logo-deeptech">DeepTech</span><span class="logo-tm">TM</span>
             </div>
@@ -278,22 +297,47 @@
                 <span class="logo-legal">Legal Solutions</span>
             </div>
         </div>
-        <p class="hero-subtitle">POTENCIADO POR INTELIGENCIA ARTIFICIAL & BLOCKCHAIN</p>
-        
-        <div class="glass-switch-container" onclick="activarToggle(this)">
-            <div class="switch-thumb" id="switch-thumb-btn">
-                <span class="switch-icon icon-lock" id="icon-lock">🔒</span>
-                <span class="switch-icon icon-unlock" id="icon-unlock">🔓</span>
-            </div>
+
+        <div class="intro-eye-container" id="intro-eye">
+            <!-- Esfera de puntos con pupila roja (El Ojo) -->
+            <svg viewBox="0 0 100 100" width="200" height="200">
+                <circle cx="50" cy="50" r="48" stroke="white" stroke-width="3" stroke-dasharray="1 12" fill="none" stroke-linecap="round"/>
+                <circle cx="50" cy="50" r="38" stroke="white" stroke-width="4" stroke-dasharray="1 14" fill="none" stroke-linecap="round"/>
+                <circle cx="50" cy="50" r="28" stroke="white" stroke-width="4" stroke-dasharray="1 16" fill="none" stroke-linecap="round"/>
+                <circle cx="50" cy="50" r="18" stroke="white" stroke-width="5" stroke-dasharray="1 18" fill="none" stroke-linecap="round"/>
+                <circle class="pupil-animate" cx="50" cy="50" r="8" fill="#FCA5A5" />
+            </svg>
+
+            <!-- Iconos flotantes alrededor -->
+            <div class="floating-icon icon-1">📁</div>
+            <div class="floating-icon icon-2">🖼️</div>
+            <div class="floating-icon icon-3">🎵</div>
+            <div class="floating-icon icon-4">📄</div>
         </div>
+
+        <!-- Candado de Seguridad (Formado tras la implosión) -->
+        <div class="intro-lock-container" id="intro-lock">
+            <svg viewBox="0 0 100 100" width="180" height="180">
+                <path d="M30,45 V30 A20,20 0 0,1 70,30 V45" stroke="white" stroke-width="4" stroke-dasharray="1 10" stroke-linecap="round" fill="none"/>
+                <rect x="20" y="45" width="60" height="45" rx="8" stroke="white" stroke-width="4" stroke-dasharray="1 10" stroke-linecap="round" fill="none"/>
+                <circle cx="50" cy="67" r="8" fill="#5EEAD4" />
+            </svg>
+            <p class="intro-ayuda" style="margin-top: 30px;">Nosotros te ayudamos.</p>
+        </div>
+
+        <div class="intro-text-box" id="intro-action">
+            <p class="intro-pregunta">¿Quieres proteger tu propiedad intelectual?</p>
+            <button class="btn" style="padding: 10px 40px; font-size: 1.1em;" onclick="fusionarYEntrar()">Siguiente</button>
+        </div>
+
     </div>
 
+    <!-- PLATAFORMA PRINCIPAL -->
     <div id="main-wrapper" {% if skip_intro %} style="display: flex; opacity: 1;" {% else %} style="display: none; opacity: 0;" {% endif %}>
         
         <div class="nav-wrapper">
             <div class="top-nav" id="main-nav">
                 <div class="bubble-indicator" id="nav-bubble"></div>
-                
                 <button id="tab-auditar" class="tab-btn {% if not mostrar_boveda %}active{% endif %}" onclick="cambiarPestana('app-section', this)">Auditar Archivo</button>
                 <button id="tab-boveda" class="tab-btn {% if mostrar_boveda %}active{% endif %}" onclick="cambiarPestana('dashboard-section', this)">Mis Proyectos</button>
                 <button id="tab-planes" class="tab-btn" onclick="cambiarPestana('planes-section', this)">Planes</button>
@@ -305,7 +349,6 @@
             </div>
         </div>
 
-        <!-- CONTENEDOR DEL CARRUSEL -->
         <div class="sections-viewport" id="viewport">
 
             <div id="loading-section" class="section-container app-centered-layout" style="display: none; opacity: 0;">
@@ -333,7 +376,6 @@
                         <p class="app-subtitle" style="margin-top: 0; max-width: 600px;">Sube tu activo digital (Imagen o Documento) para certificar su originalidad y protegerlo.</p>
                     </div>
                     
-                    <!-- CORRECCIÓN DE PARPADEO: El form ya no recarga la página, usa AJAX -->
                     <div class="upload-area" id="upload-area-box" {% if mostrando_resultado %} style="display: none;" {% endif %}>
                         <form id="upload-form" onsubmit="ejecutarCargaAjax(event, this)" enctype="multipart/form-data" style="display: flex; flex-direction: column; align-items: center;">
                             <label style="font-weight: 500; color: var(--text-main); text-align: center; font-size: 1.1em; font-family: 'Montserrat', sans-serif;">Selecciona el archivo para certificar:</label>
@@ -347,7 +389,6 @@
                         <div style="display: flex; align-items: center; gap: 5px; font-size: 0.85em; color: rgba(224, 225, 221, 0.7);"><span style="color: var(--accent-light);">⚖️</span> Validez Legal DMCA</div>
                     </div>
                     
-                    <!-- CORRECCIÓN DEL RESULTADO: Siempre debe existir para que AJAX lo pueda sobreescribir -->
                     <div id="resultado-area" style="width: 100%; display: {% if mostrando_resultado %}flex{% else %}none{% endif %}; flex-direction: column; align-items: center;">
                         {% if mostrando_resultado %}
                             {% if error_api %}
@@ -618,6 +659,7 @@
         <button class="btn btn-danger" style="padding: 8px 15px;" onclick="eliminarSeleccionados()">Eliminar</button>
     </div>
 
+    <!-- MODALES EXTRAS -->
     <div id="informe-modal" class="modal-overlay">
         <div class="glass-card" style="width: 90%; max-width: 450px; position: relative;">
             <button class="modal-close-btn" onclick="cerrarInforme()">&times;</button>
@@ -683,38 +725,76 @@
     <script>
         let unreadCount = 0;
 
-        function activarToggle(element) {
-            let thumb = document.getElementById('switch-thumb-btn');
-            if(thumb.classList.contains('active')) return;
-            thumb.classList.add('active');
-            setTimeout(() => { ingresarApp(); }, 600);
-        }
-
+        // CONTROLADOR DE LA INTRODUCCIÓN CINEMATOGRÁFICA
         window.onload = function() {
-            var activeTab = document.querySelector('.top-nav .tab-btn.active');
-            if(activeTab) {
-                var bubble = document.getElementById('nav-bubble');
-                if(bubble) {
-                    bubble.style.transition = 'none'; 
-                    moverBurbuja(activeTab);
-                    setTimeout(() => { bubble.style.transition = 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)'; }, 100);
+            var skip = {% if skip_intro %}true{% else %}false{% endif %};
+            if(skip) {
+                document.getElementById('cinematic-intro').style.display = 'none';
+                // Evitamos reiniciar la animación de fondo si ya pasamos la intro
+                document.getElementById('main-background').classList.add('no-intro');
+                
+                var activeTab = document.querySelector('.top-nav .tab-btn.active');
+                if(activeTab) {
+                    var bubble = document.getElementById('nav-bubble');
+                    if(bubble) {
+                        bubble.style.transition = 'none'; 
+                        moverBurbuja(activeTab);
+                        setTimeout(() => { bubble.style.transition = 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)'; }, 100);
+                    }
                 }
+            } else {
+                iniciarCinematica();
             }
         }
 
-        function ingresarApp() {
-            var main = document.getElementById('landing-main');
-            var wrapper = document.getElementById('main-wrapper');
-            main.style.opacity = '0';
-            main.style.transform = 'translateY(-30px)';
-            setTimeout(function() {
-                main.style.display = 'none';
-                wrapper.style.display = 'flex';
-                void wrapper.offsetWidth; 
-                wrapper.style.opacity = '1';
-                var activeTab = document.querySelector('.top-nav .tab-btn.active');
-                if(activeTab) moverBurbuja(activeTab);
+        function iniciarCinematica() {
+            // Fase 1: Aparece el Logo suavemente
+            setTimeout(() => {
+                document.getElementById('intro-logo').classList.add('step-1');
             }, 500);
+
+            // Fase 2: El Logo sube y desaparece, el fondo se apaga y aparece el ojo
+            setTimeout(() => {
+                document.getElementById('intro-logo').classList.add('step-2');
+                document.getElementById('main-background').style.opacity = '0';
+                
+                setTimeout(() => {
+                    document.getElementById('intro-eye').classList.add('active');
+                    document.getElementById('intro-action').classList.add('active');
+                }, 800);
+            }, 3000);
+        }
+
+        function fusionarYEntrar() {
+            // Fase 3: Implosión del Ojo y los Iconos
+            document.getElementById('intro-action').classList.add('hide');
+            document.getElementById('intro-eye').classList.add('implode');
+
+            // Fase 4: Aparece el Candado y el texto de ayuda
+            setTimeout(() => {
+                document.getElementById('intro-lock').classList.add('active');
+            }, 800);
+
+            // Fase 5: Termina la Intro, regresa el fondo animado y muestra la app
+            setTimeout(() => {
+                document.getElementById('cinematic-intro').style.opacity = '0';
+                document.getElementById('main-background').style.opacity = '1';
+                
+                setTimeout(() => {
+                    document.getElementById('cinematic-intro').style.display = 'none';
+                    
+                    var wrapper = document.getElementById('main-wrapper');
+                    wrapper.style.display = 'flex';
+                    void wrapper.offsetWidth; 
+                    wrapper.style.opacity = '1';
+                    
+                    var activeTab = document.querySelector('.top-nav .tab-btn.active');
+                    if(activeTab) moverBurbuja(activeTab);
+                    
+                    // Agregamos el parámetro a la URL para no repetir intro
+                    window.history.pushState({}, document.title, "/?skip_intro=true");
+                }, 1000);
+            }, 3500);
         }
 
         function moverBurbuja(btnElement) {
