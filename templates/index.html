@@ -58,45 +58,41 @@
             100% { transform: translate(-10%, -5%) scale(0.9) rotate(360deg); border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; }
         }
 
-        @keyframes fadeUpEntrance { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-
-        /* PANTALLAS DE PRESENTACIÓN */
+        /* PANTALLA DE PRESENTACIÓN CINEMÁTICA (NUEVA LOGICA) */
         .landing-screen { 
             position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 9999; 
             display: flex; flex-direction: column; align-items: center; justify-content: center; 
             color: var(--text-main); overflow-y: auto; background: transparent; 
-            transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out; transform: translateY(0);
+            transition: opacity 0.5s ease-in-out;
         }
 
-        .hero-logo-wrapper { display: flex; flex-direction: column; align-items: center; margin-bottom: 25px; filter: drop-shadow(0px 8px 20px rgba(0, 0, 0, 0.6)); opacity: 0; animation: fadeUpEntrance 1.5s cubic-bezier(0.4, 0, 0.2, 1) 0.2s forwards; }
+        /* Animación fluida de Desvanecido + Zoom */
+        .cinematic-logo {
+            display: flex; flex-direction: column; align-items: center; margin-bottom: 25px; 
+            filter: drop-shadow(0px 8px 20px rgba(0, 0, 0, 0.6)); 
+            opacity: 0; transform: scale(0.85); 
+            transition: opacity 1s ease, transform 2.5s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+        .cinematic-logo.active { 
+            opacity: 1; transform: scale(1.05); 
+        }
+        .cinematic-logo.fade-out { 
+            opacity: 0; transform: scale(1.15); 
+            transition: opacity 0.5s ease, transform 0.5s ease; 
+        }
+
         .logo-top-line { display: flex; align-items: flex-start; line-height: 1; }
         .logo-deeptech { font-family: 'Bukhari Script', cursive; font-size: clamp(5rem, 12vw, 8.5rem); color: var(--accent-light); font-weight: normal; text-shadow: 0px 4px 15px rgba(0,0,0, 0.5); padding-right: 5px; }
         .logo-tm { font-family: 'Oswald', sans-serif; font-size: clamp(0.9rem, 2vw, 1.4rem); color: var(--accent-light); margin-top: clamp(15px, 3.5vw, 25px); font-weight: 500; }
         .logo-bottom-line { display: flex; justify-content: center; width: 100%; margin-top: 35px; }
         .logo-legal { font-family: 'Oswald', sans-serif; font-size: clamp(1.2rem, 3vw, 2.2rem); color: var(--text-main); letter-spacing: 0.38em; font-weight: 400; text-transform: none; margin-left: 0.38em; text-shadow: 0px 4px 10px rgba(0,0,0,0.4); }
 
-        .hero-logo-wrapper.small-logo { margin-bottom: 15px; filter: drop-shadow(0px 4px 10px rgba(0,0,0, 0.4)); animation: none; opacity: 1; }
+        /* Clases para los logos en el header (interior) */
+        .hero-logo-wrapper.small-logo { margin-bottom: 15px; filter: drop-shadow(0px 4px 10px rgba(0,0,0, 0.4)); display: flex; flex-direction: column; align-items: center; }
         .hero-logo-wrapper.small-logo .logo-deeptech { font-size: clamp(3rem, 6vw, 4.5rem); }
         .hero-logo-wrapper.small-logo .logo-tm { font-size: 0.8rem; margin-top: 10px; }
         .hero-logo-wrapper.small-logo .logo-bottom-line { margin-top: 10px; }
         .hero-logo-wrapper.small-logo .logo-legal { font-size: clamp(0.8rem, 1.5vw, 1.1rem); }
-
-        .hero-subtitle { opacity: 0; animation: fadeUpEntrance 1.5s cubic-bezier(0.4, 0, 0.2, 1) 0.8s forwards; font-family: 'Montserrat', sans-serif; font-size: 1.2em; color: var(--accent-light); font-weight: 400; margin-bottom: 60px; text-align: center; letter-spacing: 2px; }
-
-        /* SWITCH */
-        .glass-switch-container {
-            opacity: 0; animation: fadeUpEntrance 1.5s cubic-bezier(0.4, 0, 0.2, 1) 1.2s forwards; position: relative; width: 170px; height: 70px;
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.02)); border-radius: 40px; box-shadow: 0 0 20px rgba(119, 141, 169, 0.4), inset 0 2px 10px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255,255,255,0.1); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border: 1px solid var(--accent-light); cursor: pointer; display: flex; align-items: center; padding: 6px; box-sizing: border-box; transition: all 0.3s ease;
-        }
-        .glass-switch-container:hover { box-shadow: 0 0 30px rgba(119, 141, 169, 0.7), inset 0 2px 10px rgba(0, 0, 0, 0.5); }
-        .switch-thumb { width: 56px; height: 56px; background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.05)); border-radius: 50%; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4), inset 0 2px 5px rgba(255, 255, 255, 0.2); display: flex; justify-content: center; align-items: center; font-size: 1.5em; transform: translateX(0); transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55), background 0.3s ease, box-shadow 0.3s ease; }
-        .switch-thumb.active { transform: translateX(100px); background: linear-gradient(135deg, var(--accent-light), var(--accent-blue)); box-shadow: 0 0 20px var(--accent-light), inset 0 2px 5px rgba(255, 255, 255, 0.5); }
-        .switch-icon { transition: opacity 0.2s ease, transform 0.3s ease; position: absolute; color: var(--bg-dark); text-shadow: 0 2px 5px rgba(0,0,0,0.5); }
-        .icon-lock { opacity: 1; transform: scale(1); }
-        .icon-unlock { opacity: 0; transform: scale(0.5); }
-        .switch-thumb.active .icon-lock { opacity: 0; transform: scale(0.5); }
-        .switch-thumb.active .icon-unlock { opacity: 1; transform: scale(1); text-shadow: none;}
-
 
         /* =========================================
            MAQUETACIÓN Y CARRUSEL
@@ -112,7 +108,7 @@
         }
         .top-nav::-webkit-scrollbar { display: none; }
         
-        .bubble-indicator { position: absolute; top: 6px; bottom: 6px; left: 6px; width: 0px; background: linear-gradient(135deg, var(--accent-light), var(--accent-blue)); border-radius: 40px; z-index: 0; box-shadow: 0 4px 15px rgba(119, 141, 169, 0.4); }
+        .bubble-indicator { position: absolute; top: 6px; bottom: 6px; left: 6px; width: 0px; background: linear-gradient(135deg, var(--accent-light), var(--accent-blue)); border-radius: 40px; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); z-index: 0; box-shadow: 0 4px 15px rgba(119, 141, 169, 0.4); }
 
         .tab-btn { position: relative; z-index: 1; background: transparent !important; border: none; color: rgba(224, 225, 221, 0.7); padding: 10px 22px; border-radius: 30px; font-size: 0.9em; font-family: 'Montserrat', sans-serif; font-weight: 500; cursor: pointer; transition: color 0.3s ease; letter-spacing: 0.5px; white-space: nowrap; display: flex; align-items: center; justify-content: center; }
         .tab-btn:hover { color: var(--text-main); }
@@ -129,25 +125,16 @@
         .section-container::-webkit-scrollbar { width: 6px; }
         .section-container::-webkit-scrollbar-thumb { background-color: rgba(119, 141, 169, 0.3); border-radius: 4px; }
         
-        /* =========================================
-           NUEVAS ANIMACIONES: EFECTO DE HUNDIMIENTO HACIA ATRÁS
-           ========================================= */
-        /* Carrusel Horizontal (Menú) */
+        /* Animaciones del Carrusel */
         @keyframes slideInFromRight { 0% { transform: translateX(100%); opacity: 0; } 100% { transform: translateX(0); opacity: 1; } }
         @keyframes slideInFromLeft { 0% { transform: translateX(-100%); opacity: 0; } 100% { transform: translateX(0); opacity: 1; } }
         @keyframes slideOutToLeft { 0% { transform: translateX(0) scale(1); opacity: 1; } 100% { transform: translateX(-20%) scale(0.9); opacity: 0; } }
         @keyframes slideOutToRight { 0% { transform: translateX(0) scale(1); opacity: 1; } 100% { transform: translateX(20%) scale(0.9); opacity: 0; } }
 
-        /* Carrusel Vertical: Entra desde abajo y se hunde hacia atrás */
         @keyframes slideUpIn { 0% { transform: translateY(100%); opacity: 0; } 100% { transform: translateY(0); opacity: 1; } }
         @keyframes slideDownIn { 0% { transform: translateY(-100%); opacity: 0; } 100% { transform: translateY(0); opacity: 1; } }
         @keyframes slideDownOut { 0% { transform: translateY(0) scale(1); opacity: 1; } 100% { transform: translateY(20%) scale(0.9); opacity: 0; } }
-        
-        /* CORRECCIÓN: La pantalla vieja se hunde hacia atrás en lugar de subir */
-        @keyframes scaleDownBack { 
-            0% { transform: scale(1); opacity: 1; } 
-            100% { transform: scale(0.85); opacity: 0; } 
-        }
+        @keyframes scaleDownBack { 0% { transform: scale(1); opacity: 1; } 100% { transform: scale(0.85); opacity: 0; } }
 
         .animate-in-right { animation: slideInFromRight 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards; z-index: 2; display: flex !important; }
         .animate-in-left { animation: slideInFromLeft 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards; z-index: 2; display: flex !important; }
@@ -157,17 +144,12 @@
         .vertical-in-up { animation: slideUpIn 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards; z-index: 3; display: flex !important;}
         .vertical-in-down { animation: slideDownIn 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards; z-index: 3; display: flex !important;}
         .vertical-out-down { animation: slideDownOut 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards; z-index: 1; }
-        
-        /* CLASE APLICADA PARA HUNDIRSE HACIA ATRÁS */
         .scale-out-back { animation: scaleDownBack 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards; z-index: 1; }
 
         .sub-section-container { width: 100%; flex-grow: 1; box-sizing: border-box; transition: opacity 0.3s ease-in-out; display: flex; flex-direction: column; align-items: center; opacity: 0; display: none;}
         .app-centered-layout { display: flex; flex-direction: column; align-items: center; box-sizing: border-box; }
         
-        .content-wrapper-inner { 
-            width: 100%; max-width: 900px; padding: 0 20px; box-sizing: border-box; 
-            display: flex; flex-direction: column; align-items: center; margin-top: auto; margin-bottom: auto;
-        }
+        .content-wrapper-inner { width: 100%; max-width: 900px; padding: 0 20px; box-sizing: border-box; display: flex; flex-direction: column; align-items: center; margin-top: auto; margin-bottom: auto;}
         
         .app-title { font-family: 'Oswald', sans-serif; font-size: 2.5em; color: var(--text-main); margin: 0 0 5px 0; text-align: center; font-weight: 500; text-shadow: 0 4px 15px rgba(0,0,0,0.4);}
         .app-subtitle { font-family: 'Montserrat', sans-serif; font-size: 1em; color: rgba(224, 225, 221, 0.7); text-align: center; margin-bottom: 25px; font-weight: 300;}
@@ -258,19 +240,21 @@
         .cert-title { font-family: 'Montserrat', sans-serif; font-size: 1.1em; color: var(--text-main); letter-spacing: 2px; margin: 10px 0 15px 0; border-bottom: 1px solid rgba(119, 141, 169, 0.2); padding-bottom: 10px; font-weight: 500;}
         .cert-text { font-size: 0.8em; font-weight: 300; line-height: 1.5; color: rgba(224, 225, 221, 0.8); text-align: justify; margin-bottom: 15px; }
         
+        /* Carga Fade Elementos */
         .fade-in-element { animation: fadeUpEntrance 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
     </style>
 </head>
 <body>
 
-    <div class="bg-organic {% if skip_intro %}no-intro{% endif %}">
+    <div class="bg-organic {% if skip_intro %}no-intro{% endif %}" id="main-background">
         <div class="liquid-shape liquid-1"></div>
         <div class="liquid-shape liquid-2"></div>
         <div class="liquid-shape liquid-3"></div>
     </div>
 
     <div id="landing-main" class="landing-screen" {% if skip_intro %} style="display: none; opacity: 0;" {% else %} style="display: flex; opacity: 1;" {% endif %}>
-        <div class="hero-logo-wrapper">
+        
+        <div class="cinematic-logo" id="intro-logo">
             <div class="logo-top-line">
                 <span class="logo-deeptech">DeepTech</span><span class="logo-tm">TM</span>
             </div>
@@ -278,14 +262,7 @@
                 <span class="logo-legal">Legal Solutions</span>
             </div>
         </div>
-        <p class="hero-subtitle">POTENCIADO POR INTELIGENCIA ARTIFICIAL & BLOCKCHAIN</p>
-        
-        <div class="glass-switch-container" onclick="activarToggle(this)">
-            <div class="switch-thumb" id="switch-thumb-btn">
-                <span class="switch-icon icon-lock" id="icon-lock">🔒</span>
-                <span class="switch-icon icon-unlock" id="icon-unlock">🔓</span>
-            </div>
-        </div>
+
     </div>
 
     <div id="main-wrapper" {% if skip_intro %} style="display: flex; opacity: 1;" {% else %} style="display: none; opacity: 0;" {% endif %}>
@@ -293,7 +270,6 @@
         <div class="nav-wrapper">
             <div class="top-nav" id="main-nav">
                 <div class="bubble-indicator" id="nav-bubble"></div>
-                
                 <button id="tab-auditar" class="tab-btn {% if not mostrar_boveda %}active{% endif %}" onclick="cambiarPestana('app-section', this)">Auditar Archivo</button>
                 <button id="tab-boveda" class="tab-btn {% if mostrar_boveda %}active{% endif %}" onclick="cambiarPestana('dashboard-section', this)">Mis Proyectos</button>
                 <button id="tab-planes" class="tab-btn" onclick="cambiarPestana('planes-section', this)">Planes</button>
@@ -305,7 +281,6 @@
             </div>
         </div>
 
-        <!-- CONTENEDOR DEL CARRUSEL -->
         <div class="sections-viewport" id="viewport">
 
             <div id="loading-section" class="section-container app-centered-layout" style="display: none; opacity: 0;">
@@ -333,7 +308,6 @@
                         <p class="app-subtitle" style="margin-top: 0; max-width: 600px;">Sube tu activo digital (Imagen o Documento) para certificar su originalidad y protegerlo.</p>
                     </div>
                     
-                    <!-- CORRECCIÓN DE PARPADEO: El form ya no recarga la página, usa AJAX -->
                     <div class="upload-area" id="upload-area-box" {% if mostrando_resultado %} style="display: none;" {% endif %}>
                         <form id="upload-form" onsubmit="ejecutarCargaAjax(event, this)" enctype="multipart/form-data" style="display: flex; flex-direction: column; align-items: center;">
                             <label style="font-weight: 500; color: var(--text-main); text-align: center; font-size: 1.1em; font-family: 'Montserrat', sans-serif;">Selecciona el archivo para certificar:</label>
@@ -347,7 +321,6 @@
                         <div style="display: flex; align-items: center; gap: 5px; font-size: 0.85em; color: rgba(224, 225, 221, 0.7);"><span style="color: var(--accent-light);">⚖️</span> Validez Legal DMCA</div>
                     </div>
                     
-                    <!-- CORRECCIÓN DEL RESULTADO: Siempre debe existir para que AJAX lo pueda sobreescribir -->
                     <div id="resultado-area" style="width: 100%; display: {% if mostrando_resultado %}flex{% else %}none{% endif %}; flex-direction: column; align-items: center;">
                         {% if mostrando_resultado %}
                             {% if error_api %}
@@ -407,7 +380,6 @@
                 </div>
             </div>
 
-            <!-- DEMÁS SECCIONES DEL MENÚ -->
             <div id="dashboard-section" class="section-container app-centered-layout" {% if mostrar_boveda %} style="display: flex; opacity: 1;" {% else %} style="display: none; opacity: 0;" {% endif %}>
                 <div class="content-wrapper-inner" style="max-width: 900px;">
                     <div style="width: 100%; display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 20px;">
@@ -683,38 +655,64 @@
     <script>
         let unreadCount = 0;
 
-        function activarToggle(element) {
-            let thumb = document.getElementById('switch-thumb-btn');
-            if(thumb.classList.contains('active')) return;
-            thumb.classList.add('active');
-            setTimeout(() => { ingresarApp(); }, 600);
-        }
-
+        // ==========================================
+        // LÓGICA DE LA INTRODUCCIÓN AUTOMÁTICA
+        // ==========================================
         window.onload = function() {
-            var activeTab = document.querySelector('.top-nav .tab-btn.active');
-            if(activeTab) {
-                var bubble = document.getElementById('nav-bubble');
-                if(bubble) {
-                    bubble.style.transition = 'none'; 
-                    moverBurbuja(activeTab);
-                    setTimeout(() => { bubble.style.transition = 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)'; }, 100);
-                }
-            }
-        }
+            // Evaluamos si el servidor pidió saltar la intro, o si ya la vimos en esta sesión
+            var skipBackend = {% if skip_intro %}true{% else %}false{% endif %};
+            var skipSession = sessionStorage.getItem('deeptech_intro_played');
 
-        function ingresarApp() {
-            var main = document.getElementById('landing-main');
-            var wrapper = document.getElementById('main-wrapper');
-            main.style.opacity = '0';
-            main.style.transform = 'translateY(-30px)';
-            setTimeout(function() {
-                main.style.display = 'none';
+            if(skipBackend || skipSession) {
+                // Saltamos la intro y mostramos la app directamente
+                document.getElementById('landing-main').style.display = 'none';
+                document.getElementById('main-background').classList.add('no-intro');
+                
+                var wrapper = document.getElementById('main-wrapper');
                 wrapper.style.display = 'flex';
-                void wrapper.offsetWidth; 
                 wrapper.style.opacity = '1';
+
                 var activeTab = document.querySelector('.top-nav .tab-btn.active');
-                if(activeTab) moverBurbuja(activeTab);
-            }, 500);
+                if(activeTab) {
+                    var bubble = document.getElementById('nav-bubble');
+                    if(bubble) {
+                        bubble.style.transition = 'none'; 
+                        moverBurbuja(activeTab);
+                        setTimeout(() => { bubble.style.transition = 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)'; }, 100);
+                    }
+                }
+            } else {
+                // REPRODUCCIÓN DE LA INTRODUCCIÓN CON ZOOM
+                var logo = document.getElementById('intro-logo');
+                var landing = document.getElementById('landing-main');
+                var wrapper = document.getElementById('main-wrapper');
+
+                // 1. Iniciamos el Zoom y Desvanecido del logo
+                setTimeout(() => { 
+                    logo.classList.add('active'); 
+                }, 100);
+
+                // 2. Esperamos los 2 segundos que dura el Zoom, y procedemos a la transición
+                setTimeout(() => {
+                    // El logo y la pantalla de intro se desvanecen
+                    logo.classList.replace('active', 'fade-out');
+                    landing.style.opacity = '0';
+                    
+                    setTimeout(() => {
+                        // Ocultamos la intro y mostramos la plataforma
+                        landing.style.display = 'none';
+                        wrapper.style.display = 'flex';
+                        void wrapper.offsetWidth; 
+                        wrapper.style.opacity = '1';
+
+                        var activeTab = document.querySelector('.top-nav .tab-btn.active');
+                        if(activeTab) moverBurbuja(activeTab);
+
+                        // GUARDAMOS EL ESTADO EN LA MEMORIA DE SESIÓN (No volverá a salir si refresca)
+                        sessionStorage.setItem('deeptech_intro_played', 'true');
+                    }, 500); // 0.5s de desvanecimiento
+                }, 2000); // 2 segundos de Zoom
+            }
         }
 
         function moverBurbuja(btnElement) {
