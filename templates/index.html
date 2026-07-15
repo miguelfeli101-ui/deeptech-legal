@@ -9,7 +9,7 @@
         @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Oswald:wght@300;400;500;600&display=swap');
         @import url('https://fonts.cdnfonts.com/css/bukhari-script');
 
-        /* PALETA DE COLORES - MODO OSCURO (POR DEFECTO) */
+        /* PALETA DE COLORES APLICADA */
         :root {
             --bg-dark: #0D1B2A;
             --bg-card: #1B263B;
@@ -18,32 +18,6 @@
             --text-main: #E0E1DD;
             --success: #5EEAD4;
             --alert: #FCA5A5;
-            
-            --glass-bg: rgba(27, 38, 59, 0.6);
-            --glass-border: rgba(119, 141, 169, 0.2);
-            --glass-shadow: rgba(0,0,0,0.5);
-            --input-bg: rgba(0, 0, 0, 0.2);
-        }
-
-        /* PALETA DE COLORES - MODO CLARO (NUEVO) */
-        body.light-theme {
-            --bg-dark: #F0F4F8; /* Gris muy claro azulado */
-            --bg-card: #FFFFFF; /* Tarjetas blancas */
-            --accent-blue: #778DA9; 
-            --accent-light: #415A77; /* Azul más fuerte para resaltar */
-            --text-main: #0D1B2A; /* Texto oscuro */
-            --success: #059669; /* Verde más contrastante */
-            --alert: #DC2626; /* Rojo más contrastante */
-            
-            --glass-bg: rgba(255, 255, 255, 0.85);
-            --glass-border: rgba(119, 141, 169, 0.4);
-            --glass-shadow: rgba(0,0,0,0.08);
-            --input-bg: rgba(255, 255, 255, 0.6);
-        }
-
-        /* TRANSICIÓN SUAVE ENTRE MODOS PARA TODOS LOS ELEMENTOS */
-        body, .glass-card, .top-nav, .btn, .btn-secondary, input, .url-list, .metric-card, .card-proyecto, p, h1, h2, h3, span {
-            transition: background-color 0.5s ease, color 0.5s ease, border-color 0.5s ease, box-shadow 0.5s ease;
         }
 
         body { 
@@ -51,28 +25,32 @@
             margin: 0; padding: 0; color: var(--text-main); display: flex;
             justify-content: center; align-items: center; min-height: 100vh; 
             box-sizing: border-box; background-color: var(--bg-dark); 
-            overflow: hidden; letter-spacing: 0.3px;
+            overflow: hidden;
+            letter-spacing: 0.3px;
         }
 
         h1, h2, h3 { font-family: 'Oswald', sans-serif; }
 
         /* FONDO: LIQUID MESH GRADIENT */
         .bg-organic {
-            position: fixed; top: -20%; left: -20%; right: -20%; bottom: -20%; 
+            position: fixed;
+            top: -20%; left: -20%; right: -20%; bottom: -20%; 
             z-index: -2; background-color: var(--bg-dark); filter: blur(100px); overflow: hidden;
             transform: translate3d(0, 0, 0);
-            opacity: 0; /* Inicia en 0 para aparecer junto con el logo */
-            transition: background-color 0.5s ease, opacity 2s ease-in-out;
+            opacity: 0; animation: fadeInBg 1.5s ease-out forwards; 
         }
 
-        .bg-organic.no-intro { opacity: 1; transition: none; }
+        .bg-organic.no-intro {
+            opacity: 1;
+            animation: none !important;
+        }
+
+        @keyframes fadeInBg { from { opacity: 0; } to { opacity: 1; } }
         
-        .liquid-shape { position: absolute; border-radius: 50%; opacity: 0.8; animation: liquidFlow 12s infinite alternate cubic-bezier(0.4, 0, 0.2, 1); transition: opacity 0.5s ease; }
+        .liquid-shape { position: absolute; border-radius: 50%; opacity: 0.8; animation: liquidFlow 12s infinite alternate cubic-bezier(0.4, 0, 0.2, 1); }
         .liquid-1 { width: 70vw; height: 70vh; top: 0; left: 0; background-color: var(--bg-card); animation-duration: 16s; }
         .liquid-2 { width: 80vw; height: 80vh; bottom: 0; right: 0; background-color: var(--accent-blue); animation-duration: 14s; animation-delay: -3s; opacity: 0.6; }
         .liquid-3 { width: 50vw; height: 50vh; top: 25%; right: 20%; background-color: var(--accent-light); opacity: 0.35; animation-duration: 18s; animation-delay: -6s; }
-
-        body.light-theme .liquid-shape { opacity: 0.4; } /* Suavizar el fondo en modo claro */
 
         @keyframes liquidFlow {
             0% { transform: translate(0, 0) scale(1) rotate(0deg); border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; }
@@ -80,51 +58,28 @@
             100% { transform: translate(-10%, -5%) scale(0.9) rotate(360deg); border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; }
         }
 
-        /* =========================================
-           NUEVO SWITCH TEMA (DARK/LIGHT MODE)
-           ========================================= */
-        .theme-switch-wrapper {
-            position: fixed; top: 25px; right: 25px; z-index: 10001;
-        }
-        .theme-switch {
-            display: inline-block; width: 66px; height: 34px; position: relative; cursor: pointer;
-        }
-        .theme-switch input { display: none; }
-        .theme-slider {
-            position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-            background-color: #1B263B; border: 2px solid #415A77; border-radius: 34px;
-            transition: .4s; display: flex; align-items: center; justify-content: space-between;
-            padding: 0 6px; box-sizing: border-box; box-shadow: inset 0 2px 5px rgba(0,0,0,0.5);
-        }
-        .theme-slider:before {
-            position: absolute; content: ""; height: 24px; width: 24px;
-            left: 3px; bottom: 3px; background-color: #E0E1DD;
-            border-radius: 50%; transition: .4s cubic-bezier(0.68, -0.55, 0.265, 1.55); z-index: 2;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
-        }
-        input:checked + .theme-slider { background-color: #E0E1DD; border-color: #778DA9; box-shadow: inset 0 2px 5px rgba(0,0,0,0.1); }
-        input:checked + .theme-slider:before { transform: translateX(32px); background-color: #0D1B2A; }
-        
-        .theme-icon { width: 14px; height: 14px; z-index: 1; fill: var(--accent-light); transition: 0.3s; }
-        input:checked + .theme-slider .icon-sun { fill: #FCA5A5; } /* Sol brilla en modo claro */
-        input:not(:checked) + .theme-slider .icon-moon { fill: #E0E1DD; } /* Luna brilla en modo oscuro */
-
-        /* PANTALLAS DE PRESENTACIÓN (NUEVA ANIMACIÓN) */
+        /* PANTALLA DE PRESENTACIÓN CINEMÁTICA (NUEVA LOGICA) */
         .landing-screen { 
             position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 9999; 
             display: flex; flex-direction: column; align-items: center; justify-content: center; 
-            color: var(--text-main); background: transparent; 
+            color: var(--text-main); overflow-y: auto; background: transparent; 
             transition: opacity 0.5s ease-in-out;
         }
 
+        /* Animación fluida de Desvanecido + Zoom */
         .cinematic-logo {
-            display: flex; flex-direction: column; align-items: center; 
+            display: flex; flex-direction: column; align-items: center; margin-bottom: 25px; 
             filter: drop-shadow(0px 8px 20px rgba(0, 0, 0, 0.6)); 
-            opacity: 0; transform: scale(0.8); 
-            transition: transform 2s ease-out, opacity 1s ease-in; /* El Zoom de 2 segundos */
+            opacity: 0; transform: scale(0.85); 
+            transition: opacity 1s ease, transform 2.5s cubic-bezier(0.25, 1, 0.5, 1);
         }
-        .cinematic-logo.zoom-in { opacity: 1; transform: scale(1.1); }
-        .cinematic-logo.fade-out { opacity: 0; transition: opacity 0.5s ease; }
+        .cinematic-logo.active { 
+            opacity: 1; transform: scale(1.05); 
+        }
+        .cinematic-logo.fade-out { 
+            opacity: 0; transform: scale(1.15); 
+            transition: opacity 0.5s ease, transform 0.5s ease; 
+        }
 
         .logo-top-line { display: flex; align-items: flex-start; line-height: 1; }
         .logo-deeptech { font-family: 'Bukhari Script', cursive; font-size: clamp(5rem, 12vw, 8.5rem); color: var(--accent-light); font-weight: normal; text-shadow: 0px 4px 15px rgba(0,0,0, 0.5); padding-right: 5px; }
@@ -132,6 +87,7 @@
         .logo-bottom-line { display: flex; justify-content: center; width: 100%; margin-top: 35px; }
         .logo-legal { font-family: 'Oswald', sans-serif; font-size: clamp(1.2rem, 3vw, 2.2rem); color: var(--text-main); letter-spacing: 0.38em; font-weight: 400; text-transform: none; margin-left: 0.38em; text-shadow: 0px 4px 10px rgba(0,0,0,0.4); }
 
+        /* Clases para los logos en el header (interior) */
         .hero-logo-wrapper.small-logo { margin-bottom: 15px; filter: drop-shadow(0px 4px 10px rgba(0,0,0, 0.4)); display: flex; flex-direction: column; align-items: center; }
         .hero-logo-wrapper.small-logo .logo-deeptech { font-size: clamp(3rem, 6vw, 4.5rem); }
         .hero-logo-wrapper.small-logo .logo-tm { font-size: 0.8rem; margin-top: 10px; }
@@ -148,18 +104,16 @@
 
         .nav-wrapper { display: flex; justify-content: center; margin: 30px auto 10px auto; width: 100%; flex-shrink: 0; }
         .top-nav { 
-            position: relative; background: var(--glass-bg); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); border: 1px solid var(--glass-border); border-radius: 50px; display: flex; align-items: center; gap: 5px; padding: 6px; box-shadow: 0 10px 30px var(--glass-shadow); z-index: 10; flex-wrap: nowrap; overflow-x: auto; max-width: 90%;
+            position: relative; background: rgba(27, 38, 59, 0.5); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); border: 1px solid rgba(119, 141, 169, 0.2); border-radius: 50px; display: flex; align-items: center; gap: 5px; padding: 6px; box-shadow: 0 10px 30px rgba(0,0,0,0.4); z-index: 10; flex-wrap: nowrap; overflow-x: auto; max-width: 90%;
         }
         .top-nav::-webkit-scrollbar { display: none; }
         
         .bubble-indicator { position: absolute; top: 6px; bottom: 6px; left: 6px; width: 0px; background: linear-gradient(135deg, var(--accent-light), var(--accent-blue)); border-radius: 40px; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); z-index: 0; box-shadow: 0 4px 15px rgba(119, 141, 169, 0.4); }
 
-        .tab-btn { position: relative; z-index: 1; background: transparent !important; border: none; color: var(--text-main); opacity: 0.7; padding: 10px 22px; border-radius: 30px; font-size: 0.9em; font-family: 'Montserrat', sans-serif; font-weight: 500; cursor: pointer; transition: opacity 0.3s ease, color 0.3s ease; letter-spacing: 0.5px; white-space: nowrap; display: flex; align-items: center; justify-content: center; }
-        .tab-btn:hover { opacity: 1; }
-        .tab-btn.active { color: #FFFFFF; opacity: 1; font-weight: 600; text-shadow: 0 1px 2px rgba(0,0,0,0.3); } /* Texto blanco siempre en la burbuja activa */
-        body.light-theme .tab-btn.active { color: #FFFFFF; }
-
-        .notif-badge { background-color: var(--alert); color: #FFF; font-size: 0.85em; font-family: 'Montserrat', sans-serif; font-weight: 600; padding: 2px 7px; border-radius: 12px; margin-left: 8px; box-shadow: 0px 2px 5px rgba(0,0,0,0.4); display: none; align-items: center; justify-content: center; }
+        .tab-btn { position: relative; z-index: 1; background: transparent !important; border: none; color: rgba(224, 225, 221, 0.7); padding: 10px 22px; border-radius: 30px; font-size: 0.9em; font-family: 'Montserrat', sans-serif; font-weight: 500; cursor: pointer; transition: color 0.3s ease; letter-spacing: 0.5px; white-space: nowrap; display: flex; align-items: center; justify-content: center; }
+        .tab-btn:hover { color: var(--text-main); }
+        .tab-btn.active { color: var(--bg-dark); font-weight: 600; text-shadow: 0 1px 2px rgba(255,255,255,0.3); }
+        .notif-badge { background-color: var(--alert); color: var(--bg-dark); font-size: 0.85em; font-family: 'Montserrat', sans-serif; font-weight: 600; padding: 2px 7px; border-radius: 12px; margin-left: 8px; box-shadow: 0px 2px 5px rgba(0,0,0,0.4); display: none; align-items: center; justify-content: center; }
 
         .sections-viewport { position: relative; width: 100%; flex: 1; min-height: 0; overflow: hidden; display: flex; justify-content: center; }
 
@@ -197,111 +151,94 @@
         
         .content-wrapper-inner { width: 100%; max-width: 900px; padding: 0 20px; box-sizing: border-box; display: flex; flex-direction: column; align-items: center; margin-top: auto; margin-bottom: auto;}
         
-        .app-title { font-family: 'Oswald', sans-serif; font-size: 2.5em; color: var(--text-main); margin: 0 0 5px 0; text-align: center; font-weight: 500;}
-        .app-subtitle { font-family: 'Montserrat', sans-serif; font-size: 1em; color: var(--text-main); opacity: 0.7; text-align: center; margin-bottom: 25px; font-weight: 300;}
+        .app-title { font-family: 'Oswald', sans-serif; font-size: 2.5em; color: var(--text-main); margin: 0 0 5px 0; text-align: center; font-weight: 500; text-shadow: 0 4px 15px rgba(0,0,0,0.4);}
+        .app-subtitle { font-family: 'Montserrat', sans-serif; font-size: 1em; color: rgba(224, 225, 221, 0.7); text-align: center; margin-bottom: 25px; font-weight: 300;}
         
-        .btn { background: var(--accent-blue); color: #FFF; padding: 12px 30px; font-size: 1em; border: none; border-radius: 30px; cursor: pointer; font-weight: 600; font-family: 'Montserrat', sans-serif; display: inline-block; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); letter-spacing: 0.5px; }
+        .btn { background: var(--accent-blue); color: var(--bg-dark); padding: 12px 30px; font-size: 1em; border: none; border-radius: 30px; cursor: pointer; font-weight: 600; font-family: 'Montserrat', sans-serif; display: inline-block; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); letter-spacing: 0.5px; }
         .btn:hover { background: var(--accent-light); transform: translateY(-2px); box-shadow: 0 8px 20px rgba(119, 141, 169, 0.3); }
         .btn:active { transform: scale(0.96) translateY(0px); }
-        .btn-secondary { background: var(--glass-bg); border: 1px solid var(--glass-border); color: var(--text-main); padding: 12px 30px; border-radius: 30px; font-size: 0.95em; transition: all 0.2s ease; }
-        .btn-secondary:hover:not(:disabled) { background: var(--glass-border); transform: translateY(-2px); border-color: var(--accent-light);}
+        .btn-secondary { background: rgba(27, 38, 59, 0.5); border: 1px solid rgba(119, 141, 169, 0.4); color: var(--text-main); padding: 12px 30px; border-radius: 30px; font-size: 0.95em; transition: all 0.2s ease; }
+        .btn-secondary:hover:not(:disabled) { background: rgba(119, 141, 169, 0.3); transform: translateY(-2px); border-color: var(--accent-light);}
         
-        .glass-card, .upload-area, .result-card-minimal, .metric-card, .card-proyecto, .notif-card { background: var(--glass-bg); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); border: 1px solid var(--glass-border); border-radius: 20px; box-shadow: 0 15px 35px var(--glass-shadow); }
+        .glass-card, .upload-area, .result-card-minimal, .metric-card, .card-proyecto, .notif-card { background: linear-gradient(145deg, rgba(27, 38, 59, 0.6), rgba(13, 27, 42, 0.7)); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); border: 1px solid rgba(255, 255, 255, 0.03); border-top: 1px solid rgba(119, 141, 169, 0.2); border-left: 1px solid rgba(119, 141, 169, 0.08); border-radius: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.5); transition: transform 0.3s ease, border-color 0.3s ease; }
         
         .glass-grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-bottom: 25px; width: 100%;}
         .glass-grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; margin-bottom: 20px; width: 100%;}
         
         .glass-card { padding: 20px 25px; text-align: center; } 
-        .glass-card:hover { transform: translateY(-4px); border-color: var(--accent-light); }
+        .glass-card:hover { transform: translateY(-4px); border-color: rgba(119, 141, 169, 0.5); }
         .glass-card h3 { color: var(--accent-light); font-size: 1.4em; margin-bottom: 12px; font-family: 'Oswald', sans-serif; font-weight: 400; letter-spacing: 0.5px; display: flex; align-items: center; justify-content: center; gap: 8px;}
-        .glass-card p { font-size: 0.9em; opacity: 0.8; line-height: 1.6; margin: 0; font-weight: 300; }
+        .glass-card p { font-size: 0.9em; color: rgba(224, 225, 221, 0.8); line-height: 1.6; margin: 0; font-weight: 300; }
 
         .upload-area { width: 100%; max-width: 550px; text-align: center; padding: 30px; margin: 0 auto; box-sizing: border-box;}
-        
-        /* =========================================
-           NUEVO INDICADOR DE MATRIZ DE PUNTOS
-           ========================================= */
-        .matrix-container {
-            margin: 30px auto; display: flex; justify-content: center; align-items: center;
-        }
-        .matrix-grid {
-            display: grid; gap: 5px; /* Dinámico vía JS */
-        }
-        .matrix-dot {
-            width: 8px; height: 8px; border-radius: 50%;
-            border: 1.5px solid var(--accent-light); opacity: 0.4;
-            transition: all 0.3s ease; box-sizing: border-box;
-        }
-        .matrix-dot.hidden { visibility: hidden; }
-        .matrix-dot.filled {
-            background-color: var(--text-main); border-color: var(--text-main);
-            opacity: 1; box-shadow: 0 0 6px var(--text-main);
-        }
+        .loading-bar-container { width: 100%; max-width: 400px; height: 6px; background-color: rgba(0,0,0,0.4); border-radius: 10px; margin: 30px auto; overflow: hidden; box-shadow: inset 0 1px 3px rgba(0,0,0,0.6); }
+        .loading-bar-fill { height: 100%; width: 0%; border-radius: 10px; background: linear-gradient(90deg, var(--accent-blue), var(--accent-light), var(--accent-blue)); background-size: 200% 100%; animation: shimmerGradient 2.5s linear infinite; transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1); }
+        @keyframes shimmerGradient { 0% { background-position: 200% 0; } 100% { background-position: 0% 0; } }
 
         .result-card-minimal { width: 100%; max-width: 550px; margin: 20px auto; text-align: center; box-sizing: border-box; padding: 30px; }
         .result-card-minimal.success { border-top: 2px solid var(--success); }
         .result-card-minimal.alert { border-top: 2px solid var(--alert); }
         
-        input[type="file"] { margin-top: 15px; margin-bottom: 25px; padding: 12px; border: 1px dashed var(--glass-border); border-radius: 12px; width: 100%; box-sizing: border-box; background-color: var(--input-bg); color: var(--text-main); font-family: 'Montserrat', sans-serif; cursor: pointer; }
+        input[type="file"] { margin-top: 15px; margin-bottom: 25px; padding: 12px; border: 1px dashed rgba(119, 141, 169, 0.4); border-radius: 12px; width: 100%; box-sizing: border-box; background-color: rgba(0, 0, 0, 0.2); color: var(--text-main); font-family: 'Montserrat', sans-serif; cursor: pointer; }
         
-        .url-list { max-height: 120px; overflow-y: auto; background-color: var(--input-bg); padding: 15px; border-radius: 12px; font-size: 0.85em; margin-top: 10px; font-family: 'Montserrat', sans-serif; font-weight: 300; border: 1px solid var(--glass-border);}
-        .url-list li { margin-bottom: 10px; opacity: 0.8; }
-        .url-list a { color: var(--accent-light); text-decoration: none; font-weight: 600; }
+        .url-list { max-height: 120px; overflow-y: auto; background-color: rgba(0, 0, 0, 0.2); padding: 15px; border-radius: 12px; font-size: 0.85em; margin-top: 10px; font-family: 'Montserrat', sans-serif; font-weight: 300; border: 1px solid rgba(119, 141, 169, 0.15);}
+        .url-list li { margin-bottom: 10px; color: rgba(224, 225, 221, 0.7); }
+        .url-list a { color: var(--accent-light); text-decoration: none; font-weight: 500; }
         
-        .social-badge { display: inline-block; padding: 3px 10px; border-radius: 6px; font-size: 0.75em; font-weight: 600; color: white !important; margin-right: 8px; font-family: 'Montserrat', sans-serif;}
+        .social-badge { display: inline-block; padding: 3px 10px; border-radius: 6px; font-size: 0.75em; font-weight: 500; color: white; margin-right: 8px; font-family: 'Montserrat', sans-serif;}
         .badge-instagram { background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); }
         .badge-facebook { background-color: #1877F2; }
         .badge-x { background-color: #000000; border: 1px solid rgba(255,255,255,0.2); }
         
         .metrics-wrapper { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; width: 100%; margin-bottom: 20px; }
         .metric-card { padding: 15px; text-align: center; border-radius: 16px; }
-        .metric-value { font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 2em; margin: 0; line-height: 1.2; }
-        .metric-label { font-size: 0.8em; opacity: 0.6; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-top: 5px; }
+        .metric-value { font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 2em; color: var(--text-main); margin: 0; line-height: 1.2; }
+        .metric-label { font-size: 0.8em; color: rgba(224, 225, 221, 0.6); font-weight: 400; text-transform: uppercase; letter-spacing: 1px; margin-top: 5px; }
         
         .sub-nav { display: flex; justify-content: center; gap: 10px; width: 100%; margin-bottom: 20px; flex-wrap: wrap; }
-        .sub-tab-btn { background: transparent; border: 1px solid var(--glass-border); color: var(--text-main); opacity: 0.7; padding: 8px 20px; border-radius: 20px; font-size: 0.85em; font-family: 'Montserrat', sans-serif; font-weight: 500; cursor: pointer; transition: all 0.2s ease; display: flex; align-items: center;}
-        .sub-tab-btn:hover { background-color: var(--glass-border); opacity: 1; }
-        .sub-tab-btn.active { background-color: var(--accent-light); color: #FFF; opacity: 1; border-color: var(--accent-light);}
+        .sub-tab-btn { background: transparent; border: 1px solid rgba(119, 141, 169, 0.3); color: rgba(224, 225, 221, 0.6); padding: 8px 20px; border-radius: 20px; font-size: 0.85em; font-family: 'Montserrat', sans-serif; font-weight: 500; cursor: pointer; transition: all 0.2s ease; display: flex; align-items: center;}
+        .sub-tab-btn:hover { background-color: rgba(119, 141, 169, 0.15); color: var(--text-main); }
+        .sub-tab-btn.active { background-color: var(--accent-light); color: var(--bg-dark); border-color: var(--accent-light);}
         
         .grid-proyectos { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px; width: 100%; justify-items: center;}
         .card-proyecto { padding: 15px; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; cursor: default; width: 100%; box-sizing: border-box; }
-        .card-proyecto .img-mock { height: 60px; width: 100%; background-color: var(--input-bg); border-radius: 10px; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; font-size: 2em; border: 1px solid var(--glass-border); }
-        .badge-status { display: inline-block; padding: 5px 12px; border-radius: 20px; font-size: 0.7em; margin-top: 10px; font-weight: 600; font-family: 'Montserrat', sans-serif; text-align: center; }
-        .badge-clean { background-color: rgba(94, 234, 212, 0.15); color: var(--success); border: 1px solid rgba(94, 234, 212, 0.4);} 
-        .badge-alert { background-color: rgba(220, 38, 38, 0.15); color: var(--alert); border: 1px solid rgba(220, 38, 38, 0.4);} 
+        .card-proyecto .img-mock { height: 60px; width: 100%; background-color: rgba(0, 0, 0, 0.2); border-radius: 10px; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; font-size: 2em; border: 1px solid rgba(119, 141, 169, 0.1); }
+        .badge-status { display: inline-block; padding: 5px 12px; border-radius: 20px; font-size: 0.7em; margin-top: 10px; font-weight: 500; font-family: 'Montserrat', sans-serif; text-align: center; }
+        .badge-clean { background-color: rgba(94, 234, 212, 0.1); color: var(--success); border: 1px solid rgba(94, 234, 212, 0.3);} 
+        .badge-alert { background-color: rgba(252, 165, 165, 0.15); color: var(--alert); border: 1px solid rgba(252, 165, 165, 0.4);} 
         
         .card-header-flex { width: 100%; display: flex; justify-content: space-between; margin-bottom: 5px; align-items: center; }
         .dropdown { position: relative; display: inline-block; }
-        .dots-btn { background: none; border: none; color: var(--text-main); opacity: 0.5; font-size: 1.5em; cursor: pointer; padding: 0; line-height: 1; transition: opacity 0.2s; }
-        .dots-btn:hover { opacity: 1; }
-        .dropdown-content { display: none; position: absolute; right: 0; top: 100%; background: var(--bg-card); backdrop-filter: blur(10px); min-width: 170px; box-shadow: 0px 8px 25px var(--glass-shadow); z-index: 100; border-radius: 12px; border: 1px solid var(--glass-border); overflow: hidden; margin-top: 8px; }
-        .dropdown-content a { color: var(--text-main); padding: 12px 16px; text-decoration: none; display: block; font-size: 0.85em; text-align: left; transition: background 0.2s; font-weight: 500;}
-        .dropdown-content a:hover { background-color: var(--glass-border); }
+        .dots-btn { background: none; border: none; color: rgba(224,225,221,0.5); font-size: 1.5em; cursor: pointer; padding: 0; line-height: 1; transition: color 0.2s; }
+        .dots-btn:hover { color: var(--text-main); }
+        .dropdown-content { display: none; position: absolute; right: 0; top: 100%; background: rgba(13, 27, 42, 0.95); backdrop-filter: blur(10px); min-width: 170px; box-shadow: 0px 8px 25px rgba(0,0,0,0.6); z-index: 100; border-radius: 12px; border: 1px solid rgba(119, 141, 169, 0.2); overflow: hidden; margin-top: 8px; }
+        .dropdown-content a { color: var(--text-main); padding: 12px 16px; text-decoration: none; display: block; font-size: 0.85em; text-align: left; transition: background 0.2s; font-weight: 400;}
+        .dropdown-content a:hover { background-color: rgba(119, 141, 169, 0.2); }
         .show { display: block; }
 
         #lista-boveda.selection-mode .card-proyecto { cursor: pointer; }
-        .select-indicator { position: absolute; top: 12px; left: 12px; width: 20px; height: 20px; border-radius: 50%; border: 2px solid rgba(119, 141, 169, 0.6); display: none; align-items: center; justify-content: center; font-size: 12px; color: transparent; transition: all 0.2s; z-index: 5; background: var(--glass-bg); }
+        .select-indicator { position: absolute; top: 12px; left: 12px; width: 20px; height: 20px; border-radius: 50%; border: 2px solid rgba(224, 225, 221, 0.4); display: none; align-items: center; justify-content: center; font-size: 12px; color: transparent; transition: all 0.2s; z-index: 5; background: rgba(0, 0, 0, 0.4); }
         .selection-mode .select-indicator { display: flex; }
         .card-proyecto.selected { border-color: var(--accent-light); background: rgba(119, 141, 169, 0.15); transform: scale(0.98); }
-        .card-proyecto.selected .select-indicator { background-color: var(--accent-light); border-color: var(--accent-light); color: #FFF; }
+        .card-proyecto.selected .select-indicator { background-color: var(--accent-light); border-color: var(--accent-light); color: var(--bg-dark); }
         
-        .bulk-action-bar { display: none; position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: var(--bg-card); backdrop-filter: blur(10px); border: 1px solid var(--glass-border); padding: 12px 25px; border-radius: 50px; z-index: 9999; align-items: center; gap: 15px; box-shadow: 0 10px 30px var(--glass-shadow); opacity: 0; transition: opacity 0.3s ease; }
-        .btn-danger { background-color: var(--alert); color: #FFF; border: none; padding: 8px 18px; border-radius: 8px; cursor: pointer; font-size: 0.9em; font-weight: 600; transition: all 0.2s; font-family: 'Montserrat', sans-serif;}
-        .btn-danger:hover { transform: translateY(-2px); box-shadow: 0 4px 15px rgba(220, 38, 38, 0.4);}
+        .bulk-action-bar { display: none; position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: rgba(27, 38, 59, 0.95); backdrop-filter: blur(10px); border: 1px solid rgba(119, 141, 169, 0.3); padding: 12px 25px; border-radius: 50px; z-index: 9999; align-items: center; gap: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.6); opacity: 0; transition: opacity 0.3s ease; }
+        .btn-danger { background-color: var(--alert); color: var(--bg-dark); border: none; padding: 8px 18px; border-radius: 8px; cursor: pointer; font-size: 0.9em; font-weight: 600; transition: all 0.2s; font-family: 'Montserrat', sans-serif;}
+        .btn-danger:hover { transform: translateY(-2px); box-shadow: 0 4px 15px rgba(252, 165, 165, 0.4);}
 
         .plan-price { font-family: 'Montserrat', sans-serif; font-size: 2.2em; margin: 5px 0 12px 0; color: var(--text-main); font-weight: 600;}
-        .plan-list { text-align: left; font-size: 0.8em; opacity: 0.8; padding-left: 0; line-height: 1.5; list-style: none; flex-grow: 1;}
+        .plan-list { text-align: left; font-size: 0.8em; color: rgba(224, 225, 221, 0.7); padding-left: 0; line-height: 1.5; list-style: none; flex-grow: 1;}
         .plan-list li { margin-bottom: 6px; display: flex; align-items: flex-start; gap: 8px; }
         .plan-list li::before { content: '✔'; color: var(--accent-light); border-radius: 50%; width: 15px; height: 15px; display: flex; align-items: center; justify-content: center; font-size: 0.8em; flex-shrink: 0; margin-top: 1px;}
 
-        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0, 0.6); z-index: 20000; align-items: center; justify-content: center; backdrop-filter: blur(5px); opacity: 0; transition: opacity 0.3s ease; }
-        .modal-close-btn { position: absolute; top: 12px; right: 12px; background: var(--glass-border); border: none; color: var(--text-main); width: 30px; height: 30px; border-radius: 50%; font-size: 1.2em; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 50; transition: all 0.2s ease; }
-        .modal-close-btn:hover { background: var(--alert); color: #FFF; }
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0, 0.8); z-index: 20000; align-items: center; justify-content: center; backdrop-filter: blur(10px); opacity: 0; transition: opacity 0.3s ease; }
+        .modal-close-btn { position: absolute; top: 12px; right: 12px; background: rgba(119, 141, 169, 0.2); border: 1px solid rgba(119, 141, 169, 0.3); color: var(--text-main); width: 30px; height: 30px; border-radius: 50%; font-size: 1.2em; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 50; transition: all 0.2s ease; }
+        .modal-close-btn:hover { background: var(--alert); color: var(--bg-dark); border-color: var(--alert);}
 
-        .certificate-box { border: 1px solid var(--glass-border); padding: 25px; position: relative; background: var(--input-bg); border-radius: 16px; margin-top: 10px; }
+        .certificate-box { border: 1px solid rgba(119, 141, 169, 0.3); padding: 25px; position: relative; background: rgba(0,0,0, 0.3); border-radius: 16px; margin-top: 10px; }
         .cert-logo { font-family: 'Bukhari Script', cursive; font-size: 2em; color: var(--accent-light); margin: 0; line-height: 1; opacity: 0.9;}
-        .cert-title { font-family: 'Montserrat', sans-serif; font-size: 1.1em; color: var(--text-main); letter-spacing: 2px; margin: 10px 0 15px 0; border-bottom: 1px solid var(--glass-border); padding-bottom: 10px; font-weight: 600;}
-        .cert-text { font-size: 0.8em; font-weight: 400; line-height: 1.5; opacity: 0.8; text-align: justify; margin-bottom: 15px; }
+        .cert-title { font-family: 'Montserrat', sans-serif; font-size: 1.1em; color: var(--text-main); letter-spacing: 2px; margin: 10px 0 15px 0; border-bottom: 1px solid rgba(119, 141, 169, 0.2); padding-bottom: 10px; font-weight: 500;}
+        .cert-text { font-size: 0.8em; font-weight: 300; line-height: 1.5; color: rgba(224, 225, 221, 0.8); text-align: justify; margin-bottom: 15px; }
         
         /* Carga Fade Elementos */
         .fade-in-element { animation: fadeUpEntrance 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
@@ -309,23 +246,14 @@
 </head>
 <body>
 
-    <div class="theme-switch-wrapper">
-        <label class="theme-switch" for="theme-checkbox">
-            <input type="checkbox" id="theme-checkbox" onchange="toggleTheme(this)"/>
-            <div class="theme-slider">
-                <svg class="theme-icon icon-sun" viewBox="0 0 24 24"><path d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM18.894 6.166a.75.75 0 00-1.06-1.06l-1.591 1.59a.75.75 0 101.06 1.061l1.591-1.59zM21.75 12a.75.75 0 01-.75.75h-2.25a.75.75 0 010-1.5H21a.75.75 0 01.75.75zM17.834 18.894a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 10-1.061 1.06l1.59 1.591zM12 18a.75.75 0 01.75.75V21a.75.75 0 01-1.5 0v-2.25A.75.75 0 0112 18zM7.758 17.303a.75.75 0 00-1.061-1.06l-1.591 1.59a.75.75 0 001.06 1.061l1.591-1.59zM6 12a.75.75 0 01-.75.75H3a.75.75 0 010-1.5h2.25A.75.75 0 016 12zM6.697 7.757a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 00-1.061 1.06l1.59 1.591z" /></svg>
-                <svg class="theme-icon icon-moon" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M9.528 1.718a.75.75 0 01.162.819A8.97 8.97 0 009 6a9 9 0 009 9 8.97 8.97 0 003.463-.69.75.75 0 01.981.98 10.503 10.503 0 01-9.694 6.46c-5.799 0-10.5-4.701-10.5-10.5 0-4.368 2.667-8.112 6.46-9.694a.75.75 0 01.818.162z" clip-rule="evenodd" /></svg>
-            </div>
-        </label>
-    </div>
-
-    <div class="bg-organic" id="main-background">
+    <div class="bg-organic {% if skip_intro %}no-intro{% endif %}" id="main-background">
         <div class="liquid-shape liquid-1"></div>
         <div class="liquid-shape liquid-2"></div>
         <div class="liquid-shape liquid-3"></div>
     </div>
 
-    <div id="landing-main" class="landing-screen" style="display: none; opacity: 0;">
+    <div id="landing-main" class="landing-screen" {% if skip_intro %} style="display: none; opacity: 0;" {% else %} style="display: flex; opacity: 1;" {% endif %}>
+        
         <div class="cinematic-logo" id="intro-logo">
             <div class="logo-top-line">
                 <span class="logo-deeptech">DeepTech</span><span class="logo-tm">TM</span>
@@ -334,9 +262,10 @@
                 <span class="logo-legal">Legal Solutions</span>
             </div>
         </div>
+
     </div>
 
-    <div id="main-wrapper" style="display: none; opacity: 0;">
+    <div id="main-wrapper" {% if skip_intro %} style="display: flex; opacity: 1;" {% else %} style="display: none; opacity: 0;" {% endif %}>
         
         <div class="nav-wrapper">
             <div class="top-nav" id="main-nav">
@@ -358,11 +287,9 @@
                 <div class="content-wrapper-inner">
                     <h2 class="app-title">Cifrando y Analizando...</h2>
                     <p id="texto-carga" class="app-subtitle">Asegurando el archivo en la Bóveda Local.</p>
-                    
-                    <div class="matrix-container">
-                        <div id="matrix-grid" class="matrix-grid"></div>
+                    <div class="loading-bar-container">
+                        <div class="loading-bar-fill" id="main-loading-fill"></div>
                     </div>
-
                 </div>
             </div>
 
@@ -383,36 +310,36 @@
                     
                     <div class="upload-area" id="upload-area-box" {% if mostrando_resultado %} style="display: none;" {% endif %}>
                         <form id="upload-form" onsubmit="ejecutarCargaAjax(event, this)" enctype="multipart/form-data" style="display: flex; flex-direction: column; align-items: center;">
-                            <label style="font-weight: 500; text-align: center; font-size: 1.1em; font-family: 'Montserrat', sans-serif;">Selecciona el archivo para certificar:</label>
+                            <label style="font-weight: 500; color: var(--text-main); text-align: center; font-size: 1.1em; font-family: 'Montserrat', sans-serif;">Selecciona el archivo para certificar:</label>
                             <input type="file" name="archivo" accept="image/*,.pdf,.doc,.docx" required id="input-archivo">
                             <button type="submit" class="btn" style="width: 100%;">Analizar y Proteger en Bóveda</button>
                         </form>
                     </div>
 
                     <div id="upload-badges" style="display: {% if mostrando_resultado %}none{% else %}flex{% endif %}; justify-content: center; gap: 20px; margin-top: 30px; opacity: 0.8;">
-                        <div style="display: flex; align-items: center; gap: 5px; font-size: 0.85em;"><span style="color: var(--accent-light);">🛡️</span> Privacidad Absoluta</div>
-                        <div style="display: flex; align-items: center; gap: 5px; font-size: 0.85em;"><span style="color: var(--accent-light);">⚖️</span> Validez Legal DMCA</div>
+                        <div style="display: flex; align-items: center; gap: 5px; font-size: 0.85em; color: rgba(224, 225, 221, 0.7);"><span style="color: var(--accent-light);">🛡️</span> Privacidad Absoluta</div>
+                        <div style="display: flex; align-items: center; gap: 5px; font-size: 0.85em; color: rgba(224, 225, 221, 0.7);"><span style="color: var(--accent-light);">⚖️</span> Validez Legal DMCA</div>
                     </div>
                     
                     <div id="resultado-area" style="width: 100%; display: {% if mostrando_resultado %}flex{% else %}none{% endif %}; flex-direction: column; align-items: center;">
                         {% if mostrando_resultado %}
                             {% if error_api %}
                                 <div class="result-card-minimal alert">
-                                    <h2 style="color: var(--alert); margin-top: 0; font-family: 'Montserrat', sans-serif; font-weight: 600;">Error de Conexión</h2>
-                                    <p style="opacity: 0.8; font-weight: 400; margin-bottom: 0;">{{ error_api }}</p>
+                                    <h2 style="color: var(--alert); margin-top: 0; font-family: 'Montserrat', sans-serif; font-weight: 500;">Error de Conexión</h2>
+                                    <p style="color: rgba(224,225,221,0.8); font-weight: 300; margin-bottom: 0;">{{ error_api }}</p>
                                 </div>
                                 <div style="display: flex; justify-content: center; margin-top: 20px;">
                                     <button class="btn btn-secondary" onclick="transicionAuditarNuevo()">Auditar nuevo archivo</button>
                                 </div>
                             {% elif paginas_encontradas %}
                                 <div class="result-card-minimal alert">
-                                    <h2 style="color: var(--alert); margin-top: 0; font-family: 'Montserrat', sans-serif; font-size: 2em; font-weight: 600;">⛔ Alerta de Plagio</h2>
-                                    <p style="opacity: 0.8; font-weight: 400; font-size: 1.05em; margin-bottom: 25px;">Se detectaron coincidencias web del archivo <span style="font-weight: 600;">{{ nombre_archivo }}</span>.</p>
-                                    <button class="btn btn-secondary" style="color: var(--alert); border-color: rgba(220, 38, 38, 0.4);" onclick="document.getElementById('detalles-plagio').style.display='block'; this.style.display='none';">Ver Informe Completo</button>
-                                    <div id="detalles-plagio" style="display: none; text-align: left; margin-top: 25px; border-top: 1px solid var(--glass-border); padding-top: 20px; animation: fadeUpEntrance 0.5s ease forwards;">
-                                        <p style="color: var(--alert); font-size: 0.9em; border: 1px solid rgba(220, 38, 38, 0.2); padding: 12px; border-radius: 8px; background: rgba(220, 38, 38, 0.05); font-weight: 500;">Aviso de Sistema: Para evitar infracciones de derechos de autor, este archivo no ha sido guardado en la bóveda.</p>
-                                        <p style="opacity: 0.8; font-weight: 400; font-size: 0.9em; margin-top: 15px;">Radar Ejecutado: <span style="color: var(--alert); font-weight: 600;">{{ tipo_motor }}</span></p>
-                                        <p style="opacity: 0.8; font-weight: 400; font-size: 0.9em; margin-top: 15px;">Enlaces confirmados con el contenido original:</p>
+                                    <h2 style="color: var(--alert); margin-top: 0; font-family: 'Montserrat', sans-serif; font-size: 2em; font-weight: 500;">⛔ Alerta de Plagio</h2>
+                                    <p style="color: rgba(224,225,221,0.8); font-weight: 300; font-size: 1.05em; margin-bottom: 25px;">Se detectaron coincidencias web del archivo <span style="color: var(--text-main); font-weight: 500;">{{ nombre_archivo }}</span>.</p>
+                                    <button class="btn btn-secondary" style="color: var(--alert); border-color: rgba(252, 165, 165, 0.4);" onclick="document.getElementById('detalles-plagio').style.display='block'; this.style.display='none';">Ver Informe Completo</button>
+                                    <div id="detalles-plagio" style="display: none; text-align: left; margin-top: 25px; border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 20px; animation: fadeUpEntrance 0.5s ease forwards;">
+                                        <p style="color: var(--alert); font-size: 0.9em; border: 1px solid rgba(252, 165, 165, 0.2); padding: 12px; border-radius: 8px; background: rgba(252, 165, 165, 0.05); font-weight: 300;">Aviso de Sistema: Para evitar infracciones de derechos de autor, este archivo no ha sido guardado en la bóveda.</p>
+                                        <p style="color: rgba(224,225,221,0.7); font-weight: 300; font-size: 0.9em; margin-top: 15px;">Radar Ejecutado: <span style="color: var(--alert);">{{ tipo_motor }}</span></p>
+                                        <p style="color: rgba(224, 225, 221, 0.85); font-weight: 300; font-size: 0.9em; margin-top: 15px;">Enlaces confirmados con el contenido original:</p>
                                         <div class="url-list">
                                             <ol style="margin: 0; padding-left: 20px;">
                                             {% for sitio in paginas_encontradas %}
@@ -420,12 +347,12 @@
                                                     <a href="{{ sitio.link }}" target="_blank" style="font-size: 0.95em;">{{ sitio.titulo }}</a>
                                                     {% if sitio.es_instagram %}<span class="social-badge badge-instagram">Instagram</span>
                                                     {% elif sitio.es_facebook %}<span class="social-badge badge-facebook">Facebook</span>{% endif %}
-                                                    <br><small style="opacity: 0.6; word-break: break-all;">{{ sitio.link }}</small>
+                                                    <br><small style="color: rgba(224,225,221,0.5); word-break: break-all;">{{ sitio.link }}</small>
                                                 </li>
                                             {% endfor %}
                                             </ol>
                                         </div>
-                                        <p style="margin-top: 15px; opacity: 0.8; font-weight: 400; font-size: 0.85em;">Firma Hash Auditada: <br><span style="font-family: monospace; font-weight: 600;">{{ hash_resultado }}</span></p>
+                                        <p style="margin-top: 15px; color: rgba(224,225,221,0.7); font-weight: 300; font-size: 0.85em;">Firma Hash Auditada: <br><span style="font-family: monospace; color: var(--text-main);">{{ hash_resultado }}</span></p>
                                     </div>
                                 </div>
                                 <div style="display: flex; justify-content: center; gap: 15px; margin-top: 20px; flex-wrap: wrap;">
@@ -434,14 +361,14 @@
                                 </div>
                             {% else %}
                                 <div class="result-card-minimal success">
-                                    <h2 style="color: var(--success); margin-top: 0; font-family: 'Montserrat', sans-serif; font-size: 2em; font-weight: 600;">✅ Activo Original</h2>
-                                    <p style="opacity: 0.8; font-weight: 400; font-size: 1.05em; margin-bottom: 25px;">El archivo <span style="font-weight: 600;">{{ nombre_archivo }}</span> es único y seguro.</p>
-                                    <button class="btn btn-secondary" style="color: var(--success); border-color: rgba(5, 150, 105, 0.4);" onclick="document.getElementById('detalles-original').style.display='block'; this.style.display='none';">Ver Informe Completo</button>
-                                    <div id="detalles-original" style="display: none; text-align: left; margin-top: 25px; border-top: 1px solid var(--glass-border); padding-top: 20px; animation: fadeUpEntrance 0.5s ease forwards;">
-                                        <p style="opacity: 0.8; font-weight: 400; font-size: 0.9em;">El análisis profundo no detectó copias en la red. El archivo se ha guardado exitosamente en tu bóveda criptográfica.</p>
-                                        <p style="opacity: 0.8; font-weight: 400; font-size: 0.9em; margin-top: 15px;">Radar Ejecutado: <span style="color: var(--success); font-weight: 600;">{{ tipo_motor }}</span></p>
-                                        <p style="opacity: 0.8; font-weight: 400; font-size: 0.9em; margin-top: 15px;">Firma Hash Blockchain: <br> <span style="font-family: monospace; font-weight: 600; word-break: break-all;">{{ hash_resultado }}</span></p>
-                                        <p style="opacity: 0.6; margin-bottom: 0; font-weight: 400; font-size: 0.85em;">Sello de tiempo: {{ timestamp }}</p>
+                                    <h2 style="color: var(--success); margin-top: 0; font-family: 'Montserrat', sans-serif; font-size: 2em; font-weight: 500;">✅ Activo Original</h2>
+                                    <p style="color: rgba(224,225,221,0.8); font-weight: 300; font-size: 1.05em; margin-bottom: 25px;">El archivo <span style="color: var(--text-main); font-weight: 500;">{{ nombre_archivo }}</span> es único y seguro.</p>
+                                    <button class="btn btn-secondary" style="color: var(--success); border-color: rgba(94, 234, 212, 0.4);" onclick="document.getElementById('detalles-original').style.display='block'; this.style.display='none';">Ver Informe Completo</button>
+                                    <div id="detalles-original" style="display: none; text-align: left; margin-top: 25px; border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 20px; animation: fadeUpEntrance 0.5s ease forwards;">
+                                        <p style="color: rgba(224, 225, 221, 0.8); font-weight: 300; font-size: 0.9em;">El análisis profundo no detectó copias en la red. El archivo se ha guardado exitosamente en tu bóveda criptográfica.</p>
+                                        <p style="color: rgba(224, 225, 221, 0.7); font-weight: 300; font-size: 0.9em; margin-top: 15px;">Radar Ejecutado: <span style="color: var(--success);">{{ tipo_motor }}</span></p>
+                                        <p style="color: rgba(224, 225, 221, 0.7); font-weight: 300; font-size: 0.9em; margin-top: 15px;">Firma Hash Blockchain: <br> <span style="font-family: monospace; color: var(--text-main); word-break: break-all;">{{ hash_resultado }}</span></p>
+                                        <p style="color: rgba(224, 225, 221, 0.5); margin-bottom: 0; font-weight: 300; font-size: 0.85em;">Sello de tiempo: {{ timestamp }}</p>
                                     </div>
                                 </div>
                                 <div style="display: flex; justify-content: center; margin-top: 20px;">
@@ -481,13 +408,13 @@
                     <div class="sub-nav">
                         <button class="sub-tab-btn active" onclick="cambiarSubPestana('boveda-personal-tab', this)">Mi Bóveda Personal</button>
                         <button class="sub-tab-btn" onclick="cambiarSubPestana('boveda-instagram-tab', this)">
-                            <span class="social-badge badge-instagram">IG</span> Instagram <span style="font-size: 0.7em; margin-left: 5px; font-weight: bold;">PRO</span>
+                            <span class="social-badge badge-instagram">IG</span> Instagram <span style="color: var(--accent-light); font-size: 0.7em; margin-left: 5px;">PRO</span>
                         </button>
                         <button class="sub-tab-btn" onclick="cambiarSubPestana('boveda-facebook-tab', this)">
-                            <span class="social-badge badge-facebook">FB</span> Facebook <span style="font-size: 0.7em; margin-left: 5px; font-weight: bold;">PRO</span>
+                            <span class="social-badge badge-facebook">FB</span> Facebook <span style="color: var(--accent-light); font-size: 0.7em; margin-left: 5px;">PRO</span>
                         </button>
                         <button class="sub-tab-btn" onclick="cambiarSubPestana('boveda-x-tab', this)">
-                            <span class="social-badge badge-x">𝕏</span> X (Twitter) <span style="font-size: 0.7em; margin-left: 5px; font-weight: bold;">PRO</span>
+                            <span class="social-badge badge-x">𝕏</span> X (Twitter) <span style="color: var(--accent-light); font-size: 0.7em; margin-left: 5px;">PRO</span>
                         </button>
                     </div>
                     
@@ -503,7 +430,7 @@
                                             <button onclick="toggleDropdown('drop-{{ loop.index }}')" class="dots-btn">⋮</button>
                                             <div id="drop-{{ loop.index }}" class="dropdown-content">
                                                 <a href="#" onclick="verInforme('{{ p.nombre }}', '{{ p.hash_full }}', '{{ p.plagio }}')">Ver informe general</a>
-                                                <a href="#" style="font-size: 0.82em; font-weight: 600; white-space: normal; line-height: 1.3;" onclick="verCertificado('{{ p.nombre }}', '{{ p.hash_full }}', '{{ p.timestamp|default('Fecha no disponible') }}')">Ver Certificado Legal</a>
+                                                <a href="#" style="color: var(--accent-light); font-size: 0.82em; white-space: normal; line-height: 1.3;" onclick="verCertificado('{{ p.nombre }}', '{{ p.hash_full }}', '{{ p.timestamp|default('Fecha no disponible') }}')">Ver Certificado Legal</a>
                                                 <a href="#" onclick="activarModoSeleccion('{{ p.hash_full }}')">Seleccionar</a>
                                                 <a href="#" onclick="renombrarArchivo('{{ p.hash_full }}', '{{ p.nombre }}', this)">Cambiar nombre</a>
                                                 <a href="#" onclick="eliminarConAnimacion('{{ p.hash_full }}', this)">Eliminar</a>
@@ -513,14 +440,14 @@
                                     <div class="img-mock">
                                         {% if p.nombre.endswith('.pdf') %}📑{% elif p.nombre.endswith('.docx') or p.nombre.endswith('.doc') %}📑{% else %}🖼️{% endif %}
                                     </div>
-                                    <p style="margin: 0; font-weight: 600; font-size: 0.95em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%;" title="{{ p.nombre }}">{{ p.nombre }}</p>
-                                    <small style="opacity: 0.6; font-size: 0.7em; margin-top: 5px; font-family: monospace;">ID: {{ p.hash }}</small>
+                                    <p style="margin: 0; font-weight: 500; font-size: 0.95em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--text-main); width: 100%;" title="{{ p.nombre }}">{{ p.nombre }}</p>
+                                    <small style="color: rgba(224, 225, 221, 0.5); font-size: 0.7em; margin-top: 5px; font-family: monospace;">ID: {{ p.hash }}</small>
                                     {% if p.plagio %}<span class="badge-status badge-alert">⛔ Alerta en Web</span>{% else %}<span class="badge-status badge-clean">✅ Monitor Activo</span>{% endif %}
                                 </div>
                                 {% endfor %}
                             {% else %}
-                                <div style="grid-column: 1 / -1; text-align: center; opacity: 0.7; padding: 40px;">
-                                    <p style="font-weight: 400; margin-bottom: 20px;">Tu bóveda está vacía.<br>Sube tu primer archivo para protegerlo.</p>
+                                <div style="grid-column: 1 / -1; text-align: center; color: rgba(224, 225, 221, 0.5); padding: 40px;">
+                                    <p style="font-weight: 300; margin-bottom: 20px;">Tu bóveda está vacía.<br>Sube tu primer archivo para protegerlo.</p>
                                     <button class="btn btn-secondary" onclick="cambiarPestana('app-section', document.getElementById('tab-auditar'))">Subir Archivo</button>
                                 </div>
                             {% endif %}
@@ -579,20 +506,20 @@
                             </ul>
                             <button class="btn btn-secondary" style="width: 100%; margin-top: 15px;">Plan Actual</button>
                         </div>
-                        <div class="glass-card" style="display: flex; flex-direction: column; background: var(--accent-light); color: #FFF; border-color: var(--accent-light);">
-                            <h3 style="color: #FFF;">Pro Creador</h3>
-                            <div class="plan-price" style="color: #FFF;">$9.99<span style="font-size: 0.4em; opacity: 0.7;">/m</span></div>
-                            <ul class="plan-list" style="color: #FFF;">
+                        <div class="glass-card" style="display: flex; flex-direction: column; background: linear-gradient(145deg, rgba(27, 38, 59, 0.8), rgba(13, 27, 42, 0.9)); border-color: rgba(119, 141, 169, 0.3);">
+                            <h3>Pro Creador</h3>
+                            <div class="plan-price">$9.99<span style="font-size: 0.4em; color: rgba(224, 225, 221, 0.5);">/m</span></div>
+                            <ul class="plan-list">
                                 <li>Todo lo del plan Básico</li>
                                 <li>Sincronización IG y X</li>
                                 <li>Archivos ilimitados</li>
                                 <li>Radar OSINT 24/7 activo</li>
                             </ul>
-                            <button class="btn" style="width: 100%; margin-top: 15px; background: var(--bg-dark); color: var(--text-main);">Mejorar a Pro</button>
+                            <button class="btn" style="width: 100%; margin-top: 15px;">Mejorar a Pro</button>
                         </div>
                         <div class="glass-card" style="display: flex; flex-direction: column;">
                             <h3>Enterprise</h3>
-                            <div class="plan-price">$49.99<span style="font-size: 0.4em; opacity: 0.7;">/m</span></div>
+                            <div class="plan-price">$49.99<span style="font-size: 0.4em; color: rgba(224, 225, 221, 0.5);">/m</span></div>
                             <ul class="plan-list">
                                 <li>Todo lo del plan Pro</li>
                                 <li>Conexión de Fanpages</li>
@@ -645,7 +572,7 @@
                 <div class="content-wrapper-inner" style="max-width: 650px;">
                     <h2 class="app-title">Buzón de Notificaciones</h2>
                     <div id="lista-notificaciones" style="width: 100%; margin-top: 20px;">
-                        <div id="notif-vacia" style="text-align: center; opacity: 0.7; padding: 40px;">
+                        <div id="notif-vacia" style="text-align: center; color: rgba(224, 225, 221, 0.5); padding: 40px;">
                             <div style="font-size: 3em; margin-bottom: 10px; line-height: 1;">🗂️</div>
                             <p>Sin notificaciones nuevas.</p>
                         </div>
@@ -658,7 +585,7 @@
     </div>
 
     <div id="bulk-action-bar" class="bulk-action-bar">
-        <span style="font-weight: 500; font-family: 'Montserrat', sans-serif;"><span id="sel-count">0</span> seleccionados</span>
+        <span style="font-weight: 400; color: white; font-family: 'Montserrat', sans-serif;"><span id="sel-count">0</span> seleccionados</span>
         <button class="btn btn-secondary" style="padding: 8px 15px; margin-left: 10px;" onclick="cancelarSeleccion()">Cancelar</button>
         <button class="btn btn-danger" style="padding: 8px 15px;" onclick="eliminarSeleccionados()">Eliminar</button>
     </div>
@@ -668,12 +595,12 @@
             <button class="modal-close-btn" onclick="cerrarInforme()">&times;</button>
             <h3 style="margin-top: 0;">📄 Informe OSINT</h3>
             <div style="margin-top: 20px; text-align: left;">
-                <p style="font-weight: 400;">Activo: <span id="inf-nombre" style="font-weight:600;"></span></p>
-                <p style="font-weight: 400; margin-top:10px;">Hash ID: <br><span id="inf-hash" style="font-family: monospace; opacity: 0.8; font-size: 0.85em; word-break: break-all;"></span></p>
-                <p style="font-weight: 400; margin-top:10px;">Estado: <br><span id="inf-estado"></span></p>
+                <p style="font-weight: 300;">Activo: <span id="inf-nombre" style="color: var(--text-main); font-weight:500;"></span></p>
+                <p style="font-weight: 300; margin-top:10px;">Hash ID: <br><span id="inf-hash" style="font-family: monospace; color: rgba(224, 225, 221, 0.6); font-size: 0.85em; word-break: break-all;"></span></p>
+                <p style="font-weight: 300; margin-top:10px;">Estado: <br><span id="inf-estado"></span></p>
                 
-                <div style="margin-top: 15px; border-top: 1px solid var(--glass-border); padding-top: 15px;">
-                    <p style="font-weight: 600; text-align: left; margin-bottom: 10px; font-size: 0.9em;">Bitácora de Rastreo OSINT 24/7:</p>
+                <div style="margin-top: 15px; border-top: 1px solid rgba(119, 141, 169, 0.2); padding-top: 15px;">
+                    <p style="font-weight: 500; text-align: left; margin-bottom: 10px; font-size: 0.9em; color: var(--text-main);">Bitácora de Rastreo OSINT 24/7:</p>
                     <div id="inf-bitacora" class="url-list" style="max-height: 120px; margin-top: 0; text-align: left;"></div>
                 </div>
             </div>
@@ -690,16 +617,16 @@
                     <h3 class="cert-title">CERTIFICADO DE AUTORÍA</h3>
                 </div>
                 <p class="cert-text">Por la presente, certificamos que el activo digital ha sido registrado en la Blockchain, estableciendo prueba inmutable de anterioridad.</p>
-                <div style="background: var(--input-bg); padding: 15px; border-radius: 12px; margin-bottom: 20px; border: 1px solid var(--glass-border);">
-                    <p style="margin: 0 0 5px 0; font-size: 0.8em; opacity: 0.8;">Archivo:</p>
-                    <p id="cert-nombre" style="margin: 0 0 15px 0; font-weight: 600;"></p>
-                    <p style="margin: 0 0 5px 0; font-size: 0.8em; opacity: 0.8;">Firma SHA-256:</p>
-                    <p id="cert-hash" style="margin: 0; font-family: monospace; font-size: 0.85em; font-weight: 600; word-break: break-all;"></p>
+                <div style="background: rgba(0,0,0,0.3); padding: 15px; border-radius: 12px; margin-bottom: 20px; border: 1px solid rgba(119, 141, 169, 0.1);">
+                    <p style="margin: 0 0 5px 0; font-size: 0.8em; color: rgba(224, 225, 221, 0.6);">Archivo:</p>
+                    <p id="cert-nombre" style="margin: 0 0 15px 0; color: var(--text-main); font-weight: 500;"></p>
+                    <p style="margin: 0 0 5px 0; font-size: 0.8em; color: rgba(224, 225, 221, 0.6);">Firma SHA-256:</p>
+                    <p id="cert-hash" style="margin: 0; color: var(--accent-light); font-family: monospace; font-size: 0.85em; word-break: break-all;"></p>
                 </div>
                 <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.85em;">
                     <div style="text-align: left;">
-                        <span style="opacity: 0.8; display:block; margin-bottom: 5px;">Timestamp:</span>
-                        <strong id="cert-fecha"></strong>
+                        <span style="color: rgba(224, 225, 221, 0.6); display:block; margin-bottom: 5px;">Timestamp:</span>
+                        <strong id="cert-fecha" style="color: var(--text-main);"></strong>
                     </div>
                 </div>
             </div>
@@ -712,9 +639,9 @@
             <button class="modal-close-btn" onclick="cerrarAuditoria()">&times;</button>
             <h3 style="margin-top: 0;">⚖️ Solicitud de Auditoría</h3>
             <div style="margin-top: 20px;">
-                <p style="font-weight: 400; text-align: left;">Archivo a revisar: <br><span style="font-weight: 600;"><span id="txt-auditar-nombre">Archivo Auditado</span></span></p>
-                <p style="font-weight: 400; text-align: left; margin-top:10px;">Motivo: <br><span style="font-family: monospace; opacity: 0.8; font-size: 0.9em;">Revisión manual por posible falso positivo.</span></p>
-                <p style="font-weight: 400; text-align: left; margin-top:10px;">Estado de la solicitud: <br><span id="auditoria-estado" style="color: var(--alert); font-weight: 600;">Pendiente de envío</span></p>
+                <p style="font-weight: 300; text-align: left;">Archivo a revisar: <br><span style="color: var(--text-main);"><span id="txt-auditar-nombre">Archivo Auditado</span></span></p>
+                <p style="font-weight: 300; text-align: left; margin-top:10px;">Motivo: <br><span style="font-family: monospace; color: rgba(224, 225, 221, 0.7); font-size: 0.9em;">Revisión manual por posible falso positivo.</span></p>
+                <p style="font-weight: 300; text-align: left; margin-top:10px;">Estado de la solicitud: <br><span id="auditoria-estado" style="color: var(--alert); font-weight: 500;">Pendiente de envío</span></p>
             </div>
             <button id="btn-enviar-auditoria" class="btn" style="width: 100%; margin-top: 25px;" onclick="enviarAuditoria()">Enviar Solicitud Oficial</button>
         </div>
@@ -729,43 +656,21 @@
         let unreadCount = 0;
 
         // ==========================================
-        // CONTROLADOR DE TEMA CLARO / OSCURO (SWITCH)
-        // ==========================================
-        function toggleTheme(checkbox) {
-            if(checkbox.checked) {
-                document.body.classList.add('light-theme');
-                localStorage.setItem('deeptech_theme', 'light');
-            } else {
-                document.body.classList.remove('light-theme');
-                localStorage.setItem('deeptech_theme', 'dark');
-            }
-        }
-
-        // ==========================================
-        // LÓGICA DE LA INTRODUCCIÓN Y ZOOM
+        // LÓGICA DE LA INTRODUCCIÓN AUTOMÁTICA
         // ==========================================
         window.onload = function() {
-            // Aplicar el tema guardado al cargar
-            if(localStorage.getItem('deeptech_theme') === 'light') {
-                document.body.classList.add('light-theme');
-                let themeCheck = document.getElementById('theme-checkbox');
-                if(themeCheck) themeCheck.checked = true;
-            }
-
-            // Lógica de salto de intro
+            // Evaluamos si el servidor pidió saltar la intro, o si ya la vimos en esta sesión
             var skipBackend = {% if skip_intro %}true{% else %}false{% endif %};
             var skipSession = sessionStorage.getItem('deeptech_intro_played');
 
             if(skipBackend || skipSession) {
+                // Saltamos la intro y mostramos la app directamente
                 document.getElementById('landing-main').style.display = 'none';
+                document.getElementById('main-background').classList.add('no-intro');
                 
                 var wrapper = document.getElementById('main-wrapper');
                 wrapper.style.display = 'flex';
                 wrapper.style.opacity = '1';
-
-                var bg = document.getElementById('main-background');
-                bg.style.transition = 'none';
-                bg.style.opacity = '1';
 
                 var activeTab = document.querySelector('.top-nav .tab-btn.active');
                 if(activeTab) {
@@ -777,22 +682,24 @@
                     }
                 }
             } else {
-                // REPRODUCCIÓN DE LA INTRODUCCIÓN CON ZOOM EN 2 SEGUNDOS
+                // REPRODUCCIÓN DE LA INTRODUCCIÓN CON ZOOM
                 var logo = document.getElementById('intro-logo');
                 var landing = document.getElementById('landing-main');
                 var wrapper = document.getElementById('main-wrapper');
-                var bg = document.getElementById('main-background');
 
+                // 1. Iniciamos el Zoom y Desvanecido del logo
                 setTimeout(() => { 
                     logo.classList.add('active'); 
-                    bg.style.opacity = '1'; // El fondo se enciende al mismo tiempo
                 }, 100);
 
+                // 2. Esperamos los 2 segundos que dura el Zoom, y procedemos a la transición
                 setTimeout(() => {
+                    // El logo y la pantalla de intro se desvanecen
                     logo.classList.replace('active', 'fade-out');
                     landing.style.opacity = '0';
                     
                     setTimeout(() => {
+                        // Ocultamos la intro y mostramos la plataforma
                         landing.style.display = 'none';
                         wrapper.style.display = 'flex';
                         void wrapper.offsetWidth; 
@@ -801,9 +708,10 @@
                         var activeTab = document.querySelector('.top-nav .tab-btn.active');
                         if(activeTab) moverBurbuja(activeTab);
 
+                        // GUARDAMOS EL ESTADO EN LA MEMORIA DE SESIÓN (No volverá a salir si refresca)
                         sessionStorage.setItem('deeptech_intro_played', 'true');
-                    }, 500); 
-                }, 2000); 
+                    }, 500); // 0.5s de desvanecimiento
+                }, 2000); // 2 segundos de Zoom
             }
         }
 
@@ -820,6 +728,7 @@
             if(activeTab) moverBurbuja(activeTab);
         });
 
+        // CORRECCIÓN ANIMACIÓN INVERSA ("Auditar nuevo archivo" -> Se hunde hacia atrás y aparece de abajo)
         function transicionAuditarNuevo() {
             var appSec = document.getElementById('app-section');
             var resArea = document.getElementById('resultado-area');
@@ -828,12 +737,12 @@
             var trustBadges = document.getElementById('upload-badges');
 
             appSec.classList.remove('vertical-in-up', 'vertical-in-down', 'scale-out-back');
-            appSec.classList.add('scale-out-back'); 
+            appSec.classList.add('scale-out-back'); // La tarjeta actual se va hacia atrás
 
             setTimeout(function() {
                 if(resArea) {
                     resArea.style.display = 'none';
-                    resArea.innerHTML = ''; 
+                    resArea.innerHTML = ''; // Limpiar resultados para que no haya parpadeo
                 }
                 if(titles) titles.style.display = 'flex';
                 if(uploadBox) {
@@ -845,7 +754,7 @@
                 
                 appSec.classList.remove('scale-out-back');
                 appSec.style.display = 'flex';
-                appSec.classList.add('vertical-in-up'); 
+                appSec.classList.add('vertical-in-up'); // Entra deslizándose desde abajo
                 
                 window.history.pushState({}, document.title, "/?skip_intro=true");
             }, 500); 
@@ -918,57 +827,62 @@
             }, 300);
         }
 
-        // ==========================================
-        // MOTOR DE LA MATRIZ DE PUNTOS (DOT LOADER)
-        // ==========================================
-        function initDotsForContainer(containerId) {
-            const loader = document.getElementById(containerId);
-            if(!loader) return [];
-            loader.innerHTML = '';
-            
-            let tempDots = [];
-            const size = 15; // Grid de 15x15
-            const center = 7;
-            const radius = 7; 
-            
-            loader.style.gridTemplateColumns = `repeat(${size}, 12px)`;
-            
-            for(let r = 0; r < size; r++) {
-                for(let c = 0; c < size; c++) {
-                    let dot = document.createElement('div');
-                    let dist = Math.sqrt(Math.pow(r - center, 2) + Math.pow(c - center, 2));
-                    
-                    if(dist <= radius) {
-                        dot.className = 'matrix-dot';
-                        tempDots.push(dot);
-                    } else {
-                        dot.className = 'matrix-dot hidden';
+        function simularConexion(redSocial, containerId) {
+            var container = document.getElementById(containerId);
+            container.style.opacity = 0;
+            setTimeout(() => {
+                container.innerHTML = `
+                    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%;">
+                        <div class="loading-bar-container" style="max-width: 300px; height: 8px;">
+                            <div class="loading-bar-fill" id="sim-loading-fill"></div>
+                        </div>
+                        <p style="color: var(--text-main); font-weight: 300; font-size: 1.1em; margin-top: 20px; text-align: center;">Estableciendo conexión segura con ${redSocial}...</p>
+                    </div>
+                `;
+                container.style.opacity = 1;
+                var simFill = document.getElementById('sim-loading-fill');
+                if(simFill) {
+                    setTimeout(() => { simFill.style.width = '35%'; }, 100);
+                    setTimeout(() => { simFill.style.width = '65%'; }, 1500);
+                    setTimeout(() => { simFill.style.width = '95%'; }, 2500);
+                }
+                setTimeout(() => {
+                    let icon = redSocial === 'X' ? '📑' : '🖼️';
+                    let mockCards = '';
+                    for(let i=1; i<=3; i++) {
+                        let shortId = Math.random().toString(36).substring(2, 10).toUpperCase();
+                        mockCards += `
+                            <div class="card-proyecto glass-card" style="cursor: default;">
+                                <div class="card-header-flex">
+                                    <span class="social-badge badge-${redSocial.toLowerCase()}" style="margin:0;">${redSocial}</span>
+                                </div>
+                                <div class="img-mock" style="margin-top: 10px;">${icon}</div>
+                                <p style="margin: 0; font-weight: 500; font-size: 0.95em; color: var(--text-main); width: 100%;">Pub_${redSocial}_00${i}</p>
+                                <small style="color: rgba(224, 225, 221, 0.5); font-size: 0.7em; margin-top: 5px; font-family: monospace;">ID: ${shortId}...</small>
+                                <span class="badge-status badge-clean">✅ Monitor Activo</span>
+                            </div>
+                        `;
                     }
-                    loader.appendChild(dot);
-                }
-            }
-            // Mezclamos el arreglo para que se llenen de forma aleatoria (Efecto Matrix)
-            return tempDots.sort(() => Math.random() - 0.5);
+                    container.style.opacity = 0;
+                    setTimeout(() => {
+                        container.innerHTML = `
+                            <div style="width: 100%; display: flex; flex-direction: column; align-items: center; margin-bottom: 20px; border-bottom: 1px solid rgba(119, 141, 169, 0.2); padding-bottom: 15px;">
+                                <h3 style="color: var(--accent-light); margin:0 0 5px 0; font-family: 'Oswald', sans-serif; font-size: 1.5em; text-align: center;">✅ Cuenta vinculada exitosamente</h3>
+                                <p style="color: rgba(224, 225, 221, 0.85); margin:0; font-weight: 300; font-size: 1em; text-align: center;">Se han importado y protegido tus últimas publicaciones.</p>
+                            </div>
+                            <div class="grid-proyectos" style="justify-content: center;">
+                                ${mockCards}
+                            </div>
+                        `;
+                        container.style.opacity = 1;
+                    }, 300);
+                }, 3500); 
+            }, 300);
         }
 
-        function fillDotsUpTo(percentage, dotsArray) {
-            let targetCount = Math.floor((percentage / 100) * dotsArray.length);
-            for(let i = 0; i < dotsArray.length; i++) {
-                if(i < targetCount) {
-                    dotsArray[i].classList.add('filled');
-                } else {
-                    dotsArray[i].classList.remove('filled');
-                }
-            }
-        }
-
-        // ==========================================
-        // CARGA AJAX CON MATRIZ DE PUNTOS
-        // ==========================================
-        let mainDots = []; 
-
+        // CORRECCIÓN TOTAL: AJax (Fetch) + Card Stack Animation (Hacia Atrás y Entra de Abajo)
         function ejecutarCargaAjax(event, formElement) {
-            event.preventDefault(); 
+            event.preventDefault(); // Evita que la página parpadee o se recargue
             
             var archivoInput = document.getElementById('input-archivo');
             if(!archivoInput.files.length) return;
@@ -993,24 +907,27 @@
             appSec.classList.remove('vertical-in-down', 'animate-in-left', 'animate-in-right', 'vertical-in-up');
             loadSec.classList.remove('scale-out-back');
 
+            // ANIMACIÓN: La pantalla de subida "se hunde" hacia atrás
             appSec.classList.add('scale-out-back');
             
             setTimeout(function() {
                 appSec.style.display = 'none';
                 
+                // ANIMACIÓN: Entra la pantalla de carga desde abajo
                 loadSec.style.display = 'flex';
                 loadSec.classList.add('vertical-in-up');
                 
-                // INICIAMOS LA MATRIZ DE PUNTOS
-                mainDots = initDotsForContainer('matrix-grid');
-                
-                if(mainDots.length > 0) {
-                    setTimeout(() => { fillDotsUpTo(15, mainDots); }, 200);
-                    setTimeout(() => { fillDotsUpTo(45, mainDots); textoCarga.innerText = "Desplegando arañas OSINT en red global..."; }, 1500);
-                    setTimeout(() => { fillDotsUpTo(70, mainDots); textoCarga.innerText = "Verificando colisiones de hash criptográfico..."; }, 3500);
-                    setTimeout(() => { fillDotsUpTo(85, mainDots); textoCarga.innerText = "Sincronizando con Blockchain..."; }, 6000);
+                var fill = document.getElementById('main-loading-fill');
+                if(fill) {
+                    fill.style.transition = "width 0.8s cubic-bezier(0.4, 0, 0.2, 1)";
+                    fill.style.width = '0%';
+                    setTimeout(() => { fill.style.width = '15%'; }, 200);
+                    setTimeout(() => { fill.style.width = '45%'; textoCarga.innerText = "Desplegando arañas OSINT en red global..."; }, 1500);
+                    setTimeout(() => { fill.style.width = '70%'; textoCarga.innerText = "Verificando colisiones de hash criptográfico..."; }, 3500);
+                    setTimeout(() => { fill.style.width = '85%'; textoCarga.innerText = "Sincronizando con Blockchain..."; }, 6000);
                 }
 
+                // PETICIÓN INVISIBLE (AJAX) - Cero recargas
                 var formData = new FormData(formElement);
                 fetch('/', {
                     method: 'POST',
@@ -1018,14 +935,16 @@
                 })
                 .then(response => response.text())
                 .then(htmlStr => {
-                    // Llenamos la matriz al 100%
-                    fillDotsUpTo(100, mainDots);
+                    // Simular llenado final
+                    if(fill) fill.style.width = '100%';
                     textoCarga.innerText = "Generando reporte de auditoría...";
                     
                     setTimeout(() => {
+                        // Extraemos la información del servidor
                         var parser = new DOMParser();
                         var doc = parser.parseFromString(htmlStr, "text/html");
                         
+                        // Actualizamos los datos
                         var newResArea = doc.getElementById('resultado-area');
                         var oldResArea = document.getElementById('resultado-area');
                         
@@ -1036,11 +955,13 @@
                             oldResArea.style.display = 'flex';
                         }
                         
+                        // Actualizamos bóveda en segundo plano
                         var newBoveda = doc.getElementById('lista-boveda');
                         if(newBoveda) document.getElementById('lista-boveda').innerHTML = newBoveda.innerHTML;
                         var newMetrics = doc.getElementById('global-metrics-wrapper');
                         if(newMetrics) document.getElementById('global-metrics-wrapper').innerHTML = newMetrics.innerHTML;
 
+                        // ANIMACIÓN: La pantalla de carga se hunde hacia atrás
                         loadSec.classList.remove('vertical-in-up');
                         loadSec.classList.add('scale-out-back');
                         
@@ -1048,6 +969,7 @@
                             loadSec.style.display = 'none';
                             appSec.style.display = 'flex';
                             
+                            // ANIMACIÓN: La pantalla de Resultados entra desde abajo
                             appSec.classList.remove('scale-out-back');
                             appSec.classList.add('vertical-in-up');
                         }, 500);
@@ -1057,6 +979,7 @@
                 .catch(error => {
                     console.error("Error en conexión asíncrona:", error);
                     alert("Se perdió la conexión con el servidor. Por favor, intenta de nuevo.");
+                    // Si falla, regresamos la animación hacia atrás
                     loadSec.classList.remove('vertical-in-up');
                     loadSec.classList.add('scale-out-back');
                     setTimeout(() => {
@@ -1067,61 +990,6 @@
                     }, 500);
                 });
             }, 500); 
-        }
-
-        function simularConexion(redSocial, containerId) {
-            var container = document.getElementById(containerId);
-            container.style.opacity = 0;
-            setTimeout(() => {
-                container.innerHTML = `
-                    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%;">
-                        <div class="matrix-container" style="transform: scale(0.7); margin: 10px auto;">
-                            <div id="sim-matrix-grid" class="matrix-grid"></div>
-                        </div>
-                        <p style="color: var(--text-main); font-weight: 400; font-size: 1.1em; margin-top: 10px; text-align: center;">Estableciendo conexión segura con ${redSocial}...</p>
-                    </div>
-                `;
-                container.style.opacity = 1;
-                
-                let simDots = initDotsForContainer('sim-matrix-grid');
-                if(simDots.length > 0) {
-                    setTimeout(() => { fillDotsUpTo(15, simDots); }, 100);
-                    setTimeout(() => { fillDotsUpTo(65, simDots); }, 1500);
-                    setTimeout(() => { fillDotsUpTo(95, simDots); }, 2500);
-                }
-
-                setTimeout(() => {
-                    let icon = redSocial === 'X' ? '📑' : '🖼️';
-                    let mockCards = '';
-                    for(let i=1; i<=3; i++) {
-                        let shortId = Math.random().toString(36).substring(2, 10).toUpperCase();
-                        mockCards += `
-                            <div class="card-proyecto glass-card" style="cursor: default;">
-                                <div class="card-header-flex">
-                                    <span class="social-badge badge-${redSocial.toLowerCase()}" style="margin:0;">${redSocial}</span>
-                                </div>
-                                <div class="img-mock" style="margin-top: 10px;">${icon}</div>
-                                <p style="margin: 0; font-weight: 600; font-size: 0.95em; width: 100%;">Pub_${redSocial}_00${i}</p>
-                                <small style="opacity: 0.6; font-size: 0.7em; margin-top: 5px; font-family: monospace;">ID: ${shortId}...</small>
-                                <span class="badge-status badge-clean">✅ Monitor Activo</span>
-                            </div>
-                        `;
-                    }
-                    container.style.opacity = 0;
-                    setTimeout(() => {
-                        container.innerHTML = `
-                            <div style="width: 100%; display: flex; flex-direction: column; align-items: center; margin-bottom: 20px; border-bottom: 1px solid var(--glass-border); padding-bottom: 15px;">
-                                <h3 style="color: var(--accent-light); margin:0 0 5px 0; font-family: 'Oswald', sans-serif; font-size: 1.5em; text-align: center;">✅ Cuenta vinculada exitosamente</h3>
-                                <p style="opacity: 0.8; margin:0; font-weight: 400; font-size: 1em; text-align: center;">Se han importado y protegido tus últimas publicaciones.</p>
-                            </div>
-                            <div class="grid-proyectos" style="justify-content: center;">
-                                ${mockCards}
-                            </div>
-                        `;
-                        container.style.opacity = 1;
-                    }, 300);
-                }, 3500); 
-            }, 300);
         }
 
         function toggleDropdown(id) {
@@ -1162,7 +1030,7 @@
                 var lista = document.getElementById('lista-boveda');
                 lista.style.opacity = '0';
                 setTimeout(function() {
-                    lista.innerHTML = `<div style="grid-column: 1 / -1; text-align: center; opacity: 0.7; padding: 40px; width: 100%; display: flex; flex-direction: column; align-items: center;"><p style="font-weight: 400; margin-bottom: 20px;">Tu bóveda está vacía.<br>Sube tu primer archivo para protegerlo.</p><button class="btn btn-secondary" onclick="cambiarPestana('app-section', document.getElementById('tab-auditar'))">Subir Archivo</button></div>`;
+                    lista.innerHTML = `<div style="grid-column: 1 / -1; text-align: center; color: rgba(224, 225, 221, 0.5); padding: 40px; width: 100%; display: flex; flex-direction: column; align-items: center;"><p style="font-weight: 300; margin-bottom: 20px;">Tu bóveda está vacía.<br>Sube tu primer archivo para protegerlo.</p><button class="btn btn-secondary" onclick="cambiarPestana('app-section', document.getElementById('tab-auditar'))">Subir Archivo</button></div>`;
                     lista.style.transition = 'opacity 0.4s'; lista.style.opacity = '1';
                 }, 200);
             }
@@ -1244,8 +1112,8 @@
 
         function verInforme(nombre, hash, plagio) {
             event.preventDefault(); document.getElementById('inf-nombre').innerText = nombre; document.getElementById('inf-hash').innerText = hash;
-            if(plagio === 'True') { document.getElementById('inf-estado').innerHTML = '<span style="color: var(--alert); font-weight: 600;">⛔ Alerta de Plagio: Se encontraron copias idénticas.</span>';
-            } else { document.getElementById('inf-estado').innerHTML = '<span style="color: var(--success); font-weight: 600;">✅ 100% Original - Activo monitoreado y seguro.</span>'; }
+            if(plagio === 'True') { document.getElementById('inf-estado').innerHTML = '<span style="color: var(--alert); font-weight: 500;">⛔ Alerta de Plagio: Se encontraron copias idénticas.</span>';
+            } else { document.getElementById('inf-estado').innerHTML = '<span style="color: var(--success); font-weight: 500;">✅ 100% Original - Activo monitoreado y seguro.</span>'; }
             let bitacora = document.getElementById('inf-bitacora');
             if(bitacora) {
                 let d = new Date(); let horaAyer = new Date(d.getTime() - (24 * 60 * 60 * 1000));
@@ -1257,7 +1125,7 @@
                 } else {
                     bitacora.innerHTML = `<div style="font-size: 0.85em; margin-bottom: 8px;"><span style="color:var(--success);">✅ Hoy, ${hHoy}</span> - Escaneo completado. 0 coincidencias.</div>
                         <div style="font-size: 0.85em; margin-bottom: 8px;"><span style="color:var(--success);">✅ Ayer, ${hAyer}</span> - Escaneo OSINT completado. 0 coincidencias.</div>
-                        <div style="font-size: 0.85em; margin-bottom: 8px;"><span style="opacity: 0.8;">🔗 Registro Inicial</span> - Sello de tiempo creado en Blockchain.</div>`;
+                        <div style="font-size: 0.85em; margin-bottom: 8px;"><span style="color:rgba(224, 225, 221, 0.6);">🔗 Registro Inicial</span> - Sello de tiempo creado en Blockchain.</div>`;
                 }
             }
             var dropdowns = document.getElementsByClassName("dropdown-content");
@@ -1289,7 +1157,7 @@
             setTimeout(() => { 
                 modal.style.display = 'none'; 
                 var btn = document.getElementById('btn-enviar-auditoria'); var estado = document.getElementById('auditoria-estado');
-                if(btn) { btn.innerHTML = "Enviar Solicitud Oficial"; btn.style.background = "var(--accent-blue)"; btn.style.color = "#FFF"; btn.disabled = false; }
+                if(btn) { btn.innerHTML = "Enviar Solicitud Oficial"; btn.style.backgroundColor = "var(--accent-blue)"; btn.style.color = "var(--bg-dark)"; btn.disabled = false; }
                 if(estado) { estado.innerHTML = "Pendiente de envío"; estado.style.color = "var(--alert)"; }
             }, 300);
         }
@@ -1298,7 +1166,7 @@
             var btn = document.getElementById('btn-enviar-auditoria'); var estado = document.getElementById('auditoria-estado');
             btn.innerHTML = "⏳ Procesando..."; btn.disabled = true;
             setTimeout(() => {
-                btn.innerHTML = "✅ Solicitud Enviada"; btn.style.background = "var(--success)"; btn.style.color = "#FFF";
+                btn.innerHTML = "✅ Solicitud Enviada"; btn.style.backgroundColor = "var(--success)"; btn.style.color = "var(--bg-dark)";
                 if(estado) { estado.innerHTML = "✅ En revisión por especialista legal"; estado.style.color = "var(--success)"; }
                 agregarNotificacion();
                 setTimeout(() => { cerrarAuditoria(); }, 2500);
@@ -1315,8 +1183,8 @@
             
             let notifHTML = `<div class="notif-card fade-in-element" style="width: 100%; box-sizing: border-box;">
                     <h4>⚖️ Auditoría Humana Solicitada</h4>
-                    <p>Se ha levantado un ticket de revisión manual para el archivo: <span style="font-weight:600;">${fileName}</span>. Un especialista evaluará tu caso en las próximas 24 horas.</p>
-                    <span class="notif-time" style="opacity: 0.6;">${dateString} - ${timeString}</span></div>`;
+                    <p>Se ha levantado un ticket de revisión manual para el archivo: <span style="color:var(--text-main); font-weight:500;">${fileName}</span>. Un especialista evaluará tu caso en las próximas 24 horas.</p>
+                    <span class="notif-time" style="color: rgba(224, 225, 221, 0.5);">${dateString} - ${timeString}</span></div>`;
             container.innerHTML = notifHTML + container.innerHTML;
             unreadCount++; let badge = document.getElementById('notif-badge'); badge.innerText = unreadCount; badge.style.display = 'flex';
         }
