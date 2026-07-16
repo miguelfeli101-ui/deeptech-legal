@@ -123,21 +123,14 @@
         .section-container::-webkit-scrollbar { width: 6px; }
         .section-container::-webkit-scrollbar-thumb { background-color: rgba(119, 141, 169, 0.3); border-radius: 4px; }
         
-        /* FIX: Corrección del Scroll Innecesario en Planes */
-        #planes-section {
-            justify-content: center; 
-            padding: 0;
-        }
-        #planes-section .content-wrapper-inner {
-            margin: 0 auto; 
-        }
+        #planes-section { justify-content: center; padding: 0; }
+        #planes-section .content-wrapper-inner { margin: 0 auto; }
 
         /* Animaciones del Carrusel */
         @keyframes slideInFromRight { 0% { transform: translateX(100%); opacity: 0; } 100% { transform: translateX(0); opacity: 1; } }
         @keyframes slideInFromLeft { 0% { transform: translateX(-100%); opacity: 0; } 100% { transform: translateX(0); opacity: 1; } }
         @keyframes slideOutToLeft { 0% { transform: translateX(0) scale(1); opacity: 1; } 100% { transform: translateX(-20%) scale(0.9); opacity: 0; } }
         @keyframes slideOutToRight { 0% { transform: translateX(0) scale(1); opacity: 1; } 100% { transform: translateX(20%) scale(0.9); opacity: 0; } }
-
         @keyframes slideUpIn { 0% { transform: translateY(100%); opacity: 0; } 100% { transform: translateY(0); opacity: 1; } }
         @keyframes slideDownIn { 0% { transform: translateY(-100%); opacity: 0; } 100% { transform: translateY(0); opacity: 1; } }
         @keyframes slideDownOut { 0% { transform: translateY(0) scale(1); opacity: 1; } 100% { transform: translateY(20%) scale(0.9); opacity: 0; } }
@@ -147,7 +140,6 @@
         .animate-in-left { animation: slideInFromLeft 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards; z-index: 2; display: flex !important; }
         .animate-out-left { animation: slideOutToLeft 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards; z-index: 1; }
         .animate-out-right { animation: slideOutToRight 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards; z-index: 1; }
-
         .vertical-in-up { animation: slideUpIn 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards; z-index: 3; display: flex !important;}
         .vertical-in-down { animation: slideDownIn 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards; z-index: 3; display: flex !important;}
         .vertical-out-down { animation: slideDownOut 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards; z-index: 1; }
@@ -179,58 +171,97 @@
 
         .upload-area { width: 100%; max-width: 550px; text-align: center; padding: 30px; margin: 0 auto; box-sizing: border-box;}
         
-        /* NUEVO EFECTO DE CARGA: SPINNER 4 PUNTOS (IDÉNTICO AL VIDEO) */
-        .four-dot-spinner {
-            width: 44px;
-            height: 44px;
-            position: relative;
-            margin: 30px auto 40px auto;
-            animation: spinLoader 1.4s linear infinite;
-        }
-
-        .four-dot-spinner .dot {
-            position: absolute;
-            width: 26px;
-            height: 26px;
-            border-radius: 50%;
-            mix-blend-mode: screen; /* Permite una superposición brillante y fluida */
-        }
-
-        .four-dot-spinner .dot:nth-child(1) {
-            top: 0; left: 0;
-            background-color: #9333ea; /* Morado vibrante */
-        }
-
-        .four-dot-spinner .dot:nth-child(2) {
-            top: 0; right: 0;
-            background-color: rgba(224, 225, 221, 0.35); /* Gris translúcido */
-        }
-
-        .four-dot-spinner .dot:nth-child(3) {
-            bottom: 0; left: 0;
-            background-color: rgba(224, 225, 221, 0.35); /* Gris translúcido */
-        }
-
-        .four-dot-spinner .dot:nth-child(4) {
-            bottom: 0; right: 0;
-            background-color: #9333ea; /* Morado vibrante */
-        }
-
-        @keyframes spinLoader {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .loading-bar-container { width: 100%; max-width: 400px; height: 6px; background-color: rgba(0,0,0,0.4); border-radius: 10px; margin: 30px auto; overflow: hidden; box-shadow: inset 0 1px 3px rgba(0,0,0,0.6); }
-        .loading-bar-fill { height: 100%; width: 0%; border-radius: 10px; background: linear-gradient(90deg, var(--accent-blue), var(--accent-light), var(--accent-blue)); background-size: 200% 100%; animation: shimmerGradient 2.5s linear infinite; transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1); }
-        @keyframes shimmerGradient { 0% { background-position: 200% 0; } 100% { background-position: 0% 0; } }
-
         .result-card-minimal { width: 100%; max-width: 550px; margin: 20px auto; text-align: center; box-sizing: border-box; padding: 30px; }
         .result-card-minimal.success { border-top: 2px solid var(--success); }
         .result-card-minimal.alert { border-top: 2px solid var(--alert); }
         
         input[type="file"] { margin-top: 15px; margin-bottom: 25px; padding: 12px; border: 1px dashed rgba(119, 141, 169, 0.4); border-radius: 12px; width: 100%; box-sizing: border-box; background-color: rgba(0, 0, 0, 0.2); color: var(--text-main); font-family: 'Montserrat', sans-serif; cursor: pointer; }
         
+        /* =========================================
+           NUEVO ESTILO: MODAL DE CARGA TIPO TARJETA
+           ========================================= */
+        .glass-upload-modal-wrapper {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(0,0,0, 0.6); z-index: 100000;
+            display: none; align-items: center; justify-content: center;
+            backdrop-filter: blur(10px); opacity: 0; transition: opacity 0.3s ease;
+        }
+
+        .glass-upload-card {
+            background: linear-gradient(145deg, rgba(27, 38, 59, 0.9), rgba(13, 27, 42, 0.98));
+            border: 1px solid rgba(119, 141, 169, 0.3); border-radius: 24px;
+            padding: 30px; width: 90%; max-width: 420px; position: relative;
+            /* Resplandor inferior vibrante como en la imagen */
+            box-shadow: 0 35px 60px -15px rgba(0,0,0,0.8), 0 50px 100px -30px rgba(65, 90, 119, 0.6);
+            display: flex; flex-direction: column; box-sizing: border-box;
+        }
+
+        .modal-btn-cancel {
+            position: absolute; top: 15px; right: 15px;
+            background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+            color: rgba(224, 225, 221, 0.7); width: 32px; height: 32px; border-radius: 50%;
+            font-size: 1.2em; display: flex; align-items: center; justify-content: center;
+            cursor: pointer; transition: all 0.2s ease;
+        }
+        .modal-btn-cancel:hover { background: rgba(252, 165, 165, 0.2); color: var(--alert); border-color: var(--alert); transform: scale(1.05); }
+
+        .file-details-row { display: flex; align-items: center; margin-bottom: 25px; margin-top: 10px;}
+
+        /* Icono de archivo con esquina doblada */
+        .file-icon-wrapper {
+            position: relative; width: 55px; height: 70px;
+            background: linear-gradient(135deg, rgba(119, 141, 169, 0.2), rgba(119, 141, 169, 0.05));
+            border: 1px solid rgba(119, 141, 169, 0.2); border-radius: 6px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.8em; margin-right: 25px; box-shadow: inset 0 0 10px rgba(0,0,0,0.2);
+        }
+        .file-icon-wrapper::after { 
+            content: ''; position: absolute; top: -1px; right: -1px;
+            border-width: 0 16px 16px 0; border-style: solid;
+            border-color: rgba(13, 27, 42, 1) rgba(13, 27, 42, 1) rgba(119, 141, 169, 0.3) rgba(119, 141, 169, 0.3);
+            border-bottom-left-radius: 4px;
+        }
+        
+        .file-badge-tag {
+            position: absolute; bottom: 8px; left: -12px;
+            background: rgba(13, 27, 42, 0.95); border: 1px solid rgba(119, 141, 169, 0.4);
+            padding: 3px 6px; border-radius: 6px; font-size: 0.55em; font-weight: 600;
+            letter-spacing: 1px; color: var(--text-main); box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .file-text-info { display: flex; flex-direction: column; justify-content: center; flex: 1; overflow: hidden;}
+        .file-text-info h4 { margin: 0 0 5px 0; font-family: 'Montserrat', sans-serif; font-size: 1.2em; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: #fff;}
+        .file-text-info p { margin: 0; font-size: 0.85em; color: rgba(224, 225, 221, 0.6); font-weight: 300; }
+
+        .progress-box {
+            background: rgba(0,0,0,0.2); border: 1px solid rgba(119, 141, 169, 0.15);
+            border-radius: 16px; padding: 15px 20px; display: flex; flex-direction: column;
+        }
+        
+        .progress-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; font-size: 0.9em; font-family: 'Montserrat', sans-serif; font-weight: 400; color: #fff;}
+        .progress-header-left { display: flex; align-items: center; gap: 8px;}
+        
+        @keyframes spin-simple { 100% { transform: rotate(360deg); } }
+        .spinner-icon { display: inline-block; animation: spin-simple 1.2s linear infinite; opacity: 0.8;}
+
+        .progress-track {
+            width: 100%; height: 6px; background: rgba(0,0,0,0.5); border-radius: 10px;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.8); position: relative; overflow: visible;
+        }
+        
+        .progress-fill {
+            height: 100%; width: 0%; background: #fff; border-radius: 10px;
+            box-shadow: 0 0 8px #fff, 0 0 15px var(--accent-light);
+            transition: width 0.3s ease; position: relative;
+        }
+        
+        .progress-fill::after {
+            content: ''; position: absolute; right: -2px; top: 50%; transform: translateY(-50%);
+            width: 10px; height: 10px; background: #fff; border-radius: 50%;
+            box-shadow: 0 0 12px 4px rgba(119, 141, 169, 0.8);
+        }
+
         .url-list { max-height: 120px; overflow-y: auto; background-color: rgba(0, 0, 0, 0.2); padding: 15px; border-radius: 12px; font-size: 0.85em; margin-top: 10px; font-family: 'Montserrat', sans-serif; font-weight: 300; border: 1px solid rgba(119, 141, 169, 0.15);}
         .url-list li { margin-bottom: 10px; color: rgba(224, 225, 221, 0.7); }
         .url-list a { color: var(--accent-light); text-decoration: none; font-weight: 500; }
@@ -290,11 +321,42 @@
         .cert-title { font-family: 'Montserrat', sans-serif; font-size: 1.1em; color: var(--text-main); letter-spacing: 2px; margin: 10px 0 15px 0; border-bottom: 1px solid rgba(119, 141, 169, 0.2); padding-bottom: 10px; font-weight: 500;}
         .cert-text { font-size: 0.8em; font-weight: 300; line-height: 1.5; color: rgba(224, 225, 221, 0.8); text-align: justify; margin-bottom: 15px; }
         
-        /* Carga Fade Elementos */
         .fade-in-element { animation: fadeUpEntrance 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
     </style>
 </head>
 <body>
+
+    <!-- NUEVO MODAL DE CARGA: DISEÑO TARJETA CRISTAL -->
+    <div id="glass-upload-modal" class="glass-upload-modal-wrapper">
+        <div class="glass-upload-card">
+            <!-- Botón X para cancelar -->
+            <button class="modal-btn-cancel" onclick="cancelarAuditoria()" title="Cancelar auditoría">&times;</button>
+            
+            <div class="file-details-row">
+                <div class="file-icon-wrapper">
+                    <span id="modal-file-icon-char">📄</span>
+                    <span class="file-badge-tag" id="modal-file-type">TEXT</span>
+                </div>
+                <div class="file-text-info">
+                    <h4 id="modal-file-name">Archivo...</h4>
+                    <p id="modal-file-size">0 KB</p>
+                </div>
+            </div>
+
+            <div class="progress-box">
+                <div class="progress-header">
+                    <div class="progress-header-left">
+                        <span class="spinner-icon">↻</span>
+                        <span id="modal-status-text">Analizando...</span>
+                    </div>
+                    <span id="modal-progress-text">0%</span>
+                </div>
+                <div class="progress-track">
+                    <div class="progress-fill" id="modal-progress-fill"></div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <div class="bg-organic {% if skip_intro %}no-intro{% endif %}" id="main-background">
         <div class="liquid-shape liquid-1"></div>
@@ -303,7 +365,6 @@
     </div>
 
     <div id="landing-main" class="landing-screen" {% if skip_intro %} style="display: none; opacity: 0;" {% else %} style="display: flex; opacity: 1;" {% endif %}>
-        
         <div class="cinematic-logo" id="intro-logo">
             <div class="logo-top-line">
                 <span class="logo-deeptech">DeepTech</span><span class="logo-tm">TM</span>
@@ -312,7 +373,6 @@
                 <span class="logo-legal">Legal Solutions</span>
             </div>
         </div>
-
     </div>
 
     <div id="main-wrapper" {% if skip_intro %} style="display: flex; opacity: 1;" {% else %} style="display: none; opacity: 0;" {% endif %}>
@@ -332,22 +392,6 @@
         </div>
 
         <div class="sections-viewport" id="viewport">
-
-            <div id="loading-section" class="section-container app-centered-layout" style="display: none; opacity: 0;">
-                <div class="content-wrapper-inner">
-                    <h2 class="app-title">Cifrando y Analizando...</h2>
-                    <p id="texto-carga" class="app-subtitle">Asegurando el archivo en la Bóveda Local.</p>
-                    
-                    <!-- NUEVA ANIMACIÓN SPINNER 4 PUNTOS -->
-                    <div class="four-dot-spinner">
-                        <div class="dot"></div>
-                        <div class="dot"></div>
-                        <div class="dot"></div>
-                        <div class="dot"></div>
-                    </div>
-
-                </div>
-            </div>
 
             <div id="app-section" class="section-container app-centered-layout" {% if mostrar_boveda %} style="display: none; opacity: 0;" {% else %} style="display: flex; opacity: 1;" {% endif %}>
                 <div id="app-inner-wrapper" class="content-wrapper-inner">
@@ -710,10 +754,9 @@
 
     <script>
         let unreadCount = 0;
+        let currentUploadController = null;
+        let progressInterval = null;
 
-        // ==========================================
-        // LÓGICA DE LA INTRODUCCIÓN AUTOMÁTICA
-        // ==========================================
         window.onload = function() {
             var skipBackend = {% if skip_intro %}true{% else %}false{% endif %};
             var skipSession = sessionStorage.getItem('deeptech_intro_played');
@@ -740,14 +783,11 @@
                 var landing = document.getElementById('landing-main');
                 var wrapper = document.getElementById('main-wrapper');
 
-                setTimeout(() => { 
-                    logo.classList.add('active'); 
-                }, 100);
+                setTimeout(() => { logo.classList.add('active'); }, 100);
 
                 setTimeout(() => {
                     logo.classList.replace('active', 'fade-out');
                     landing.style.opacity = '0';
-                    
                     setTimeout(() => {
                         landing.style.display = 'none';
                         wrapper.style.display = 'flex';
@@ -787,10 +827,7 @@
             appSec.classList.add('scale-out-back'); 
 
             setTimeout(function() {
-                if(resArea) {
-                    resArea.style.display = 'none';
-                    resArea.innerHTML = ''; 
-                }
+                if(resArea) { resArea.style.display = 'none'; resArea.innerHTML = ''; }
                 if(titles) titles.style.display = 'flex';
                 if(uploadBox) {
                     uploadBox.style.display = 'block';
@@ -798,11 +835,9 @@
                     if(form) form.reset();
                 }
                 if(trustBadges) trustBadges.style.display = 'flex';
-                
                 appSec.classList.remove('scale-out-back');
                 appSec.style.display = 'flex';
                 appSec.classList.add('vertical-in-up'); 
-                
                 window.history.pushState({}, document.title, "/?skip_intro=true");
             }, 500); 
         }
@@ -878,7 +913,6 @@
             var container = document.getElementById(containerId);
             container.style.opacity = 0;
             setTimeout(() => {
-                // Para las secciones estáticas rehusamos el diseño de barras
                 container.innerHTML = `
                     <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%;">
                         <div class="loading-bar-container" style="max-width: 300px; height: 8px;">
@@ -928,100 +962,145 @@
             }, 300);
         }
 
-        // CORRECCIÓN TOTAL: AJax (Fetch) + Modificación para la nueva animación
+        /* =========================================
+           LÓGICA ACTUALIZADA: TARJETA DE CARGA CRISTAL
+           ========================================= */
         function ejecutarCargaAjax(event, formElement) {
             event.preventDefault(); 
             
             var archivoInput = document.getElementById('input-archivo');
             if(!archivoInput.files.length) return;
-            var archivo = archivoInput.value.toLowerCase();
+            let file = archivoInput.files[0];
             
-            let txtModal = document.getElementById('txt-auditar-nombre');
-            if(txtModal) txtModal.innerText = archivoInput.files[0].name;
+            // 1. Extraer y colocar datos en la tarjeta
+            document.getElementById('modal-file-name').innerText = file.name;
+            
+            let sizeKB = file.size / 1024;
+            let sizeText = sizeKB > 1024 ? (sizeKB / 1024).toFixed(2) + " MB" : sizeKB.toFixed(2) + " KB";
+            document.getElementById('modal-file-size').innerText = sizeText;
+            
+            let ext = file.name.split('.').pop().toUpperCase();
+            let badgeText = "DOC";
+            if(['JPG', 'JPEG', 'PNG', 'WEBP'].includes(ext)) badgeText = "IMG";
+            else if(['PDF'].includes(ext)) badgeText = "PDF";
+            else if(['TXT'].includes(ext)) badgeText = "TXT";
+            
+            document.getElementById('modal-file-type').innerText = badgeText;
+            
+            let icon = "📄";
+            if(badgeText === "IMG") icon = "🖼️";
+            else if (badgeText === "PDF") icon = "📑";
+            document.getElementById('modal-file-icon-char').innerText = icon;
 
-            var textoCarga = document.getElementById('texto-carga');
+            // 2. Ocultar badges extra y preparar UI
             var trustBadges = document.getElementById('upload-badges');
             if(trustBadges) trustBadges.style.display = 'none';
 
-            if (archivo.endsWith('.pdf') || archivo.endsWith('.docx') || archivo.endsWith('.doc')) {
-                textoCarga.innerText = "Encriptando texto y conectando con radar web...";
-            } else {
-                textoCarga.innerText = "Realizando validación cruzada y pHash matemático...";
-            }
+            // 3. Mostrar el Modal
+            let modal = document.getElementById('glass-upload-modal');
+            modal.style.display = 'flex';
+            setTimeout(() => { modal.style.opacity = '1'; }, 50);
 
-            var appSec = document.getElementById('app-section');
-            var loadSec = document.getElementById('loading-section');
+            // 4. Iniciar Simulación de Progreso Lógica
+            let progress = 0;
+            let fill = document.getElementById('modal-progress-fill');
+            let pText = document.getElementById('modal-progress-text');
+            let statusText = document.getElementById('modal-status-text');
             
-            appSec.classList.remove('vertical-in-down', 'animate-in-left', 'animate-in-right', 'vertical-in-up');
-            loadSec.classList.remove('scale-out-back');
-
-            appSec.classList.add('scale-out-back');
+            fill.style.width = '0%';
+            pText.innerText = '0%';
+            statusText.innerText = "Cifrando y subiendo...";
             
-            setTimeout(function() {
-                appSec.style.display = 'none';
-                
-                loadSec.style.display = 'flex';
-                loadSec.classList.add('vertical-in-up');
-                
-                // Los cambios de texto ahora operan con la animación en loop continuo
-                setTimeout(() => { textoCarga.innerText = "Desplegando arañas OSINT en red global..."; }, 1500);
-                setTimeout(() => { textoCarga.innerText = "Verificando colisiones de hash criptográfico..."; }, 3500);
-                setTimeout(() => { textoCarga.innerText = "Sincronizando con Blockchain..."; }, 6000);
-
-                var formData = new FormData(formElement);
-                fetch('/', {
-                    method: 'POST',
-                    body: formData
-                })
-                .then(response => response.text())
-                .then(htmlStr => {
-                    textoCarga.innerText = "Generando reporte de auditoría...";
+            clearInterval(progressInterval);
+            progressInterval = setInterval(() => {
+                if(progress < 90) {
+                    progress += Math.floor(Math.random() * 5) + 1; // Incremento aleatorio natural
+                    if(progress > 90) progress = 90;
+                    fill.style.width = progress + '%';
+                    pText.innerText = progress + '%';
                     
-                    setTimeout(() => {
-                        var parser = new DOMParser();
-                        var doc = parser.parseFromString(htmlStr, "text/html");
-                        
-                        var newResArea = doc.getElementById('resultado-area');
-                        var oldResArea = document.getElementById('resultado-area');
-                        
-                        if(newResArea && oldResArea) {
-                            oldResArea.innerHTML = newResArea.innerHTML;
-                            document.getElementById('upload-titles').style.display = 'none';
-                            document.getElementById('upload-area-box').style.display = 'none';
-                            oldResArea.style.display = 'flex';
-                        }
-                        
-                        var newBoveda = doc.getElementById('lista-boveda');
-                        if(newBoveda) document.getElementById('lista-boveda').innerHTML = newBoveda.innerHTML;
-                        var newMetrics = doc.getElementById('global-metrics-wrapper');
-                        if(newMetrics) document.getElementById('global-metrics-wrapper').innerHTML = newMetrics.innerHTML;
+                    if(progress > 40) statusText.innerText = "Buscando en web profunda...";
+                    if(progress > 70) statusText.innerText = "Auditando similitudes...";
+                }
+            }, 250);
 
-                        loadSec.classList.remove('vertical-in-up');
-                        loadSec.classList.add('scale-out-back');
+            // 5. Iniciar la Petición AJAX (Fetch con AbortController para permitir cancelar)
+            currentUploadController = new AbortController();
+            var formData = new FormData(formElement);
+            
+            fetch('/', {
+                method: 'POST',
+                body: formData,
+                signal: currentUploadController.signal
+            })
+            .then(response => response.text())
+            .then(htmlStr => {
+                // Forzar el final de la barra
+                clearInterval(progressInterval);
+                fill.style.width = '100%';
+                pText.innerText = '100%';
+                statusText.innerText = "¡Completado!";
+                
+                setTimeout(() => {
+                    let parser = new DOMParser();
+                    let doc = parser.parseFromString(htmlStr, "text/html");
+                    
+                    var oldResArea = document.getElementById('resultado-area');
+                    var newResArea = doc.getElementById('resultado-area');
+                    if(newResArea && oldResArea) {
+                        oldResArea.innerHTML = newResArea.innerHTML;
+                        document.getElementById('upload-titles').style.display = 'none';
+                        document.getElementById('upload-area-box').style.display = 'none';
+                        oldResArea.style.display = 'flex';
+                    }
+                    
+                    var newBoveda = doc.getElementById('lista-boveda');
+                    if(newBoveda) document.getElementById('lista-boveda').innerHTML = newBoveda.innerHTML;
+                    var newMetrics = doc.getElementById('global-metrics-wrapper');
+                    if(newMetrics) document.getElementById('global-metrics-wrapper').innerHTML = newMetrics.innerHTML;
+
+                    // Ocultar modal y hacer transición de la UI base
+                    modal.style.opacity = '0';
+                    setTimeout(() => { 
+                        modal.style.display = 'none'; 
                         
-                        setTimeout(() => {
-                            loadSec.style.display = 'none';
-                            appSec.style.display = 'flex';
-                            
-                            appSec.classList.remove('scale-out-back');
-                            appSec.classList.add('vertical-in-up');
-                        }, 500);
-                        
-                    }, 1000); 
-                })
-                .catch(error => {
+                        let appSec = document.getElementById('app-section');
+                        appSec.classList.remove('vertical-in-down', 'animate-in-left', 'animate-in-right', 'vertical-in-up', 'scale-out-back');
+                        appSec.style.display = 'none';
+                        void appSec.offsetWidth; 
+                        appSec.style.display = 'flex';
+                        appSec.classList.add('vertical-in-up');
+                    }, 300);
+                    
+                }, 800); 
+            })
+            .catch(error => {
+                clearInterval(progressInterval);
+                if(error.name === 'AbortError') {
+                    console.log("Subida cancelada por el usuario.");
+                } else {
                     console.error("Error en conexión asíncrona:", error);
                     alert("Se perdió la conexión con el servidor. Por favor, intenta de nuevo.");
-                    loadSec.classList.remove('vertical-in-up');
-                    loadSec.classList.add('scale-out-back');
-                    setTimeout(() => {
-                        loadSec.style.display = 'none';
-                        appSec.style.display = 'flex';
-                        appSec.classList.remove('scale-out-back');
-                        appSec.classList.add('vertical-in-up');
-                    }, 500);
-                });
-            }, 500); 
+                    modal.style.opacity = '0';
+                    setTimeout(() => { modal.style.display = 'none'; }, 300);
+                }
+            });
+        }
+
+        function cancelarAuditoria() {
+            if(currentUploadController) {
+                currentUploadController.abort(); // Interrumpe el fetch
+            }
+            clearInterval(progressInterval);
+            
+            let modal = document.getElementById('glass-upload-modal');
+            modal.style.opacity = '0';
+            setTimeout(() => { 
+                modal.style.display = 'none'; 
+                document.getElementById('upload-form').reset();
+                var trustBadges = document.getElementById('upload-badges');
+                if(trustBadges) trustBadges.style.display = 'flex';
+            }, 300);
         }
 
         function toggleDropdown(id) {
