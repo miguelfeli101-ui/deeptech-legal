@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <title>DeepTech Legal Solutions</title>
     <style>
-  
         /* IMPORTACIÓN DE TIPOGRAFÍAS */
         @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Oswald:wght@300;400;500;600&display=swap');
         @import url('https://fonts.cdnfonts.com/css/bukhari-script');
@@ -72,13 +71,8 @@
             opacity: 0; transform: scale(0.85); 
             transition: opacity 1s ease, transform 2.5s cubic-bezier(0.25, 1, 0.5, 1);
         }
-        .cinematic-logo.active { 
-            opacity: 1; transform: scale(1.05); 
-        }
-        .cinematic-logo.fade-out { 
-            opacity: 0; transform: scale(1.15); 
-            transition: opacity 0.5s ease, transform 0.5s ease; 
-        }
+        .cinematic-logo.active { opacity: 1; transform: scale(1.05); }
+        .cinematic-logo.fade-out { opacity: 0; transform: scale(1.15); transition: opacity 0.5s ease, transform 0.5s ease; }
 
         .logo-top-line { display: flex; align-items: flex-start; line-height: 1; }
         .logo-deeptech { font-family: 'Bukhari Script', cursive; font-size: clamp(5rem, 12vw, 8.5rem); color: var(--accent-light); font-weight: normal; text-shadow: 0px 4px 15px rgba(0,0,0, 0.5); padding-right: 5px; }
@@ -101,61 +95,38 @@
         }
 
         .nav-wrapper { display: flex; justify-content: center; margin: 30px auto 10px auto; width: 100%; flex-shrink: 0; }
-        .top-nav { 
-            position: relative; background: rgba(27, 38, 59, 0.5); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); border: 1px solid rgba(119, 141, 169, 0.2); border-radius: 50px; display: flex; align-items: center; gap: 5px; padding: 6px; box-shadow: 0 10px 30px rgba(0,0,0,0.4); z-index: 10; flex-wrap: nowrap; overflow-x: auto; max-width: 90%;
-        }
+        .top-nav { position: relative; background: rgba(27, 38, 59, 0.5); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); border: 1px solid rgba(119, 141, 169, 0.2); border-radius: 50px; display: flex; align-items: center; gap: 5px; padding: 6px; box-shadow: 0 10px 30px rgba(0,0,0,0.4); z-index: 10; flex-wrap: nowrap; overflow-x: auto; max-width: 90%; }
         .top-nav::-webkit-scrollbar { display: none; }
-        
         .bubble-indicator { position: absolute; top: 6px; bottom: 6px; left: 6px; width: 0px; background: linear-gradient(135deg, var(--accent-light), var(--accent-blue)); border-radius: 40px; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); z-index: 0; box-shadow: 0 4px 15px rgba(119, 141, 169, 0.4); }
-
         .tab-btn { position: relative; z-index: 1; background: transparent !important; border: none; color: rgba(224, 225, 221, 0.7); padding: 10px 22px; border-radius: 30px; font-size: 0.9em; font-family: 'Montserrat', sans-serif; font-weight: 500; cursor: pointer; transition: color 0.3s ease; letter-spacing: 0.5px; white-space: nowrap; display: flex; align-items: center; justify-content: center; }
         .tab-btn:hover { color: var(--text-main); }
         .tab-btn.active { color: var(--bg-dark); font-weight: 600; text-shadow: 0 1px 2px rgba(255,255,255,0.3); }
         .notif-badge { background-color: var(--alert); color: var(--bg-dark); font-size: 0.85em; font-family: 'Montserrat', sans-serif; font-weight: 600; padding: 2px 7px; border-radius: 12px; margin-left: 8px; box-shadow: 0px 2px 5px rgba(0,0,0,0.4); display: none; align-items: center; justify-content: center; }
 
         .sections-viewport { position: relative; width: 100%; flex: 1; min-height: 0; overflow: hidden; display: flex; justify-content: center; }
-
-        .section-container { 
-            position: absolute; top: 0; left: 0; right: 0; bottom: 0; width: 100%; height: 100%;
-            box-sizing: border-box; overflow-y: auto; overflow-x: hidden; display: flex; flex-direction: column; align-items: center; 
-            justify-content: flex-start; z-index: 1; padding: 20px 0 40px 0; background: transparent;
-        }
+        .section-container { position: absolute; top: 0; left: 0; right: 0; bottom: 0; width: 100%; height: 100%; box-sizing: border-box; overflow-y: auto; overflow-x: hidden; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; z-index: 1; padding: 20px 0 40px 0; background: transparent; }
         .section-container::-webkit-scrollbar { width: 6px; }
         .section-container::-webkit-scrollbar-thumb { background-color: rgba(119, 141, 169, 0.3); border-radius: 4px; }
         
-        /* FIX: Corrección del Scroll Innecesario en Planes */
-        #planes-section {
-            justify-content: center; 
-            padding: 0;
-        }
-        #planes-section .content-wrapper-inner {
-            margin: 0 auto; 
-        }
+        #planes-section { justify-content: center; padding: 0; }
+        #planes-section .content-wrapper-inner { margin: 0 auto; }
 
-        /* Animaciones del Carrusel */
         @keyframes slideInFromRight { 0% { transform: translateX(100%); opacity: 0; } 100% { transform: translateX(0); opacity: 1; } }
         @keyframes slideInFromLeft { 0% { transform: translateX(-100%); opacity: 0; } 100% { transform: translateX(0); opacity: 1; } }
         @keyframes slideOutToLeft { 0% { transform: translateX(0) scale(1); opacity: 1; } 100% { transform: translateX(-20%) scale(0.9); opacity: 0; } }
         @keyframes slideOutToRight { 0% { transform: translateX(0) scale(1); opacity: 1; } 100% { transform: translateX(20%) scale(0.9); opacity: 0; } }
-
         @keyframes slideUpIn { 0% { transform: translateY(100%); opacity: 0; } 100% { transform: translateY(0); opacity: 1; } }
-        @keyframes slideDownIn { 0% { transform: translateY(-100%); opacity: 0; } 100% { transform: translateY(0); opacity: 1; } }
-        @keyframes slideDownOut { 0% { transform: translateY(0) scale(1); opacity: 1; } 100% { transform: translateY(20%) scale(0.9); opacity: 0; } }
         @keyframes scaleDownBack { 0% { transform: scale(1); opacity: 1; } 100% { transform: scale(0.85); opacity: 0; } }
 
         .animate-in-right { animation: slideInFromRight 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards; z-index: 2; display: flex !important; }
         .animate-in-left { animation: slideInFromLeft 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards; z-index: 2; display: flex !important; }
         .animate-out-left { animation: slideOutToLeft 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards; z-index: 1; }
         .animate-out-right { animation: slideOutToRight 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards; z-index: 1; }
-
         .vertical-in-up { animation: slideUpIn 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards; z-index: 3; display: flex !important;}
-        .vertical-in-down { animation: slideDownIn 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards; z-index: 3; display: flex !important;}
-        .vertical-out-down { animation: slideDownOut 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards; z-index: 1; }
         .scale-out-back { animation: scaleDownBack 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards; z-index: 1; }
 
         .sub-section-container { width: 100%; flex-grow: 1; box-sizing: border-box; transition: opacity 0.3s ease-in-out; display: flex; flex-direction: column; align-items: center; opacity: 0; display: none;}
         .app-centered-layout { display: flex; flex-direction: column; align-items: center; box-sizing: border-box; }
-        
         .content-wrapper-inner { width: 100%; max-width: 900px; padding: 0 20px; box-sizing: border-box; display: flex; flex-direction: column; align-items: center; margin-top: auto; margin-bottom: auto;}
         
         .app-title { font-family: 'Oswald', sans-serif; font-size: 2.5em; color: var(--text-main); margin: 0 0 5px 0; text-align: center; font-weight: 500; text-shadow: 0 4px 15px rgba(0,0,0,0.4);}
@@ -178,58 +149,53 @@
         .glass-card p { font-size: 0.9em; color: rgba(224, 225, 221, 0.8); line-height: 1.6; margin: 0; font-weight: 300; }
 
         .upload-area { width: 100%; max-width: 550px; text-align: center; padding: 30px; margin: 0 auto; box-sizing: border-box;}
+        input[type="file"] { margin-top: 15px; margin-bottom: 25px; padding: 12px; border: 1px dashed rgba(119, 141, 169, 0.4); border-radius: 12px; width: 100%; box-sizing: border-box; background-color: rgba(0, 0, 0, 0.2); color: var(--text-main); font-family: 'Montserrat', sans-serif; cursor: pointer; }
+
+        /* =========================================
+           NUEVO EFECTO LUPA PANTALLA COMPLETA
+           ========================================= */
+        #fullscreen-search-loader {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: #000; z-index: 100000;
+            display: none; opacity: 0; transition: opacity 0.5s ease;
+            overflow: hidden;
+        }
         
-        /* NUEVO EFECTO DE CARGA: SPINNER 4 PUNTOS (IDÉNTICO AL VIDEO) */
-        .four-dot-spinner {
-            width: 44px;
-            height: 44px;
-            position: relative;
-            margin: 30px auto 40px auto;
-            animation: spinLoader 1.4s linear infinite;
+        #search-circles-container { width: 100%; height: 100%; position: relative; }
+        
+        .search-circle {
+            position: absolute; border: 2px solid rgba(255,255,255,0.15); border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            color: rgba(255,255,255,0.25); font-family: 'Montserrat', sans-serif; font-weight: 500;
+            transition: color 0.3s, text-shadow 0.3s, border-color 0.3s, transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+            box-sizing: border-box; text-align: center;
         }
 
-        .four-dot-spinner .dot {
-            position: absolute;
-            width: 26px;
-            height: 26px;
-            border-radius: 50%;
-            mix-blend-mode: screen; /* Permite una superposición brillante y fluida */
+        .search-circle.active {
+            color: #fff; border-color: rgba(255,255,255,0.8); text-shadow: 0 0 10px #fff;
         }
 
-        .four-dot-spinner .dot:nth-child(1) {
-            top: 0; left: 0;
-            background-color: #9333ea; /* Morado vibrante */
+        .search-circle.result-green {
+            color: #5EEAD4 !important; border-color: #5EEAD4 !important; text-shadow: 0 0 15px #5EEAD4 !important;
+            transform: scale(1.1); box-shadow: inset 0 0 20px rgba(94, 234, 212, 0.2), 0 0 30px rgba(94, 234, 212, 0.4);
         }
 
-        .four-dot-spinner .dot:nth-child(2) {
-            top: 0; right: 0;
-            background-color: rgba(224, 225, 221, 0.35); /* Gris translúcido */
+        .search-circle.result-red {
+            color: #FCA5A5 !important; border-color: #FCA5A5 !important; text-shadow: 0 0 15px #FCA5A5 !important;
+            transform: scale(1.1); box-shadow: inset 0 0 20px rgba(252, 165, 165, 0.2), 0 0 30px rgba(252, 165, 165, 0.4);
         }
 
-        .four-dot-spinner .dot:nth-child(3) {
-            bottom: 0; left: 0;
-            background-color: rgba(224, 225, 221, 0.35); /* Gris translúcido */
+        #magnifying-glass {
+            position: absolute; width: 150px; height: 150px;
+            top: 0; left: 0; pointer-events: none; z-index: 10;
+            transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.3s;
+            filter: drop-shadow(0 0 8px rgba(255,255,255,0.4));
         }
 
-        .four-dot-spinner .dot:nth-child(4) {
-            bottom: 0; right: 0;
-            background-color: #9333ea; /* Morado vibrante */
-        }
-
-        @keyframes spinLoader {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .loading-bar-container { width: 100%; max-width: 400px; height: 6px; background-color: rgba(0,0,0,0.4); border-radius: 10px; margin: 30px auto; overflow: hidden; box-shadow: inset 0 1px 3px rgba(0,0,0,0.6); }
-        .loading-bar-fill { height: 100%; width: 0%; border-radius: 10px; background: linear-gradient(90deg, var(--accent-blue), var(--accent-light), var(--accent-blue)); background-size: 200% 100%; animation: shimmerGradient 2.5s linear infinite; transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1); }
-        @keyframes shimmerGradient { 0% { background-position: 200% 0; } 100% { background-position: 0% 0; } }
 
         .result-card-minimal { width: 100%; max-width: 550px; margin: 20px auto; text-align: center; box-sizing: border-box; padding: 30px; }
         .result-card-minimal.success { border-top: 2px solid var(--success); }
         .result-card-minimal.alert { border-top: 2px solid var(--alert); }
-        
-        input[type="file"] { margin-top: 15px; margin-bottom: 25px; padding: 12px; border: 1px dashed rgba(119, 141, 169, 0.4); border-radius: 12px; width: 100%; box-sizing: border-box; background-color: rgba(0, 0, 0, 0.2); color: var(--text-main); font-family: 'Montserrat', sans-serif; cursor: pointer; }
         
         .url-list { max-height: 120px; overflow-y: auto; background-color: rgba(0, 0, 0, 0.2); padding: 15px; border-radius: 12px; font-size: 0.85em; margin-top: 10px; font-family: 'Montserrat', sans-serif; font-weight: 300; border: 1px solid rgba(119, 141, 169, 0.15);}
         .url-list li { margin-bottom: 10px; color: rgba(224, 225, 221, 0.7); }
@@ -290,11 +256,20 @@
         .cert-title { font-family: 'Montserrat', sans-serif; font-size: 1.1em; color: var(--text-main); letter-spacing: 2px; margin: 10px 0 15px 0; border-bottom: 1px solid rgba(119, 141, 169, 0.2); padding-bottom: 10px; font-weight: 500;}
         .cert-text { font-size: 0.8em; font-weight: 300; line-height: 1.5; color: rgba(224, 225, 221, 0.8); text-align: justify; margin-bottom: 15px; }
         
-        /* Carga Fade Elementos */
         .fade-in-element { animation: fadeUpEntrance 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
     </style>
 </head>
 <body>
+
+    <div id="fullscreen-search-loader">
+        <div id="search-circles-container"></div>
+        <div id="magnifying-glass">
+            <svg viewBox="0 0 100 100" style="width: 100%; height: 100%;">
+                <circle cx="50" cy="50" r="30" stroke="#fff" stroke-width="3" fill="transparent"/>
+                <path d="M 71 71 L 88 88 C 91 91 95 87 92 84 L 75 67" stroke="#fff" stroke-width="3" fill="transparent"/>
+            </svg>
+        </div>
+    </div>
 
     <div class="bg-organic {% if skip_intro %}no-intro{% endif %}" id="main-background">
         <div class="liquid-shape liquid-1"></div>
@@ -303,7 +278,6 @@
     </div>
 
     <div id="landing-main" class="landing-screen" {% if skip_intro %} style="display: none; opacity: 0;" {% else %} style="display: flex; opacity: 1;" {% endif %}>
-        
         <div class="cinematic-logo" id="intro-logo">
             <div class="logo-top-line">
                 <span class="logo-deeptech">DeepTech</span><span class="logo-tm">TM</span>
@@ -312,7 +286,6 @@
                 <span class="logo-legal">Legal Solutions</span>
             </div>
         </div>
-
     </div>
 
     <div id="main-wrapper" {% if skip_intro %} style="display: flex; opacity: 1;" {% else %} style="display: none; opacity: 0;" {% endif %}>
@@ -333,22 +306,6 @@
 
         <div class="sections-viewport" id="viewport">
 
-            <div id="loading-section" class="section-container app-centered-layout" style="display: none; opacity: 0;">
-                <div class="content-wrapper-inner">
-                    <h2 class="app-title">Cifrando y Analizando...</h2>
-                    <p id="texto-carga" class="app-subtitle">Asegurando el archivo en la Bóveda Local.</p>
-                    
-                    <!-- NUEVA ANIMACIÓN SPINNER 4 PUNTOS -->
-                    <div class="four-dot-spinner">
-                        <div class="dot"></div>
-                        <div class="dot"></div>
-                        <div class="dot"></div>
-                        <div class="dot"></div>
-                    </div>
-
-                </div>
-            </div>
-
             <div id="app-section" class="section-container app-centered-layout" {% if mostrar_boveda %} style="display: none; opacity: 0;" {% else %} style="display: flex; opacity: 1;" {% endif %}>
                 <div id="app-inner-wrapper" class="content-wrapper-inner">
                     
@@ -365,7 +322,7 @@
                     </div>
                     
                     <div class="upload-area" id="upload-area-box" {% if mostrando_resultado %} style="display: none;" {% endif %}>
-                        <form id="upload-form" onsubmit="ejecutarCargaAjax(event, this)" enctype="multipart/form-data" style="display: flex; flex-direction: column; align-items: center;">
+                        <form id="upload-form" onsubmit="ejecutarBusquedaLupa(event, this)" enctype="multipart/form-data" style="display: flex; flex-direction: column; align-items: center;">
                             <label style="font-weight: 500; color: var(--text-main); text-align: center; font-size: 1.1em; font-family: 'Montserrat', sans-serif;">Selecciona el archivo para certificar:</label>
                             <input type="file" name="archivo" accept="image/*,.pdf,.doc,.docx" required id="input-archivo">
                             <button type="submit" class="btn" style="width: 100%;">Analizar y Proteger en Bóveda</button>
@@ -710,10 +667,8 @@
 
     <script>
         let unreadCount = 0;
+        let animInterval; 
 
-        // ==========================================
-        // LÓGICA DE LA INTRODUCCIÓN AUTOMÁTICA
-        // ==========================================
         window.onload = function() {
             var skipBackend = {% if skip_intro %}true{% else %}false{% endif %};
             var skipSession = sessionStorage.getItem('deeptech_intro_played');
@@ -721,7 +676,6 @@
             if(skipBackend || skipSession) {
                 document.getElementById('landing-main').style.display = 'none';
                 document.getElementById('main-background').classList.add('no-intro');
-                
                 var wrapper = document.getElementById('main-wrapper');
                 wrapper.style.display = 'flex';
                 wrapper.style.opacity = '1';
@@ -740,23 +694,17 @@
                 var landing = document.getElementById('landing-main');
                 var wrapper = document.getElementById('main-wrapper');
 
-                setTimeout(() => { 
-                    logo.classList.add('active'); 
-                }, 100);
-
+                setTimeout(() => { logo.classList.add('active'); }, 100);
                 setTimeout(() => {
                     logo.classList.replace('active', 'fade-out');
                     landing.style.opacity = '0';
-                    
                     setTimeout(() => {
                         landing.style.display = 'none';
                         wrapper.style.display = 'flex';
                         void wrapper.offsetWidth; 
                         wrapper.style.opacity = '1';
-
                         var activeTab = document.querySelector('.top-nav .tab-btn.active');
                         if(activeTab) moverBurbuja(activeTab);
-
                         sessionStorage.setItem('deeptech_intro_played', 'true');
                     }, 500); 
                 }, 2000); 
@@ -787,10 +735,7 @@
             appSec.classList.add('scale-out-back'); 
 
             setTimeout(function() {
-                if(resArea) {
-                    resArea.style.display = 'none';
-                    resArea.innerHTML = ''; 
-                }
+                if(resArea) { resArea.style.display = 'none'; resArea.innerHTML = ''; }
                 if(titles) titles.style.display = 'flex';
                 if(uploadBox) {
                     uploadBox.style.display = 'block';
@@ -798,11 +743,9 @@
                     if(form) form.reset();
                 }
                 if(trustBadges) trustBadges.style.display = 'flex';
-                
                 appSec.classList.remove('scale-out-back');
                 appSec.style.display = 'flex';
                 appSec.classList.add('vertical-in-up'); 
-                
                 window.history.pushState({}, document.title, "/?skip_intro=true");
             }, 500); 
         }
@@ -878,22 +821,12 @@
             var container = document.getElementById(containerId);
             container.style.opacity = 0;
             setTimeout(() => {
-                // Para las secciones estáticas rehusamos el diseño de barras
                 container.innerHTML = `
                     <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%;">
-                        <div class="loading-bar-container" style="max-width: 300px; height: 8px;">
-                            <div class="loading-bar-fill" id="sim-loading-fill"></div>
-                        </div>
                         <p style="color: var(--text-main); font-weight: 300; font-size: 1.1em; margin-top: 20px; text-align: center;">Estableciendo conexión segura con ${redSocial}...</p>
                     </div>
                 `;
                 container.style.opacity = 1;
-                var simFill = document.getElementById('sim-loading-fill');
-                if(simFill) {
-                    setTimeout(() => { simFill.style.width = '35%'; }, 100);
-                    setTimeout(() => { simFill.style.width = '65%'; }, 1500);
-                    setTimeout(() => { simFill.style.width = '95%'; }, 2500);
-                }
                 setTimeout(() => {
                     let icon = redSocial === 'X' ? '📑' : '🖼️';
                     let mockCards = '';
@@ -924,105 +857,202 @@
                         `;
                         container.style.opacity = 1;
                     }, 300);
-                }, 3500); 
+                }, 2500); 
             }, 300);
         }
 
-        // CORRECCIÓN TOTAL: AJax (Fetch) + Modificación para la nueva animación
-        function ejecutarCargaAjax(event, formElement) {
+        /* =========================================
+           LÓGICA NUEVA: ANIMACIÓN OSINT PANTALLA COMPLETA
+           ========================================= */
+        function ejecutarBusquedaLupa(event, formElement) {
             event.preventDefault(); 
-            
             var archivoInput = document.getElementById('input-archivo');
             if(!archivoInput.files.length) return;
-            var archivo = archivoInput.value.toLowerCase();
             
             let txtModal = document.getElementById('txt-auditar-nombre');
             if(txtModal) txtModal.innerText = archivoInput.files[0].name;
 
-            var textoCarga = document.getElementById('texto-carga');
-            var trustBadges = document.getElementById('upload-badges');
-            if(trustBadges) trustBadges.style.display = 'none';
-
-            if (archivo.endsWith('.pdf') || archivo.endsWith('.docx') || archivo.endsWith('.doc')) {
-                textoCarga.innerText = "Encriptando texto y conectando con radar web...";
-            } else {
-                textoCarga.innerText = "Realizando validación cruzada y pHash matemático...";
-            }
-
-            var appSec = document.getElementById('app-section');
-            var loadSec = document.getElementById('loading-section');
+            // 1. Ocultar la UI Principal (Esto desaparece la barra interactiva)
+            let mainWrapper = document.getElementById('main-wrapper');
+            mainWrapper.style.transition = 'opacity 0.5s ease';
+            mainWrapper.style.opacity = '0';
             
-            appSec.classList.remove('vertical-in-down', 'animate-in-left', 'animate-in-right', 'vertical-in-up');
-            loadSec.classList.remove('scale-out-back');
-
-            appSec.classList.add('scale-out-back');
+            // 2. Mostrar la pantalla negra del Loader
+            let loader = document.getElementById('fullscreen-search-loader');
+            loader.style.display = 'block';
+            setTimeout(() => { loader.style.opacity = '1'; }, 50);
             
-            setTimeout(function() {
-                appSec.style.display = 'none';
-                
-                loadSec.style.display = 'flex';
-                loadSec.classList.add('vertical-in-up');
-                
-                // Los cambios de texto ahora operan con la animación en loop continuo
-                setTimeout(() => { textoCarga.innerText = "Desplegando arañas OSINT en red global..."; }, 1500);
-                setTimeout(() => { textoCarga.innerText = "Verificando colisiones de hash criptográfico..."; }, 3500);
-                setTimeout(() => { textoCarga.innerText = "Sincronizando con Blockchain..."; }, 6000);
+            // 3. Crear los nodos y arrancar secuencia
+            iniciarAnimacionNodos();
+            
+            let fetchFinished = false;
+            let htmlResponse = null;
+            let startTime = Date.now();
+            
+            // 4. Iniciar Petición AJAX (Fetch a app.py)
+            var formData = new FormData(formElement);
+            fetch('/', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.text())
+            .then(htmlStr => {
+                let elapsed = Date.now() - startTime;
+                let minTime = 4000; // Forzar al menos 4 segundos de animación para que se vea cinemático
+                if (elapsed < minTime) {
+                    setTimeout(() => { fetchFinished = true; htmlResponse = htmlStr; }, minTime - elapsed);
+                } else {
+                    fetchFinished = true; htmlResponse = htmlStr;
+                }
+            })
+            .catch(error => {
+                console.error("Error en conexión:", error);
+                fetchFinished = true; htmlResponse = "ERROR";
+            });
 
-                var formData = new FormData(formElement);
-                fetch('/', {
-                    method: 'POST',
-                    body: formData
-                })
-                .then(response => response.text())
-                .then(htmlStr => {
-                    textoCarga.innerText = "Generando reporte de auditoría...";
+            // 5. El motor de movimiento de la lupa
+            let searchSequence = [0, 4, 1, 9, 3, 7, 5, 10, 8, 2, 11, 6];
+            let seqIndex = 0;
+            
+            animInterval = setInterval(() => {
+                if (fetchFinished) {
+                    clearInterval(animInterval);
+                    finalizarAnimacionNodos(htmlResponse);
+                    return;
+                }
+                moverLupaAlNodo(searchSequence[seqIndex % searchSequence.length]);
+                seqIndex++;
+            }, 800); // Velocidad de movimiento rápido como en el video
+        }
+
+        function iniciarAnimacionNodos() {
+            let container = document.getElementById('search-circles-container');
+            container.innerHTML = '';
+            
+            // Coordenadas calculadas para que los nodos floten naturalmente y no colisionen torpemente
+            let layout = [
+                {w: "DeepTech", x: 15, y: 20, s: 100}, // 0
+                {w: "OSINT", x: 75, y: 15, s: 90}, // 1
+                {w: "Escaneando", x: 80, y: 40, s: 110}, // 2
+                {w: "Blockchain", x: 15, y: 55, s: 105}, // 3
+                {w: "Validando", x: 25, y: 80, s: 100}, // 4
+                {w: "Derechos", x: 70, y: 85, s: 95}, // 5
+                {w: "Red", x: 45, y: 15, s: 75}, // 6
+                {w: "Hash", x: 10, y: 35, s: 80}, // 7
+                {w: "Legal", x: 90, y: 65, s: 80}, // 8
+                {w: "Cifrando", x: 50, y: 85, s: 90}, // 9
+                {w: "IA", x: 30, y: 35, s: 70}, // 10
+                {w: "Evidencia", x: 85, y: 25, s: 100}, // 11
+                {w: "Analizando", x: 50, y: 50, s: 140, isFinal: true} // 12 (El nodo de Veredicto en el Centro)
+            ];
+            
+            layout.forEach((item, index) => {
+                let div = document.createElement('div');
+                div.className = 'search-circle';
+                div.id = 'sc-' + index;
+                div.innerText = item.w;
+                div.style.width = item.s + 'px';
+                div.style.height = item.s + 'px';
+                div.style.left = `calc(${item.x}vw - ${item.s/2}px)`;
+                div.style.top = `calc(${item.y}vh - ${item.s/2}px)`;
+                div.style.fontSize = (item.s / 5.5) + 'px';
+                container.appendChild(div);
+            });
+            
+            let mag = document.getElementById('magnifying-glass');
+            mag.style.transform = `translate(50vw, 150vh)`; // Empieza fuera de la pantalla
+            mag.style.opacity = '1';
+        }
+
+        function moverLupaAlNodo(index) {
+            document.querySelectorAll('.search-circle').forEach(c => c.classList.remove('active'));
+            let target = document.getElementById('sc-' + index);
+            if (!target) return;
+            
+            let rect = target.getBoundingClientRect();
+            let centerX = rect.left + rect.width / 2;
+            let centerY = rect.top + rect.height / 2;
+            
+            let mag = document.getElementById('magnifying-glass');
+            // Offset 75px porque la lupa mide 150x150
+            mag.style.transform = `translate(${centerX - 75}px, ${centerY - 75}px)`; 
+            
+            setTimeout(() => { target.classList.add('active'); }, 300); // Iluminar cuando la lupa llega
+        }
+
+        function finalizarAnimacionNodos(htmlStr) {
+            if(htmlStr === "ERROR") { alert("Se perdió la conexión con el servidor."); location.reload(); return; }
+            
+            let parser = new DOMParser();
+            let doc = parser.parseFromString(htmlStr, "text/html");
+            
+            // Detectar el resultado renderizado por el servidor en Flask
+            let isError = doc.querySelector('.result-card-minimal.alert h2') && doc.querySelector('.result-card-minimal.alert h2').innerText.includes("Error");
+            let isPlagio = doc.querySelector('.result-card-minimal.alert') !== null && !isError;
+            
+            let target = document.getElementById('sc-12'); // El nodo central
+            let rect = target.getBoundingClientRect();
+            let centerX = rect.left + rect.width / 2;
+            let centerY = rect.top + rect.height / 2;
+            
+            let mag = document.getElementById('magnifying-glass');
+            mag.style.transform = `translate(${centerX - 75}px, ${centerY - 75}px)`;
+            
+            document.querySelectorAll('.search-circle').forEach(c => c.classList.remove('active'));
+            
+            // Cuando la lupa llega al centro
+            setTimeout(() => {
+                target.classList.add('active');
+                
+                // Mostrar veredicto in-situ (Verde o Rojo)
+                setTimeout(() => {
+                    if(isError) {
+                        target.innerText = "ERROR";
+                        target.classList.add('result-red');
+                    } else if(isPlagio) {
+                        target.innerText = "PLAGIO";
+                        target.classList.add('result-red');
+                    } else {
+                        target.innerText = "ORIGINAL";
+                        target.classList.add('result-green');
+                    }
+                    mag.style.opacity = '0'; // Desvanecer la lupa
                     
+                    // Esperar 2 segundos para que el usuario lea el resultado visual, luego cerrar la pantalla
                     setTimeout(() => {
-                        var parser = new DOMParser();
-                        var doc = parser.parseFromString(htmlStr, "text/html");
-                        
-                        var newResArea = doc.getElementById('resultado-area');
-                        var oldResArea = document.getElementById('resultado-area');
-                        
-                        if(newResArea && oldResArea) {
-                            oldResArea.innerHTML = newResArea.innerHTML;
-                            document.getElementById('upload-titles').style.display = 'none';
-                            document.getElementById('upload-area-box').style.display = 'none';
-                            oldResArea.style.display = 'flex';
-                        }
-                        
-                        var newBoveda = doc.getElementById('lista-boveda');
-                        if(newBoveda) document.getElementById('lista-boveda').innerHTML = newBoveda.innerHTML;
-                        var newMetrics = doc.getElementById('global-metrics-wrapper');
-                        if(newMetrics) document.getElementById('global-metrics-wrapper').innerHTML = newMetrics.innerHTML;
-
-                        loadSec.classList.remove('vertical-in-up');
-                        loadSec.classList.add('scale-out-back');
+                        let loader = document.getElementById('fullscreen-search-loader');
+                        loader.style.opacity = '0';
                         
                         setTimeout(() => {
-                            loadSec.style.display = 'none';
-                            appSec.style.display = 'flex';
+                            loader.style.display = 'none';
                             
-                            appSec.classList.remove('scale-out-back');
-                            appSec.classList.add('vertical-in-up');
-                        }, 500);
+                            // 6. Inyectar el HTML de resultados en la UI subyacente
+                            var oldResArea = document.getElementById('resultado-area');
+                            var newResArea = doc.getElementById('resultado-area');
+                            if(newResArea && oldResArea) {
+                                oldResArea.innerHTML = newResArea.innerHTML;
+                                document.getElementById('upload-titles').style.display = 'none';
+                                document.getElementById('upload-area-box').style.display = 'none';
+                                oldResArea.style.display = 'flex';
+                            }
+                            
+                            var newBoveda = doc.getElementById('lista-boveda');
+                            if(newBoveda) document.getElementById('lista-boveda').innerHTML = newBoveda.innerHTML;
+                            var newMetrics = doc.getElementById('global-metrics-wrapper');
+                            if(newMetrics) document.getElementById('global-metrics-wrapper').innerHTML = newMetrics.innerHTML;
+                            
+                            // 7. Volver a mostrar la UI Principal
+                            let mainWrapper = document.getElementById('main-wrapper');
+                            mainWrapper.style.opacity = '1';
+                            
+                        }, 500); // fade de salida CSS
                         
-                    }, 1000); 
-                })
-                .catch(error => {
-                    console.error("Error en conexión asíncrona:", error);
-                    alert("Se perdió la conexión con el servidor. Por favor, intenta de nuevo.");
-                    loadSec.classList.remove('vertical-in-up');
-                    loadSec.classList.add('scale-out-back');
-                    setTimeout(() => {
-                        loadSec.style.display = 'none';
-                        appSec.style.display = 'flex';
-                        appSec.classList.remove('scale-out-back');
-                        appSec.classList.add('vertical-in-up');
-                    }, 500);
-                });
-            }, 500); 
+                    }, 2000); // 2 segs congelados en el veredicto
+                    
+                }, 300); // Brillo instantáneo
+            }, 400); // Tiempo que tarda la lupa en llegar
         }
+
 
         function toggleDropdown(id) {
             event.stopPropagation();
