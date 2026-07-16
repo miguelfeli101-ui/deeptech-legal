@@ -58,7 +58,7 @@
             100% { transform: translate(-10%, -5%) scale(0.9) rotate(360deg); border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; }
         }
 
-        /* PANTALLA DE PRESENTACIÓN CINEMÁTICA (NUEVA LOGICA) */
+        /* PANTALLA DE PRESENTACIÓN CINEMÁTICA */
         .landing-screen { 
             position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 9999; 
             display: flex; flex-direction: column; align-items: center; justify-content: center; 
@@ -66,7 +66,6 @@
             transition: opacity 0.5s ease-in-out;
         }
 
-        /* Animación fluida de Desvanecido + Zoom */
         .cinematic-logo {
             display: flex; flex-direction: column; align-items: center; margin-bottom: 25px; 
             filter: drop-shadow(0px 8px 20px rgba(0, 0, 0, 0.6)); 
@@ -87,7 +86,6 @@
         .logo-bottom-line { display: flex; justify-content: center; width: 100%; margin-top: 35px; }
         .logo-legal { font-family: 'Oswald', sans-serif; font-size: clamp(1.2rem, 3vw, 2.2rem); color: var(--text-main); letter-spacing: 0.38em; font-weight: 400; text-transform: none; margin-left: 0.38em; text-shadow: 0px 4px 10px rgba(0,0,0,0.4); }
 
-        /* Clases para los logos en el header (interior) */
         .hero-logo-wrapper.small-logo { margin-bottom: 15px; filter: drop-shadow(0px 4px 10px rgba(0,0,0, 0.4)); display: flex; flex-direction: column; align-items: center; }
         .hero-logo-wrapper.small-logo .logo-deeptech { font-size: clamp(3rem, 6vw, 4.5rem); }
         .hero-logo-wrapper.small-logo .logo-tm { font-size: 0.8rem; margin-top: 10px; }
@@ -125,6 +123,15 @@
         .section-container::-webkit-scrollbar { width: 6px; }
         .section-container::-webkit-scrollbar-thumb { background-color: rgba(119, 141, 169, 0.3); border-radius: 4px; }
         
+        /* FIX: Corrección del Scroll Innecesario en Planes */
+        #planes-section {
+            justify-content: center; 
+            padding: 0;
+        }
+        #planes-section .content-wrapper-inner {
+            margin: 0 auto; 
+        }
+
         /* Animaciones del Carrusel */
         @keyframes slideInFromRight { 0% { transform: translateX(100%); opacity: 0; } 100% { transform: translateX(0); opacity: 1; } }
         @keyframes slideInFromLeft { 0% { transform: translateX(-100%); opacity: 0; } 100% { transform: translateX(0); opacity: 1; } }
@@ -171,6 +178,58 @@
         .glass-card p { font-size: 0.9em; color: rgba(224, 225, 221, 0.8); line-height: 1.6; margin: 0; font-weight: 300; }
 
         .upload-area { width: 100%; max-width: 550px; text-align: center; padding: 30px; margin: 0 auto; box-sizing: border-box;}
+        
+        /* NUEVO EFECTO DE CARGA GOOEY (LÍQUIDO) */
+        .liquid-loader {
+            position: relative;
+            width: 140px; 
+            height: 140px;
+            margin: 20px auto 40px auto;
+            filter: url('#gooey');
+            display: flex; 
+            justify-content: center; 
+            align-items: center;
+        }
+        .blob {
+            position: absolute;
+            background-color: var(--accent-light);
+            border-radius: 50%;
+        }
+        .blob-main {
+            width: 70px; height: 70px;
+            animation: morphBlob 3s infinite alternate cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .blob-1 {
+            width: 30px; height: 30px;
+            animation: blobMove1 2.5s infinite alternate cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .blob-2 {
+            width: 25px; height: 25px;
+            animation: blobMove2 3s infinite alternate cubic-bezier(0.4, 0, 0.2, 1) -1s;
+        }
+        .blob-3 {
+            width: 20px; height: 20px;
+            animation: blobMove3 2s infinite alternate cubic-bezier(0.4, 0, 0.2, 1) -0.5s;
+        }
+
+        @keyframes blobMove1 {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(-55px, 35px) scale(0.8); background-color: var(--accent-blue); }
+        }
+        @keyframes blobMove2 {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(45px, -45px) scale(1.1); background-color: var(--text-main); }
+        }
+        @keyframes blobMove3 {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(-35px, -55px) scale(0.9); }
+        }
+        @keyframes morphBlob {
+            0% { border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; transform: rotate(0deg) scale(1); }
+            100% { border-radius: 60% 40% 30% 70% / 50% 60% 40% 50%; transform: rotate(180deg) scale(1.15); }
+        }
+
+        /* Estilos originales preservados */
         .loading-bar-container { width: 100%; max-width: 400px; height: 6px; background-color: rgba(0,0,0,0.4); border-radius: 10px; margin: 30px auto; overflow: hidden; box-shadow: inset 0 1px 3px rgba(0,0,0,0.6); }
         .loading-bar-fill { height: 100%; width: 0%; border-radius: 10px; background: linear-gradient(90deg, var(--accent-blue), var(--accent-light), var(--accent-blue)); background-size: 200% 100%; animation: shimmerGradient 2.5s linear infinite; transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1); }
         @keyframes shimmerGradient { 0% { background-position: 200% 0; } 100% { background-position: 0% 0; } }
@@ -246,6 +305,16 @@
 </head>
 <body>
 
+    <svg style="width:0; height:0; position:absolute;" aria-hidden="true" focusable="false">
+      <defs>
+        <filter id="gooey">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="12" result="blur" />
+          <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 22 -10" result="goo" />
+          <feBlend in="SourceGraphic" in2="goo" />
+        </filter>
+      </defs>
+    </svg>
+
     <div class="bg-organic {% if skip_intro %}no-intro{% endif %}" id="main-background">
         <div class="liquid-shape liquid-1"></div>
         <div class="liquid-shape liquid-2"></div>
@@ -287,9 +356,14 @@
                 <div class="content-wrapper-inner">
                     <h2 class="app-title">Cifrando y Analizando...</h2>
                     <p id="texto-carga" class="app-subtitle">Asegurando el archivo en la Bóveda Local.</p>
-                    <div class="loading-bar-container">
-                        <div class="loading-bar-fill" id="main-loading-fill"></div>
+                    
+                    <div class="liquid-loader">
+                        <div class="blob blob-main"></div>
+                        <div class="blob blob-1"></div>
+                        <div class="blob blob-2"></div>
+                        <div class="blob blob-3"></div>
                     </div>
+
                 </div>
             </div>
 
@@ -659,12 +733,10 @@
         // LÓGICA DE LA INTRODUCCIÓN AUTOMÁTICA
         // ==========================================
         window.onload = function() {
-            // Evaluamos si el servidor pidió saltar la intro, o si ya la vimos en esta sesión
             var skipBackend = {% if skip_intro %}true{% else %}false{% endif %};
             var skipSession = sessionStorage.getItem('deeptech_intro_played');
 
             if(skipBackend || skipSession) {
-                // Saltamos la intro y mostramos la app directamente
                 document.getElementById('landing-main').style.display = 'none';
                 document.getElementById('main-background').classList.add('no-intro');
                 
@@ -682,24 +754,19 @@
                     }
                 }
             } else {
-                // REPRODUCCIÓN DE LA INTRODUCCIÓN CON ZOOM
                 var logo = document.getElementById('intro-logo');
                 var landing = document.getElementById('landing-main');
                 var wrapper = document.getElementById('main-wrapper');
 
-                // 1. Iniciamos el Zoom y Desvanecido del logo
                 setTimeout(() => { 
                     logo.classList.add('active'); 
                 }, 100);
 
-                // 2. Esperamos los 2 segundos que dura el Zoom, y procedemos a la transición
                 setTimeout(() => {
-                    // El logo y la pantalla de intro se desvanecen
                     logo.classList.replace('active', 'fade-out');
                     landing.style.opacity = '0';
                     
                     setTimeout(() => {
-                        // Ocultamos la intro y mostramos la plataforma
                         landing.style.display = 'none';
                         wrapper.style.display = 'flex';
                         void wrapper.offsetWidth; 
@@ -708,10 +775,9 @@
                         var activeTab = document.querySelector('.top-nav .tab-btn.active');
                         if(activeTab) moverBurbuja(activeTab);
 
-                        // GUARDAMOS EL ESTADO EN LA MEMORIA DE SESIÓN (No volverá a salir si refresca)
                         sessionStorage.setItem('deeptech_intro_played', 'true');
-                    }, 500); // 0.5s de desvanecimiento
-                }, 2000); // 2 segundos de Zoom
+                    }, 500); 
+                }, 2000); 
             }
         }
 
@@ -728,7 +794,6 @@
             if(activeTab) moverBurbuja(activeTab);
         });
 
-        // CORRECCIÓN ANIMACIÓN INVERSA ("Auditar nuevo archivo" -> Se hunde hacia atrás y aparece de abajo)
         function transicionAuditarNuevo() {
             var appSec = document.getElementById('app-section');
             var resArea = document.getElementById('resultado-area');
@@ -737,12 +802,12 @@
             var trustBadges = document.getElementById('upload-badges');
 
             appSec.classList.remove('vertical-in-up', 'vertical-in-down', 'scale-out-back');
-            appSec.classList.add('scale-out-back'); // La tarjeta actual se va hacia atrás
+            appSec.classList.add('scale-out-back'); 
 
             setTimeout(function() {
                 if(resArea) {
                     resArea.style.display = 'none';
-                    resArea.innerHTML = ''; // Limpiar resultados para que no haya parpadeo
+                    resArea.innerHTML = ''; 
                 }
                 if(titles) titles.style.display = 'flex';
                 if(uploadBox) {
@@ -754,7 +819,7 @@
                 
                 appSec.classList.remove('scale-out-back');
                 appSec.style.display = 'flex';
-                appSec.classList.add('vertical-in-up'); // Entra deslizándose desde abajo
+                appSec.classList.add('vertical-in-up'); 
                 
                 window.history.pushState({}, document.title, "/?skip_intro=true");
             }, 500); 
@@ -831,6 +896,7 @@
             var container = document.getElementById(containerId);
             container.style.opacity = 0;
             setTimeout(() => {
+                // Para las secciones estáticas rehusamos el diseño de barras
                 container.innerHTML = `
                     <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%;">
                         <div class="loading-bar-container" style="max-width: 300px; height: 8px;">
@@ -880,9 +946,9 @@
             }, 300);
         }
 
-        // CORRECCIÓN TOTAL: AJax (Fetch) + Card Stack Animation (Hacia Atrás y Entra de Abajo)
+        // CORRECCIÓN TOTAL: AJax (Fetch) + Modificación para la nueva animación líquida
         function ejecutarCargaAjax(event, formElement) {
-            event.preventDefault(); // Evita que la página parpadee o se recargue
+            event.preventDefault(); 
             
             var archivoInput = document.getElementById('input-archivo');
             if(!archivoInput.files.length) return;
@@ -907,27 +973,19 @@
             appSec.classList.remove('vertical-in-down', 'animate-in-left', 'animate-in-right', 'vertical-in-up');
             loadSec.classList.remove('scale-out-back');
 
-            // ANIMACIÓN: La pantalla de subida "se hunde" hacia atrás
             appSec.classList.add('scale-out-back');
             
             setTimeout(function() {
                 appSec.style.display = 'none';
                 
-                // ANIMACIÓN: Entra la pantalla de carga desde abajo
                 loadSec.style.display = 'flex';
                 loadSec.classList.add('vertical-in-up');
                 
-                var fill = document.getElementById('main-loading-fill');
-                if(fill) {
-                    fill.style.transition = "width 0.8s cubic-bezier(0.4, 0, 0.2, 1)";
-                    fill.style.width = '0%';
-                    setTimeout(() => { fill.style.width = '15%'; }, 200);
-                    setTimeout(() => { fill.style.width = '45%'; textoCarga.innerText = "Desplegando arañas OSINT en red global..."; }, 1500);
-                    setTimeout(() => { fill.style.width = '70%'; textoCarga.innerText = "Verificando colisiones de hash criptográfico..."; }, 3500);
-                    setTimeout(() => { fill.style.width = '85%'; textoCarga.innerText = "Sincronizando con Blockchain..."; }, 6000);
-                }
+                // Los cambios de texto ahora operan con la animación en loop continuo
+                setTimeout(() => { textoCarga.innerText = "Desplegando arañas OSINT en red global..."; }, 1500);
+                setTimeout(() => { textoCarga.innerText = "Verificando colisiones de hash criptográfico..."; }, 3500);
+                setTimeout(() => { textoCarga.innerText = "Sincronizando con Blockchain..."; }, 6000);
 
-                // PETICIÓN INVISIBLE (AJAX) - Cero recargas
                 var formData = new FormData(formElement);
                 fetch('/', {
                     method: 'POST',
@@ -935,16 +993,12 @@
                 })
                 .then(response => response.text())
                 .then(htmlStr => {
-                    // Simular llenado final
-                    if(fill) fill.style.width = '100%';
                     textoCarga.innerText = "Generando reporte de auditoría...";
                     
                     setTimeout(() => {
-                        // Extraemos la información del servidor
                         var parser = new DOMParser();
                         var doc = parser.parseFromString(htmlStr, "text/html");
                         
-                        // Actualizamos los datos
                         var newResArea = doc.getElementById('resultado-area');
                         var oldResArea = document.getElementById('resultado-area');
                         
@@ -955,13 +1009,11 @@
                             oldResArea.style.display = 'flex';
                         }
                         
-                        // Actualizamos bóveda en segundo plano
                         var newBoveda = doc.getElementById('lista-boveda');
                         if(newBoveda) document.getElementById('lista-boveda').innerHTML = newBoveda.innerHTML;
                         var newMetrics = doc.getElementById('global-metrics-wrapper');
                         if(newMetrics) document.getElementById('global-metrics-wrapper').innerHTML = newMetrics.innerHTML;
 
-                        // ANIMACIÓN: La pantalla de carga se hunde hacia atrás
                         loadSec.classList.remove('vertical-in-up');
                         loadSec.classList.add('scale-out-back');
                         
@@ -969,7 +1021,6 @@
                             loadSec.style.display = 'none';
                             appSec.style.display = 'flex';
                             
-                            // ANIMACIÓN: La pantalla de Resultados entra desde abajo
                             appSec.classList.remove('scale-out-back');
                             appSec.classList.add('vertical-in-up');
                         }, 500);
@@ -979,7 +1030,6 @@
                 .catch(error => {
                     console.error("Error en conexión asíncrona:", error);
                     alert("Se perdió la conexión con el servidor. Por favor, intenta de nuevo.");
-                    // Si falla, regresamos la animación hacia atrás
                     loadSec.classList.remove('vertical-in-up');
                     loadSec.classList.add('scale-out-back');
                     setTimeout(() => {
