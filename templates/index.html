@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <title>DeepTech Legal Solutions</title>
     <style>
-  
         /* IMPORTACIÓN DE TIPOGRAFÍAS */
         @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Oswald:wght@300;400;500;600&display=swap');
         @import url('https://fonts.cdnfonts.com/css/bukhari-script');
@@ -40,11 +39,7 @@
             opacity: 0; animation: fadeInBg 1.5s ease-out forwards; 
         }
 
-        .bg-organic.no-intro {
-            opacity: 1;
-            animation: none !important;
-        }
-
+        .bg-organic.no-intro { opacity: 1; animation: none !important; }
         @keyframes fadeInBg { from { opacity: 0; } to { opacity: 1; } }
         
         .liquid-shape { position: absolute; border-radius: 50%; opacity: 0.8; animation: liquidFlow 12s infinite alternate cubic-bezier(0.4, 0, 0.2, 1); }
@@ -58,27 +53,14 @@
             100% { transform: translate(-10%, -5%) scale(0.9) rotate(360deg); border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; }
         }
 
-        /* PANTALLA DE PRESENTACIÓN CINEMÁTICA */
-        .landing-screen { 
-            position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 9999; 
-            display: flex; flex-direction: column; align-items: center; justify-content: center; 
-            color: var(--text-main); overflow-y: auto; background: transparent; 
-            transition: opacity 0.5s ease-in-out;
-        }
-
+        /* LOGOS */
         .cinematic-logo {
             display: flex; flex-direction: column; align-items: center; margin-bottom: 25px; 
             filter: drop-shadow(0px 8px 20px rgba(0, 0, 0, 0.6)); 
-            opacity: 0; transform: scale(0.85); 
-            transition: opacity 1s ease, transform 2.5s cubic-bezier(0.25, 1, 0.5, 1);
+            opacity: 0; transform: scale(0.85); transition: opacity 1s ease, transform 2.5s cubic-bezier(0.25, 1, 0.5, 1);
         }
-        .cinematic-logo.active { 
-            opacity: 1; transform: scale(1.05); 
-        }
-        .cinematic-logo.fade-out { 
-            opacity: 0; transform: scale(1.15); 
-            transition: opacity 0.5s ease, transform 0.5s ease; 
-        }
+        .cinematic-logo.active { opacity: 1; transform: scale(1.05); }
+        .cinematic-logo.fade-out { opacity: 0; transform: scale(1.15); transition: opacity 0.5s ease, transform 0.5s ease; }
 
         .logo-top-line { display: flex; align-items: flex-start; line-height: 1; }
         .logo-deeptech { font-family: 'Bukhari Script', cursive; font-size: clamp(5rem, 12vw, 8.5rem); color: var(--accent-light); font-weight: normal; text-shadow: 0px 4px 15px rgba(0,0,0, 0.5); padding-right: 5px; }
@@ -92,48 +74,62 @@
         .hero-logo-wrapper.small-logo .logo-bottom-line { margin-top: 10px; }
         .hero-logo-wrapper.small-logo .logo-legal { font-size: clamp(0.8rem, 1.5vw, 1.1rem); }
 
-        /* =========================================
-           MAQUETACIÓN Y CARRUSEL
-           ========================================= */
-        #main-wrapper { 
-            width: 100vw; height: 100vh; position: relative; overflow: hidden;
-            transition: opacity 0.5s ease-in-out; display: flex; flex-direction: column; z-index: 1000;
-        }
+        /* GLOBALES */
+        .btn { background: var(--accent-blue); color: var(--bg-dark); padding: 12px 30px; font-size: 1em; border: none; border-radius: 30px; cursor: pointer; font-weight: 600; font-family: 'Montserrat', sans-serif; display: inline-block; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); letter-spacing: 0.5px; }
+        .btn:hover { background: var(--accent-light); transform: translateY(-2px); box-shadow: 0 8px 20px rgba(119, 141, 169, 0.3); }
+        .btn:active { transform: scale(0.96) translateY(0px); }
+        .btn-secondary { background: rgba(27, 38, 59, 0.5); border: 1px solid rgba(119, 141, 169, 0.4); color: var(--text-main); padding: 12px 30px; border-radius: 30px; font-size: 0.95em; transition: all 0.2s ease; text-decoration: none;}
+        .btn-secondary:hover:not(:disabled) { background: rgba(119, 141, 169, 0.3); transform: translateY(-2px); border-color: var(--accent-light);}
 
-        .nav-wrapper { display: flex; justify-content: center; margin: 30px auto 10px auto; width: 100%; flex-shrink: 0; }
-        .top-nav { 
-            position: relative; background: rgba(27, 38, 59, 0.5); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); border: 1px solid rgba(119, 141, 169, 0.2); border-radius: 50px; display: flex; align-items: center; gap: 5px; padding: 6px; box-shadow: 0 10px 30px rgba(0,0,0,0.4); z-index: 10; flex-wrap: nowrap; overflow-x: auto; max-width: 90%;
-        }
-        .top-nav::-webkit-scrollbar { display: none; }
+        .glass-card { background: linear-gradient(145deg, rgba(27, 38, 59, 0.6), rgba(13, 27, 42, 0.7)); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); border: 1px solid rgba(255, 255, 255, 0.03); border-top: 1px solid rgba(119, 141, 169, 0.2); border-left: 1px solid rgba(119, 141, 169, 0.08); border-radius: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.5); transition: transform 0.3s ease, border-color 0.3s ease; }
         
-        .bubble-indicator { position: absolute; top: 6px; bottom: 6px; left: 6px; width: 0px; background: linear-gradient(135deg, var(--accent-light), var(--accent-blue)); border-radius: 40px; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); z-index: 0; box-shadow: 0 4px 15px rgba(119, 141, 169, 0.4); }
+        .fade-in-element { animation: fadeUpEntrance 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
+        @keyframes fadeUpEntrance { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-        .tab-btn { position: relative; z-index: 1; background: transparent !important; border: none; color: rgba(224, 225, 221, 0.7); padding: 10px 22px; border-radius: 30px; font-size: 0.9em; font-family: 'Montserrat', sans-serif; font-weight: 500; cursor: pointer; transition: color 0.3s ease; letter-spacing: 0.5px; white-space: nowrap; display: flex; align-items: center; justify-content: center; }
+        /* =========================================
+           PANTALLA DE LOGIN / REGISTRO
+           ========================================= */
+        #auth-container {
+            width: 100vw; height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 1000; position: relative;
+        }
+        .auth-card {
+            width: 100%; max-width: 400px; padding: 40px; text-align: center; display: flex; flex-direction: column; gap: 20px;
+        }
+        .auth-input {
+            width: 100%; padding: 15px; border: 1px solid rgba(119, 141, 169, 0.4); border-radius: 12px; background: rgba(0,0,0,0.3); color: var(--text-main); font-family: 'Montserrat', sans-serif; font-size: 1em; box-sizing: border-box; transition: border-color 0.3s;
+        }
+        .auth-input:focus { outline: none; border-color: var(--accent-light); background: rgba(0,0,0,0.5); }
+        .auth-toggle { font-size: 0.85em; color: rgba(224,225,221,0.6); cursor: pointer; text-decoration: underline; margin-top: 10px; }
+        .auth-toggle:hover { color: var(--text-main); }
+
+        /* =========================================
+           MAQUETACIÓN PRINCIPAL DE LA APP
+           ========================================= */
+        #main-wrapper { width: 100vw; height: 100vh; position: relative; overflow: hidden; transition: opacity 0.5s ease-in-out; display: flex; flex-direction: column; z-index: 1000; }
+        .nav-wrapper { display: flex; justify-content: center; align-items: center; margin: 30px auto 10px auto; width: 100%; flex-shrink: 0; position: relative;}
+        .top-nav { position: relative; background: rgba(27, 38, 59, 0.5); backdrop-filter: blur(25px); border: 1px solid rgba(119, 141, 169, 0.2); border-radius: 50px; display: flex; align-items: center; gap: 5px; padding: 6px; box-shadow: 0 10px 30px rgba(0,0,0,0.4); z-index: 10; overflow-x: auto; max-width: 90%; }
+        .top-nav::-webkit-scrollbar { display: none; }
+        .bubble-indicator { position: absolute; top: 6px; bottom: 6px; left: 6px; width: 0px; background: linear-gradient(135deg, var(--accent-light), var(--accent-blue)); border-radius: 40px; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); z-index: 0; box-shadow: 0 4px 15px rgba(119, 141, 169, 0.4); }
+        .tab-btn { position: relative; z-index: 1; background: transparent !important; border: none; color: rgba(224, 225, 221, 0.7); padding: 10px 22px; border-radius: 30px; font-size: 0.9em; font-family: 'Montserrat', sans-serif; font-weight: 500; cursor: pointer; transition: color 0.3s ease; white-space: nowrap; }
         .tab-btn:hover { color: var(--text-main); }
         .tab-btn.active { color: var(--bg-dark); font-weight: 600; text-shadow: 0 1px 2px rgba(255,255,255,0.3); }
-        .notif-badge { background-color: var(--alert); color: var(--bg-dark); font-size: 0.85em; font-family: 'Montserrat', sans-serif; font-weight: 600; padding: 2px 7px; border-radius: 12px; margin-left: 8px; box-shadow: 0px 2px 5px rgba(0,0,0,0.4); display: none; align-items: center; justify-content: center; }
 
+        .user-greeting { position: absolute; right: 5%; color: rgba(224,225,221,0.6); font-size: 0.85em; font-weight: 300; display: flex; align-items: center; gap: 15px; }
+        
         .sections-viewport { position: relative; width: 100%; flex: 1; min-height: 0; overflow: hidden; display: flex; justify-content: center; }
-
-        .section-container { 
-            position: absolute; top: 0; left: 0; right: 0; bottom: 0; width: 100%; height: 100%;
-            box-sizing: border-box; overflow-y: auto; overflow-x: hidden; display: flex; flex-direction: column; align-items: center; 
-            justify-content: flex-start; z-index: 1; padding: 20px 0 40px 0; background: transparent;
-        }
+        .section-container { position: absolute; top: 0; left: 0; right: 0; bottom: 0; width: 100%; height: 100%; box-sizing: border-box; overflow-y: auto; overflow-x: hidden; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; z-index: 1; padding: 20px 0 40px 0; background: transparent; }
         .section-container::-webkit-scrollbar { width: 6px; }
         .section-container::-webkit-scrollbar-thumb { background-color: rgba(119, 141, 169, 0.3); border-radius: 4px; }
         
         #planes-section { justify-content: center; padding: 0; }
         #planes-section .content-wrapper-inner { margin: 0 auto; }
 
-        /* Animaciones del Carrusel */
         @keyframes slideInFromRight { 0% { transform: translateX(100%); opacity: 0; } 100% { transform: translateX(0); opacity: 1; } }
         @keyframes slideInFromLeft { 0% { transform: translateX(-100%); opacity: 0; } 100% { transform: translateX(0); opacity: 1; } }
         @keyframes slideOutToLeft { 0% { transform: translateX(0) scale(1); opacity: 1; } 100% { transform: translateX(-20%) scale(0.9); opacity: 0; } }
         @keyframes slideOutToRight { 0% { transform: translateX(0) scale(1); opacity: 1; } 100% { transform: translateX(20%) scale(0.9); opacity: 0; } }
         @keyframes slideUpIn { 0% { transform: translateY(100%); opacity: 0; } 100% { transform: translateY(0); opacity: 1; } }
         @keyframes slideDownIn { 0% { transform: translateY(-100%); opacity: 0; } 100% { transform: translateY(0); opacity: 1; } }
-        @keyframes slideDownOut { 0% { transform: translateY(0) scale(1); opacity: 1; } 100% { transform: translateY(20%) scale(0.9); opacity: 0; } }
         @keyframes scaleDownBack { 0% { transform: scale(1); opacity: 1; } 100% { transform: scale(0.85); opacity: 0; } }
 
         .animate-in-right { animation: slideInFromRight 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards; z-index: 2; display: flex !important; }
@@ -141,93 +137,30 @@
         .animate-out-left { animation: slideOutToLeft 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards; z-index: 1; }
         .animate-out-right { animation: slideOutToRight 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards; z-index: 1; }
         .vertical-in-up { animation: slideUpIn 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards; z-index: 3; display: flex !important;}
-        .vertical-in-down { animation: slideDownIn 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards; z-index: 3; display: flex !important;}
-        .vertical-out-down { animation: slideDownOut 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards; z-index: 1; }
         .scale-out-back { animation: scaleDownBack 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards; z-index: 1; }
 
         .sub-section-container { width: 100%; flex-grow: 1; box-sizing: border-box; transition: opacity 0.3s ease-in-out; display: flex; flex-direction: column; align-items: center; opacity: 0; display: none;}
         .app-centered-layout { display: flex; flex-direction: column; align-items: center; box-sizing: border-box; }
-        
         .content-wrapper-inner { width: 100%; max-width: 900px; padding: 0 20px; box-sizing: border-box; display: flex; flex-direction: column; align-items: center; margin-top: auto; margin-bottom: auto;}
         
         .app-title { font-family: 'Oswald', sans-serif; font-size: 2.5em; color: var(--text-main); margin: 0 0 5px 0; text-align: center; font-weight: 500; text-shadow: 0 4px 15px rgba(0,0,0,0.4);}
         .app-subtitle { font-family: 'Montserrat', sans-serif; font-size: 1em; color: rgba(224, 225, 221, 0.7); text-align: center; margin-bottom: 25px; font-weight: 300;}
         
-        .btn { background: var(--accent-blue); color: var(--bg-dark); padding: 12px 30px; font-size: 1em; border: none; border-radius: 30px; cursor: pointer; font-weight: 600; font-family: 'Montserrat', sans-serif; display: inline-block; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); letter-spacing: 0.5px; }
-        .btn:hover { background: var(--accent-light); transform: translateY(-2px); box-shadow: 0 8px 20px rgba(119, 141, 169, 0.3); }
-        .btn:active { transform: scale(0.96) translateY(0px); }
-        .btn-secondary { background: rgba(27, 38, 59, 0.5); border: 1px solid rgba(119, 141, 169, 0.4); color: var(--text-main); padding: 12px 30px; border-radius: 30px; font-size: 0.95em; transition: all 0.2s ease; }
-        .btn-secondary:hover:not(:disabled) { background: rgba(119, 141, 169, 0.3); transform: translateY(-2px); border-color: var(--accent-light);}
-        
-        .glass-card, .upload-area, .metric-card, .card-proyecto, .notif-card { background: linear-gradient(145deg, rgba(27, 38, 59, 0.6), rgba(13, 27, 42, 0.7)); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); border: 1px solid rgba(255, 255, 255, 0.03); border-top: 1px solid rgba(119, 141, 169, 0.2); border-left: 1px solid rgba(119, 141, 169, 0.08); border-radius: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.5); transition: transform 0.3s ease, border-color 0.3s ease; }
-        
-        .glass-grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-bottom: 25px; width: 100%;}
-        .glass-grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; margin-bottom: 20px; width: 100%;}
-        
-        .glass-card { padding: 20px 25px; text-align: center; } 
-        .glass-card:hover { transform: translateY(-4px); border-color: rgba(119, 141, 169, 0.5); }
-        .glass-card h3 { color: var(--accent-light); font-size: 1.4em; margin-bottom: 12px; font-family: 'Oswald', sans-serif; font-weight: 400; letter-spacing: 0.5px; display: flex; align-items: center; justify-content: center; gap: 8px;}
-        .glass-card p { font-size: 0.9em; color: rgba(224, 225, 221, 0.8); line-height: 1.6; margin: 0; font-weight: 300; }
-
-        .upload-area { width: 100%; max-width: 550px; text-align: center; padding: 30px; margin: 0 auto; box-sizing: border-box;}
-        
+        .upload-area { width: 100%; max-width: 550px; text-align: center; padding: 30px; margin: 0 auto; box-sizing: border-box; background: linear-gradient(145deg, rgba(27, 38, 59, 0.6), rgba(13, 27, 42, 0.7)); backdrop-filter: blur(25px); border: 1px solid rgba(255, 255, 255, 0.03); border-top: 1px solid rgba(119, 141, 169, 0.2); border-left: 1px solid rgba(119, 141, 169, 0.08); border-radius: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.5);}
         input[type="file"] { margin-top: 15px; margin-bottom: 25px; padding: 12px; border: 1px dashed rgba(119, 141, 169, 0.4); border-radius: 12px; width: 100%; box-sizing: border-box; background-color: rgba(0, 0, 0, 0.2); color: var(--text-main); font-family: 'Montserrat', sans-serif; cursor: pointer; }
         
-        /* =========================================
-           ESTILO OPTIMIZADO: RESULTADOS HORIZONTALES (GRID)
-           ========================================= */
-        .result-card-extended {
-            width: 100%;
-            max-width: 800px; /* Ancho ajustado */
-            margin: 10px auto; /* Reducido para evitar scroll */
-            text-align: left;
-            box-sizing: border-box;
-            padding: 20px 25px; /* Reducido para evitar scroll */
-            background: linear-gradient(145deg, rgba(27, 38, 59, 0.8), rgba(13, 27, 42, 0.95));
-            backdrop-filter: blur(25px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
-        }
-
+        /* RESULTADOS GRID */
+        .result-card-extended { width: 100%; max-width: 800px; margin: 10px auto; text-align: left; box-sizing: border-box; padding: 20px 25px; background: linear-gradient(145deg, rgba(27, 38, 59, 0.8), rgba(13, 27, 42, 0.95)); backdrop-filter: blur(25px); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.5); }
         .result-card-extended.success { border-top: 3px solid var(--success); }
         .result-card-extended.alert { border-top: 3px solid var(--alert); }
-        
         .result-header { text-align: center; margin-bottom: 15px; padding-bottom: 12px; border-bottom: 1px solid rgba(119, 141, 169, 0.2); }
         .result-header h2 { margin-top: 0; font-family: 'Montserrat', sans-serif; font-size: 1.8em; font-weight: 600; margin-bottom: 2px; }
         .result-header p { margin: 0; font-size: 0.9em; font-weight: 300; }
-
-        .result-body-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px; /* Espacio reducido */
-            align-items: stretch;
-        }
-        
-        @media (max-width: 768px) {
-            .result-body-grid { grid-template-columns: 1fr; gap: 15px; }
-        }
-        
-        .result-info-box {
-            background: rgba(0,0,0,0.2);
-            padding: 15px; /* Relleno ajustado */
-            border-radius: 12px;
-            border: 1px solid rgba(119, 141, 169, 0.1);
-            display: flex; flex-direction: column;
-        }
-        
-        .result-actions {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-top: 15px; /* Margen superior compacto */
-            flex-wrap: wrap;
-        }
-        
-        .result-actions .btn, .result-actions .btn-secondary {
-            padding: 10px 25px; /* Botones más compactos verticalmente */
-            font-size: 0.9em;
-        }
+        .result-body-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; align-items: stretch; }
+        @media (max-width: 768px) { .result-body-grid { grid-template-columns: 1fr; gap: 15px; } .user-greeting { position: relative; right: 0; margin-top: 15px; justify-content: center; width: 100%;} .nav-wrapper { flex-direction: column; } }
+        .result-info-box { background: rgba(0,0,0,0.2); padding: 15px; border-radius: 12px; border: 1px solid rgba(119, 141, 169, 0.1); display: flex; flex-direction: column; }
+        .result-actions { display: flex; justify-content: center; gap: 15px; margin-top: 15px; flex-wrap: wrap; }
+        .result-actions .btn, .result-actions .btn-secondary { padding: 10px 25px; font-size: 0.9em; }
 
         .url-list { flex-grow: 1; max-height: 140px; overflow-y: auto; background-color: rgba(0, 0, 0, 0.3); padding: 15px; border-radius: 8px; font-size: 0.85em; margin-top: 8px; font-family: 'Montserrat', sans-serif; font-weight: 300; border: 1px solid rgba(119, 141, 169, 0.15);}
         .url-list li { margin-bottom: 10px; color: rgba(224, 225, 221, 0.7); border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 8px;}
@@ -238,107 +171,41 @@
         .badge-instagram { background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); }
         .badge-facebook { background-color: #1877F2; }
         .badge-x { background-color: #000000; border: 1px solid rgba(255,255,255,0.2); }
-        
-        /* =========================================
-           ESTILO: MODAL DE CARGA TIPO TARJETA
-           ========================================= */
-        .glass-upload-modal-wrapper {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: rgba(0,0,0, 0.6); z-index: 100000;
-            display: none; align-items: center; justify-content: center;
-            backdrop-filter: blur(10px); opacity: 0; transition: opacity 0.3s ease;
-        }
 
-        .glass-upload-card {
-            background: linear-gradient(145deg, rgba(27, 38, 59, 0.9), rgba(13, 27, 42, 0.98));
-            border: 1px solid rgba(119, 141, 169, 0.3); border-radius: 24px;
-            padding: 30px; width: 90%; max-width: 420px; position: relative;
-            box-shadow: 0 35px 60px -15px rgba(0,0,0,0.8), 0 50px 100px -30px rgba(65, 90, 119, 0.6);
-            display: flex; flex-direction: column; box-sizing: border-box;
-        }
-
-        .modal-btn-cancel {
-            position: absolute; top: 15px; right: 15px;
-            background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
-            color: rgba(224, 225, 221, 0.7); width: 32px; height: 32px; border-radius: 50%;
-            font-size: 1.2em; display: flex; align-items: center; justify-content: center;
-            cursor: pointer; transition: all 0.2s ease;
-        }
+        /* MODAL DE CARGA CRISTAL */
+        .glass-upload-modal-wrapper { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0, 0.6); z-index: 100000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(10px); opacity: 0; transition: opacity 0.3s ease; }
+        .glass-upload-card { background: linear-gradient(145deg, rgba(27, 38, 59, 0.9), rgba(13, 27, 42, 0.98)); border: 1px solid rgba(119, 141, 169, 0.3); border-radius: 24px; padding: 30px; width: 90%; max-width: 420px; position: relative; box-shadow: 0 35px 60px -15px rgba(0,0,0,0.8), 0 50px 100px -30px rgba(65, 90, 119, 0.6); display: flex; flex-direction: column; box-sizing: border-box; }
+        .modal-btn-cancel { position: absolute; top: 15px; right: 15px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: rgba(224, 225, 221, 0.7); width: 32px; height: 32px; border-radius: 50%; font-size: 1.2em; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s ease; }
         .modal-btn-cancel:hover { background: rgba(252, 165, 165, 0.2); color: var(--alert); border-color: var(--alert); transform: scale(1.05); }
-
         .file-details-row { display: flex; align-items: center; margin-bottom: 25px; margin-top: 10px;}
-
-        .file-icon-wrapper {
-            position: relative; width: 55px; height: 70px;
-            background: linear-gradient(135deg, rgba(119, 141, 169, 0.2), rgba(119, 141, 169, 0.05));
-            border: 1px solid rgba(119, 141, 169, 0.2); border-radius: 6px;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 1.8em; margin-right: 25px; box-shadow: inset 0 0 10px rgba(0,0,0,0.2);
-        }
-        .file-icon-wrapper::after { 
-            content: ''; position: absolute; top: -1px; right: -1px;
-            border-width: 0 16px 16px 0; border-style: solid;
-            border-color: rgba(13, 27, 42, 1) rgba(13, 27, 42, 1) rgba(119, 141, 169, 0.3) rgba(119, 141, 169, 0.3);
-            border-bottom-left-radius: 4px;
-        }
-        
-        .file-badge-tag {
-            position: absolute; bottom: 8px; left: -12px;
-            background: rgba(13, 27, 42, 0.95); border: 1px solid rgba(119, 141, 169, 0.4);
-            padding: 3px 6px; border-radius: 6px; font-size: 0.55em; font-weight: 600;
-            letter-spacing: 1px; color: var(--text-main); box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-            font-family: 'Montserrat', sans-serif;
-        }
-
+        .file-icon-wrapper { position: relative; width: 55px; height: 70px; background: linear-gradient(135deg, rgba(119, 141, 169, 0.2), rgba(119, 141, 169, 0.05)); border: 1px solid rgba(119, 141, 169, 0.2); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 1.8em; margin-right: 25px; box-shadow: inset 0 0 10px rgba(0,0,0,0.2); }
+        .file-icon-wrapper::after { content: ''; position: absolute; top: -1px; right: -1px; border-width: 0 16px 16px 0; border-style: solid; border-color: rgba(13, 27, 42, 1) rgba(13, 27, 42, 1) rgba(119, 141, 169, 0.3) rgba(119, 141, 169, 0.3); border-bottom-left-radius: 4px; }
+        .file-badge-tag { position: absolute; bottom: 8px; left: -12px; background: rgba(13, 27, 42, 0.95); border: 1px solid rgba(119, 141, 169, 0.4); padding: 3px 6px; border-radius: 6px; font-size: 0.55em; font-weight: 600; letter-spacing: 1px; color: var(--text-main); box-shadow: 0 4px 10px rgba(0,0,0,0.5); font-family: 'Montserrat', sans-serif; }
         .file-text-info { display: flex; flex-direction: column; justify-content: center; flex: 1; overflow: hidden;}
         .file-text-info h4 { margin: 0 0 5px 0; font-family: 'Montserrat', sans-serif; font-size: 1.2em; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: #fff;}
         .file-text-info p { margin: 0; font-size: 0.85em; color: rgba(224, 225, 221, 0.6); font-weight: 300; }
-
-        .progress-box {
-            background: rgba(0,0,0,0.2); border: 1px solid rgba(119, 141, 169, 0.15);
-            border-radius: 16px; padding: 15px 20px; display: flex; flex-direction: column;
-        }
-        
+        .progress-box { background: rgba(0,0,0,0.2); border: 1px solid rgba(119, 141, 169, 0.15); border-radius: 16px; padding: 15px 20px; display: flex; flex-direction: column; }
         .progress-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; font-size: 0.9em; font-family: 'Montserrat', sans-serif; font-weight: 400; color: #fff;}
         .progress-header-left { display: flex; align-items: center; gap: 8px;}
-        
         @keyframes spin-simple { 100% { transform: rotate(360deg); } }
         .spinner-icon { display: inline-block; animation: spin-simple 1.2s linear infinite; opacity: 0.8;}
+        .progress-track { width: 100%; height: 6px; background: rgba(0,0,0,0.5); border-radius: 10px; box-shadow: inset 0 1px 3px rgba(0,0,0,0.8); position: relative; overflow: visible; }
+        .progress-fill { height: 100%; width: 0%; background: #fff; border-radius: 10px; box-shadow: 0 0 8px #fff, 0 0 15px var(--accent-light); transition: width 0.3s ease; position: relative; }
+        .progress-fill::after { content: ''; position: absolute; right: -2px; top: 50%; transform: translateY(-50%); width: 10px; height: 10px; background: #fff; border-radius: 50%; box-shadow: 0 0 12px 4px rgba(119, 141, 169, 0.8); }
 
-        .progress-track {
-            width: 100%; height: 6px; background: rgba(0,0,0,0.5); border-radius: 10px;
-            box-shadow: inset 0 1px 3px rgba(0,0,0,0.8); position: relative; overflow: visible;
-        }
-        
-        .progress-fill {
-            height: 100%; width: 0%; background: #fff; border-radius: 10px;
-            box-shadow: 0 0 8px #fff, 0 0 15px var(--accent-light);
-            transition: width 0.3s ease; position: relative;
-        }
-        
-        .progress-fill::after {
-            content: ''; position: absolute; right: -2px; top: 50%; transform: translateY(-50%);
-            width: 10px; height: 10px; background: #fff; border-radius: 50%;
-            box-shadow: 0 0 12px 4px rgba(119, 141, 169, 0.8);
-        }
-
+        /* BÓVEDA Y OTROS */
+        .glass-grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-bottom: 25px; width: 100%;}
+        .glass-grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; margin-bottom: 20px; width: 100%;}
         .metrics-wrapper { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; width: 100%; margin-bottom: 20px; }
         .metric-card { padding: 15px; text-align: center; border-radius: 16px; }
         .metric-value { font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 2em; color: var(--text-main); margin: 0; line-height: 1.2; }
         .metric-label { font-size: 0.8em; color: rgba(224, 225, 221, 0.6); font-weight: 400; text-transform: uppercase; letter-spacing: 1px; margin-top: 5px; }
-        
-        .sub-nav { display: flex; justify-content: center; gap: 10px; width: 100%; margin-bottom: 20px; flex-wrap: wrap; }
-        .sub-tab-btn { background: transparent; border: 1px solid rgba(119, 141, 169, 0.3); color: rgba(224, 225, 221, 0.6); padding: 8px 20px; border-radius: 20px; font-size: 0.85em; font-family: 'Montserrat', sans-serif; font-weight: 500; cursor: pointer; transition: all 0.2s ease; display: flex; align-items: center;}
-        .sub-tab-btn:hover { background-color: rgba(119, 141, 169, 0.15); color: var(--text-main); }
-        .sub-tab-btn.active { background-color: var(--accent-light); color: var(--bg-dark); border-color: var(--accent-light);}
-        
         .grid-proyectos { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px; width: 100%; justify-items: center;}
         .card-proyecto { padding: 15px; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; cursor: default; width: 100%; box-sizing: border-box; }
         .card-proyecto .img-mock { height: 60px; width: 100%; background-color: rgba(0, 0, 0, 0.2); border-radius: 10px; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; font-size: 2em; border: 1px solid rgba(119, 141, 169, 0.1); }
         .badge-status { display: inline-block; padding: 5px 12px; border-radius: 20px; font-size: 0.7em; margin-top: 10px; font-weight: 500; font-family: 'Montserrat', sans-serif; text-align: center; }
         .badge-clean { background-color: rgba(94, 234, 212, 0.1); color: var(--success); border: 1px solid rgba(94, 234, 212, 0.3);} 
         .badge-alert { background-color: rgba(252, 165, 165, 0.15); color: var(--alert); border: 1px solid rgba(252, 165, 165, 0.4);} 
-        
         .card-header-flex { width: 100%; display: flex; justify-content: space-between; margin-bottom: 5px; align-items: center; }
         .dropdown { position: relative; display: inline-block; }
         .dots-btn { background: none; border: none; color: rgba(224,225,221,0.5); font-size: 1.5em; cursor: pointer; padding: 0; line-height: 1; transition: color 0.2s; }
@@ -347,35 +214,82 @@
         .dropdown-content a { color: var(--text-main); padding: 12px 16px; text-decoration: none; display: block; font-size: 0.85em; text-align: left; transition: background 0.2s; font-weight: 400;}
         .dropdown-content a:hover { background-color: rgba(119, 141, 169, 0.2); }
         .show { display: block; }
-
         #lista-boveda.selection-mode .card-proyecto { cursor: pointer; }
         .select-indicator { position: absolute; top: 12px; left: 12px; width: 20px; height: 20px; border-radius: 50%; border: 2px solid rgba(224, 225, 221, 0.4); display: none; align-items: center; justify-content: center; font-size: 12px; color: transparent; transition: all 0.2s; z-index: 5; background: rgba(0, 0, 0, 0.4); }
         .selection-mode .select-indicator { display: flex; }
         .card-proyecto.selected { border-color: var(--accent-light); background: rgba(119, 141, 169, 0.15); transform: scale(0.98); }
         .card-proyecto.selected .select-indicator { background-color: var(--accent-light); border-color: var(--accent-light); color: var(--bg-dark); }
-        
         .bulk-action-bar { display: none; position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: rgba(27, 38, 59, 0.95); backdrop-filter: blur(10px); border: 1px solid rgba(119, 141, 169, 0.3); padding: 12px 25px; border-radius: 50px; z-index: 9999; align-items: center; gap: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.6); opacity: 0; transition: opacity 0.3s ease; }
         .btn-danger { background-color: var(--alert); color: var(--bg-dark); border: none; padding: 8px 18px; border-radius: 8px; cursor: pointer; font-size: 0.9em; font-weight: 600; transition: all 0.2s; font-family: 'Montserrat', sans-serif;}
         .btn-danger:hover { transform: translateY(-2px); box-shadow: 0 4px 15px rgba(252, 165, 165, 0.4);}
-
         .plan-price { font-family: 'Montserrat', sans-serif; font-size: 2.2em; margin: 5px 0 12px 0; color: var(--text-main); font-weight: 600;}
         .plan-list { text-align: left; font-size: 0.8em; color: rgba(224, 225, 221, 0.7); padding-left: 0; line-height: 1.5; list-style: none; flex-grow: 1;}
         .plan-list li { margin-bottom: 6px; display: flex; align-items: flex-start; gap: 8px; }
         .plan-list li::before { content: '✔'; color: var(--accent-light); border-radius: 50%; width: 15px; height: 15px; display: flex; align-items: center; justify-content: center; font-size: 0.8em; flex-shrink: 0; margin-top: 1px;}
-
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0, 0.8); z-index: 20000; align-items: center; justify-content: center; backdrop-filter: blur(10px); opacity: 0; transition: opacity 0.3s ease; }
         .modal-close-btn { position: absolute; top: 12px; right: 12px; background: rgba(119, 141, 169, 0.2); border: 1px solid rgba(119, 141, 169, 0.3); color: var(--text-main); width: 30px; height: 30px; border-radius: 50%; font-size: 1.2em; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 50; transition: all 0.2s ease; }
         .modal-close-btn:hover { background: var(--alert); color: var(--bg-dark); border-color: var(--alert);}
-
         .certificate-box { border: 1px solid rgba(119, 141, 169, 0.3); padding: 25px; position: relative; background: rgba(0,0,0, 0.3); border-radius: 16px; margin-top: 10px; }
         .cert-logo { font-family: 'Bukhari Script', cursive; font-size: 2em; color: var(--accent-light); margin: 0; line-height: 1; opacity: 0.9;}
         .cert-title { font-family: 'Montserrat', sans-serif; font-size: 1.1em; color: var(--text-main); letter-spacing: 2px; margin: 10px 0 15px 0; border-bottom: 1px solid rgba(119, 141, 169, 0.2); padding-bottom: 10px; font-weight: 500;}
         .cert-text { font-size: 0.8em; font-weight: 300; line-height: 1.5; color: rgba(224, 225, 221, 0.8); text-align: justify; margin-bottom: 15px; }
-        
-        .fade-in-element { animation: fadeUpEntrance 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
     </style>
 </head>
 <body>
+
+    <div class="bg-organic" id="main-background">
+        <div class="liquid-shape liquid-1"></div>
+        <div class="liquid-shape liquid-2"></div>
+        <div class="liquid-shape liquid-3"></div>
+    </div>
+
+    {% if not logged_in %}
+    <!-- =========================================
+         PANTALLA DE AUTENTICACIÓN (BLOQUEA LA APP)
+         ========================================= -->
+    <div id="auth-container">
+        <div class="cinematic-logo active" style="margin-bottom: 40px; transform: scale(1.1);">
+            <div class="logo-top-line"><span class="logo-deeptech">DeepTech</span><span class="logo-tm">TM</span></div>
+            <div class="logo-bottom-line"><span class="logo-legal">Legal Solutions</span></div>
+        </div>
+
+        <div class="glass-card auth-card" id="login-box">
+            <h2 style="margin: 0; font-family: 'Oswald', sans-serif; font-size: 1.8em; font-weight: 400; color: var(--text-main);">Iniciar Sesión</h2>
+            <form action="/login" method="POST" style="display: flex; flex-direction: column; gap: 15px;">
+                <input type="text" name="username" class="auth-input" placeholder="Nombre de usuario" required>
+                <input type="password" name="password" class="auth-input" placeholder="Contraseña" required>
+                <button type="submit" class="btn" style="width: 100%; margin-top: 10px;">Entrar a la Bóveda</button>
+            </form>
+            <span class="auth-toggle" onclick="toggleAuth()">¿No tienes cuenta? Registrate aquí.</span>
+        </div>
+
+        <div class="glass-card auth-card" id="register-box" style="display: none;">
+            <h2 style="margin: 0; font-family: 'Oswald', sans-serif; font-size: 1.8em; font-weight: 400; color: var(--text-main);">Nueva Licencia</h2>
+            <form action="/register" method="POST" style="display: flex; flex-direction: column; gap: 15px;">
+                <input type="text" name="username" class="auth-input" placeholder="Elige un usuario corporativo" required>
+                <input type="password" name="password" class="auth-input" placeholder="Crea una contraseña segura" required>
+                <button type="submit" class="btn" style="width: 100%; margin-top: 10px;">Crear Bóveda</button>
+            </form>
+            <span class="auth-toggle" onclick="toggleAuth()">¿Ya tienes cuenta? Inicia sesión.</span>
+        </div>
+    </div>
+
+    <script>
+        function toggleAuth() {
+            var login = document.getElementById('login-box');
+            var reg = document.getElementById('register-box');
+            if(login.style.display === 'none') {
+                login.style.display = 'flex'; reg.style.display = 'none';
+            } else {
+                login.style.display = 'none'; reg.style.display = 'flex';
+            }
+        }
+    </script>
+
+    {% else %}
+    <!-- =========================================
+         APLICACIÓN PRINCIPAL (SOLO SI HAY SESIÓN)
+         ========================================= -->
 
     <!-- MODAL DE CARGA: DISEÑO TARJETA CRISTAL -->
     <div id="glass-upload-modal" class="glass-upload-modal-wrapper">
@@ -408,24 +322,7 @@
         </div>
     </div>
 
-    <div class="bg-organic {% if skip_intro %}no-intro{% endif %}" id="main-background">
-        <div class="liquid-shape liquid-1"></div>
-        <div class="liquid-shape liquid-2"></div>
-        <div class="liquid-shape liquid-3"></div>
-    </div>
-
-    <div id="landing-main" class="landing-screen" {% if skip_intro %} style="display: none; opacity: 0;" {% else %} style="display: flex; opacity: 1;" {% endif %}>
-        <div class="cinematic-logo" id="intro-logo">
-            <div class="logo-top-line">
-                <span class="logo-deeptech">DeepTech</span><span class="logo-tm">TM</span>
-            </div>
-            <div class="logo-bottom-line">
-                <span class="logo-legal">Legal Solutions</span>
-            </div>
-        </div>
-    </div>
-
-    <div id="main-wrapper" {% if skip_intro %} style="display: flex; opacity: 1;" {% else %} style="display: none; opacity: 0;" {% endif %}>
+    <div id="main-wrapper" style="display: flex; opacity: 1;">
         
         <div class="nav-wrapper">
             <div class="top-nav" id="main-nav">
@@ -439,6 +336,11 @@
                     Buzón 🗂️ <span id="notif-badge" class="notif-badge">0</span>
                 </button>
             </div>
+            
+            <div class="user-greeting">
+                <span>👤 Hola, <strong>{{ username|capitalize }}</strong></span>
+                <a href="/logout" class="btn-secondary" style="padding: 6px 15px; font-size: 0.8em; border-color: rgba(252, 165, 165, 0.3); color: var(--alert);">Cerrar Sesión</a>
+            </div>
         </div>
 
         <div class="sections-viewport" id="viewport">
@@ -448,17 +350,13 @@
                     
                     <div id="upload-titles" style="width: 100%; display: flex; flex-direction: column; align-items: center; {% if mostrando_resultado %}display: none;{% endif %}">
                         <div class="hero-logo-wrapper small-logo">
-                            <div class="logo-top-line">
-                                <span class="logo-deeptech">DeepTech</span><span class="logo-tm">TM</span>
-                            </div>
-                            <div class="logo-bottom-line">
-                                <span class="logo-legal">Legal Solutions</span>
-                            </div>
+                            <div class="logo-top-line"><span class="logo-deeptech">DeepTech</span><span class="logo-tm">TM</span></div>
+                            <div class="logo-bottom-line"><span class="logo-legal">Legal Solutions</span></div>
                         </div>
-                        <p class="app-subtitle" style="margin-top: 0; max-width: 600px;">Sube tu activo digital (Imagen o Documento) para certificar su originalidad y protegerlo.</p>
+                        <p class="app-subtitle" style="margin-top: 0; max-width: 600px;">Sube tu activo digital (Imagen o Documento) para certificar su originalidad y protegerlo en tu bóveda personal.</p>
                     </div>
                     
-                    <div class="upload-area" id="upload-area-box" {% if mostrando_resultado %} style="display: none;" {% endif %}>
+                    <div class="glass-card upload-area" id="upload-area-box" {% if mostrando_resultado %} style="display: none;" {% endif %}>
                         <form id="upload-form" onsubmit="ejecutarCargaAjax(event, this)" enctype="multipart/form-data" style="display: flex; flex-direction: column; align-items: center;">
                             <label style="font-weight: 500; color: var(--text-main); text-align: center; font-size: 1.1em; font-family: 'Montserrat', sans-serif;">Selecciona el archivo para certificar:</label>
                             <input type="file" name="archivo" accept="image/*,.pdf,.doc,.docx" required id="input-archivo">
@@ -487,9 +385,8 @@
                                     </div>
                                     
                                     <div class="result-body-grid">
-                                        <!-- Columna Izquierda: Datos del Escaneo -->
                                         <div class="result-info-box">
-                                            <p style="color: var(--alert); font-size: 0.85em; border: 1px solid rgba(252, 165, 165, 0.3); padding: 10px; border-radius: 8px; background: rgba(252, 165, 165, 0.1); margin-top: 0; font-weight: 400; line-height: 1.3;">Aviso: Para evitar infracciones de derechos de autor, este archivo no ha sido guardado en la bóveda.</p>
+                                            <p style="color: var(--alert); font-size: 0.85em; border: 1px solid rgba(252, 165, 165, 0.3); padding: 10px; border-radius: 8px; background: rgba(252, 165, 165, 0.1); margin-top: 0; font-weight: 400; line-height: 1.3;">Aviso: Para evitar infracciones, este archivo no ha sido guardado en tu bóveda.</p>
                                             <div style="margin-top: 12px;">
                                                 <span style="font-size: 0.75em; color: rgba(224,225,221,0.6); text-transform: uppercase; letter-spacing: 1px;">Radar Ejecutado</span>
                                                 <p style="color: var(--alert); font-weight: 500; font-size: 0.95em; margin: 2px 0 0 0;">{{ tipo_motor }}</p>
@@ -500,7 +397,6 @@
                                             </div>
                                         </div>
                                         
-                                        <!-- Columna Derecha: Enlaces Encontrados -->
                                         <div class="result-info-box" style="display: flex; flex-direction: column;">
                                             <span style="font-size: 0.75em; color: rgba(224,225,221,0.6); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;">Enlaces confirmados con el contenido original</span>
                                             <div class="url-list" style="margin-top: 0; background: rgba(0,0,0,0.3);">
@@ -534,9 +430,8 @@
                                     </div>
                                     
                                     <div class="result-body-grid">
-                                        <!-- Columna Izquierda: Mensaje de Seguridad -->
                                         <div class="result-info-box">
-                                            <p style="color: var(--success); font-size: 0.85em; border: 1px solid rgba(94, 234, 212, 0.3); padding: 10px; border-radius: 8px; background: rgba(94, 234, 212, 0.05); margin-top: 0; font-weight: 400; line-height: 1.3;">El análisis profundo no detectó copias en la red. El archivo se ha guardado exitosamente en tu bóveda criptográfica.</p>
+                                            <p style="color: var(--success); font-size: 0.85em; border: 1px solid rgba(94, 234, 212, 0.3); padding: 10px; border-radius: 8px; background: rgba(94, 234, 212, 0.05); margin-top: 0; font-weight: 400; line-height: 1.3;">El análisis profundo no detectó copias. El archivo se ha guardado en la bóveda privada de <strong>{{ username }}</strong>.</p>
                                             
                                             <div style="margin-top: 15px;">
                                                 <span style="font-size: 0.75em; color: rgba(224,225,221,0.6); text-transform: uppercase; letter-spacing: 1px;">Radar Ejecutado</span>
@@ -544,7 +439,6 @@
                                             </div>
                                         </div>
                                         
-                                        <!-- Columna Derecha: Datos Técnicos -->
                                         <div class="result-info-box">
                                             <div style="margin-bottom: 15px;">
                                                 <span style="font-size: 0.75em; color: rgba(224,225,221,0.6); text-transform: uppercase; letter-spacing: 1px;">Firma Hash Blockchain</span>
@@ -573,8 +467,8 @@
                 <div class="content-wrapper-inner" style="max-width: 900px;">
                     <div style="width: 100%; display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 20px;">
                         <div>
-                            <h2 class="app-title" style="text-align: left; margin: 0; font-size: 2em;">Bóveda Criptográfica</h2>
-                            <p class="app-subtitle" style="text-align: left; margin: 5px 0 0 0;">Archivos encriptados y monitoreados en tiempo real.</p>
+                            <h2 class="app-title" style="text-align: left; margin: 0; font-size: 2em;">Bóveda Privada de {{ username|capitalize }}</h2>
+                            <p class="app-subtitle" style="text-align: left; margin: 5px 0 0 0;">Tus activos están encriptados y monitoreados en tiempo real.</p>
                         </div>
                         <button id="btn-revisar-integridad" class="btn btn-secondary" style="font-size: 0.85em; padding: 10px 20px;" onclick="revisarIntegridad()">🔎 Analizar Integridad</button>
                     </div>
@@ -582,11 +476,11 @@
                     <div class="metrics-wrapper" id="global-metrics-wrapper">
                         <div class="metric-card glass-card">
                             <p class="metric-value">{{ proyectos|selectattr('plagio', 'equalto', False)|list|length }}</p>
-                            <p class="metric-label">Activos Protegidos</p>
+                            <p class="metric-label">Tus Activos Protegidos</p>
                         </div>
                         <div class="metric-card glass-card">
-                            <p class="metric-value" style="color: var(--alert);">34</p>
-                            <p class="metric-label">Plagios Bloqueados</p>
+                            <p class="metric-value" style="color: var(--alert);">{{ proyectos|selectattr('plagio', 'equalto', True)|list|length }}</p>
+                            <p class="metric-label">Tus Plagios Bloqueados</p>
                         </div>
                         <div class="metric-card glass-card">
                             <p class="metric-value" style="font-size: 1.5em; margin-top: 8px;">📡</p>
@@ -636,7 +530,7 @@
                                 {% endfor %}
                             {% else %}
                                 <div style="grid-column: 1 / -1; text-align: center; color: rgba(224, 225, 221, 0.5); padding: 40px;">
-                                    <p style="font-weight: 300; margin-bottom: 20px;">Tu bóveda está vacía.<br>Sube tu primer archivo para protegerlo.</p>
+                                    <p style="font-weight: 300; margin-bottom: 20px;">Tu bóveda privada está vacía.<br>Sube tu primer archivo para protegerlo.</p>
                                     <button class="btn btn-secondary" onclick="cambiarPestana('app-section', document.getElementById('tab-auditar'))">Subir Archivo</button>
                                 </div>
                             {% endif %}
@@ -850,45 +744,51 @@
             var skipBackend = {% if skip_intro %}true{% else %}false{% endif %};
             var skipSession = sessionStorage.getItem('deeptech_intro_played');
 
-            if(skipBackend || skipSession) {
-                document.getElementById('landing-main').style.display = 'none';
-                document.getElementById('main-background').classList.add('no-intro');
-                
-                var wrapper = document.getElementById('main-wrapper');
-                wrapper.style.display = 'flex';
-                wrapper.style.opacity = '1';
+            // Solo mostrar intro si hay un usuario logueado pero no ha visto la intro
+            let isUserLoggedIn = {% if logged_in %}true{% else %}false{% endif %};
 
-                var activeTab = document.querySelector('.top-nav .tab-btn.active');
-                if(activeTab) {
-                    var bubble = document.getElementById('nav-bubble');
-                    if(bubble) {
-                        bubble.style.transition = 'none'; 
-                        moverBurbuja(activeTab);
-                        setTimeout(() => { bubble.style.transition = 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)'; }, 100);
-                    }
-                }
-            } else {
-                var logo = document.getElementById('intro-logo');
-                var landing = document.getElementById('landing-main');
-                var wrapper = document.getElementById('main-wrapper');
-
-                setTimeout(() => { logo.classList.add('active'); }, 100);
-
-                setTimeout(() => {
-                    logo.classList.replace('active', 'fade-out');
-                    landing.style.opacity = '0';
-                    setTimeout(() => {
-                        landing.style.display = 'none';
+            if(isUserLoggedIn) {
+                if(skipBackend || skipSession) {
+                    document.getElementById('landing-main').style.display = 'none';
+                    document.getElementById('main-background').classList.add('no-intro');
+                    var wrapper = document.getElementById('main-wrapper');
+                    if(wrapper) {
                         wrapper.style.display = 'flex';
-                        void wrapper.offsetWidth; 
                         wrapper.style.opacity = '1';
+                    }
+                    var activeTab = document.querySelector('.top-nav .tab-btn.active');
+                    if(activeTab) {
+                        var bubble = document.getElementById('nav-bubble');
+                        if(bubble) {
+                            bubble.style.transition = 'none'; 
+                            moverBurbuja(activeTab);
+                            setTimeout(() => { bubble.style.transition = 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)'; }, 100);
+                        }
+                    }
+                } else {
+                    var logo = document.getElementById('intro-logo');
+                    var landing = document.getElementById('landing-main');
+                    var wrapper = document.getElementById('main-wrapper');
 
-                        var activeTab = document.querySelector('.top-nav .tab-btn.active');
-                        if(activeTab) moverBurbuja(activeTab);
+                    setTimeout(() => { logo.classList.add('active'); }, 100);
 
-                        sessionStorage.setItem('deeptech_intro_played', 'true');
-                    }, 500); 
-                }, 2000); 
+                    setTimeout(() => {
+                        logo.classList.replace('active', 'fade-out');
+                        landing.style.opacity = '0';
+                        setTimeout(() => {
+                            landing.style.display = 'none';
+                            if(wrapper) {
+                                wrapper.style.display = 'flex';
+                                void wrapper.offsetWidth; 
+                                wrapper.style.opacity = '1';
+                            }
+                            var activeTab = document.querySelector('.top-nav .tab-btn.active');
+                            if(activeTab) moverBurbuja(activeTab);
+
+                            sessionStorage.setItem('deeptech_intro_played', 'true');
+                        }, 500); 
+                    }, 2000); 
+                }
             }
         }
 
@@ -1049,9 +949,6 @@
             }, 300);
         }
 
-        /* =========================================
-           LÓGICA ACTUALIZADA: TARJETA DE CARGA CRISTAL
-           ========================================= */
         function ejecutarCargaAjax(event, formElement) {
             event.preventDefault(); 
             
@@ -1233,7 +1130,7 @@
                 var lista = document.getElementById('lista-boveda');
                 lista.style.opacity = '0';
                 setTimeout(function() {
-                    lista.innerHTML = `<div style="grid-column: 1 / -1; text-align: center; color: rgba(224, 225, 221, 0.5); padding: 40px; width: 100%; display: flex; flex-direction: column; align-items: center;"><p style="font-weight: 300; margin-bottom: 20px;">Tu bóveda está vacía.<br>Sube tu primer archivo para protegerlo.</p><button class="btn btn-secondary" onclick="cambiarPestana('app-section', document.getElementById('tab-auditar'))">Subir Archivo</button></div>`;
+                    lista.innerHTML = `<div style="grid-column: 1 / -1; text-align: center; color: rgba(224, 225, 221, 0.5); padding: 40px; width: 100%; display: flex; flex-direction: column; align-items: center;"><p style="font-weight: 300; margin-bottom: 20px;">Tu bóveda privada está vacía.<br>Sube tu primer archivo para protegerlo.</p><button class="btn btn-secondary" onclick="cambiarPestana('app-section', document.getElementById('tab-auditar'))">Subir Archivo</button></div>`;
                     lista.style.transition = 'opacity 0.4s'; lista.style.opacity = '1';
                 }, 200);
             }
@@ -1416,5 +1313,8 @@
             btn.innerText = "🔎 Analizar Integridad"; btn.disabled = false; btn.style.opacity = '1'; btn.style.cursor = 'pointer';
         }
     </script>
+
+    {% endif %}
+
 </body>
 </html>
